@@ -9,7 +9,7 @@
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Authors>Oğulcan TURAN</Authors>
 		<Copyright>Copyright (c) Oğulcan TURAN 2024</Copyright>
-		<PackageProjectUrl>https://github.com/ogulcanturan/Ogu.Compressions</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.Compressions.Abstractions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/ogulcanturan/Ogu.Compressions</RepositoryUrl>
 		<PackageTags>compression;abstractions;interfaces;netstandard;netcore;extensions</PackageTags>
 		<Description>This library defines unified interfaces for the Ogu.Compressions library</Description>
