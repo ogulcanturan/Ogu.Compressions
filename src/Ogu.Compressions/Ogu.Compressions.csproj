@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
 		<AssemblyName>Ogu.Compressions</AssemblyName>
 		<PackageId>Ogu.Compressions</PackageId>
 		<Product>Ogu.Compressions</Product>
@@ -22,9 +22,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="Brotli.NET" Version="2.1.1" Condition=" '$(TargetFramework)' == 'netstandard2.0'" />
-		<PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="9.0.0" />
 		<PackageReference Include="Snappier" Version="1.1.6" />
-		<PackageReference Include="ZstdSharp.Port" Version="0.8.1" />
+		<PackageReference Include="ZstdSharp.Port" Version="0.8.4" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">

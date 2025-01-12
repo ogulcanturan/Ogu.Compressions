@@ -1,6 +1,7 @@
 ﻿using Ogu.Compressions;
 using Ogu.Compressions.Abstractions;
 using System;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -8,6 +9,8 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddBrotliCompression(this IServiceCollection services, Action<BrotliCompressionOptions> opts = null)
         {
+            services.AddOptions();
+
             if (opts != null)
             {
                 services.Configure(opts);
@@ -20,6 +23,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static IServiceCollection AddDeflateCompression(this IServiceCollection services, Action<DeflateCompressionOptions> opts = null)
         {
+            services.AddOptions();
+
             if (opts != null)
             {
                 services.Configure(opts);
@@ -32,6 +37,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static IServiceCollection AddSnappyCompression(this IServiceCollection services, Action<SnappyCompressionOptions> opts = null)
         {
+            services.AddOptions();
+
             if (opts != null)
             {
                 services.Configure(opts);
@@ -44,6 +51,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static IServiceCollection AddZstdCompression(this IServiceCollection services, Action<ZstdCompressionOptions> opts = null)
         {
+            services.AddOptions();
+
             if (opts != null)
             {
                 services.Configure(opts);
@@ -56,6 +65,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static IServiceCollection AddGzipCompression(this IServiceCollection services, Action<GzipCompressionOptions> opts = null)
         {
+            services.AddOptions();
+
             if (opts != null)
             {
                 services.Configure(opts);
@@ -76,6 +87,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static IServiceCollection AddCompressionFactory(this IServiceCollection services)
         {
+            services.AddOptions();
+
             services.AddSingleton<ICompressionFactory, CompressionFactory>();
 
             return services;
@@ -84,6 +97,8 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddCompressions(this IServiceCollection services,
             Action<CompressionOptions> opts = null)
         {
+            services.AddOptions();
+
             if (opts != null)
             {
                 var options = new CompressionOptions();

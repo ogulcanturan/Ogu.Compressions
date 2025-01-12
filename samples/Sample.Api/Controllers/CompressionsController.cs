@@ -20,7 +20,7 @@ namespace Sample.Api.Controllers
         [HttpPost("compress")]
         public async Task<IActionResult> Compress([FromBody] string rawInput, [FromQuery] CompressionType compressionType, CancellationToken cancellationToken = default)
         {
-            var result = await _compression.Get(compressionType).CompressAsync(rawInput, cancellationToken);
+            var result = await _compression.CompressAsync(compressionType, rawInput, cancellationToken);
 
             return Ok(Convert.ToBase64String(result));
         }
@@ -30,7 +30,7 @@ namespace Sample.Api.Controllers
         {
             var bytes = Convert.FromBase64String(base64CompressedInput);
 
-            var result = await _compression.Get(compressionType).DecompressAsync(bytes, cancellationToken);
+            var result = await _compression.DecompressAsync(compressionType, bytes, cancellationToken);
 
             return Ok(Encoding.UTF8.GetString(result));
         }
