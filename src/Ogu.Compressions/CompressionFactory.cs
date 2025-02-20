@@ -1,6 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Options;
 using Ogu.Compressions.Abstractions;
-using System;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
@@ -11,11 +10,39 @@ namespace Ogu.Compressions
 {
     public class CompressionFactory : ICompressionFactory
     {
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IBrotliCompression _brotliCompression;
+        private readonly IDeflateCompression _deflateCompression;
+        private readonly ISnappyCompression _snappyCompression;
+        private readonly IZstdCompression _zstdCompression;
+        private readonly IGzipCompression _gzipCompression;
+        private readonly INoneCompression _noneCompression;
 
-        public CompressionFactory(IServiceProvider serviceProvider)
+        public CompressionFactory() : this(new CompressionOptions()) { }
+
+        public CompressionFactory(CompressionOptions opts)
         {
-            _serviceProvider = serviceProvider;
+            _brotliCompression = new BrotliCompression(Options.Create(new BrotliCompressionOptions(opts)));
+            _deflateCompression = new DeflateCompression(Options.Create(new DeflateCompressionOptions(opts)));
+            _snappyCompression = new SnappyCompression(Options.Create(new SnappyCompressionOptions(opts)));
+            _zstdCompression = new ZstdCompression(Options.Create(new ZstdCompressionOptions(opts)));
+            _gzipCompression = new GzipCompression(Options.Create(new GzipCompressionOptions(opts)));
+            _noneCompression = new NoneCompression();
+        }
+
+        public CompressionFactory(
+            IBrotliCompression brotliCompression, 
+            IDeflateCompression deflateCompression, 
+            ISnappyCompression snappyCompression, 
+            IZstdCompression zstdCompression, 
+            IGzipCompression gzipCompression, 
+            INoneCompression noneCompression)
+        {
+            _brotliCompression = brotliCompression;
+            _deflateCompression = deflateCompression;
+            _snappyCompression = snappyCompression;
+            _zstdCompression = zstdCompression;
+            _gzipCompression = gzipCompression;
+            _noneCompression = noneCompression;
         }
 
         /// <inheritdoc/>
@@ -24,18 +51,18 @@ namespace Ogu.Compressions
             switch (compressionType)
             {
                 case CompressionType.Brotli:
-                    return _serviceProvider.GetService<IBrotliCompression>();
+                    return _brotliCompression;
                 case CompressionType.Deflate:
-                    return _serviceProvider.GetService<IDeflateCompression>();
+                    return _deflateCompression;
                 case CompressionType.Snappy:
-                    return _serviceProvider.GetService<ISnappyCompression>();
+                    return _snappyCompression;
                 case CompressionType.Zstd:
-                    return _serviceProvider.GetService<IZstdCompression>();
+                    return _zstdCompression;
                 case CompressionType.Gzip:
-                    return _serviceProvider.GetService<IGzipCompression>();
+                    return _gzipCompression;
                 case CompressionType.None:
                 default:
-                    return _serviceProvider.GetService<INoneCompression>();
+                    return _noneCompression;
             }
         }
 

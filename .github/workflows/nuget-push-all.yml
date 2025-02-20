@@ -26,11 +26,9 @@ jobs:
 
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 9.0.x
 
       - name: Build Project
-        run: dotnet build --configuration Release
+        run: dotnet build --configuration Release /p:Version=${{ github.event.inputs.version_number }}
 
       - name: Create Release
         run: gh release create ${{ github.ref_name }} --title "Release ${{ github.ref_name }}" --notes "" --draft

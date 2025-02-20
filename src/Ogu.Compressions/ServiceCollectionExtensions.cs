@@ -1,7 +1,6 @@
 ﻿using Ogu.Compressions;
 using Ogu.Compressions.Abstractions;
 using System;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -94,8 +93,7 @@ namespace Microsoft.Extensions.DependencyInjection
             return services;
         }
 
-        public static IServiceCollection AddCompressions(this IServiceCollection services,
-            Action<CompressionOptions> opts = null)
+        public static IServiceCollection AddCompressions(this IServiceCollection services, Action<CompressionOptions> opts = null)
         {
             services.AddOptions();
 
@@ -141,7 +139,13 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IZstdCompression, ZstdCompression>();
             services.AddSingleton<IGzipCompression, GzipCompression>();
             services.AddSingleton<INoneCompression, NoneCompression>();
-            services.AddSingleton<ICompressionFactory, CompressionFactory>();
+            services.AddSingleton<ICompressionFactory, CompressionFactory>(sp => new CompressionFactory(
+                sp.GetRequiredService<IBrotliCompression>(),
+                sp.GetRequiredService<IDeflateCompression>(),
+                sp.GetRequiredService<ISnappyCompression>(),
+                sp.GetRequiredService<IZstdCompression>(),
+                sp.GetRequiredService<IGzipCompression>(),
+                sp.GetRequiredService<INoneCompression>()));
 
             return services;
         }

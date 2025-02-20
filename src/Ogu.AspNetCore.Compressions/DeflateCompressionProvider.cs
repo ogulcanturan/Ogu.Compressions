@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Options;
+using Ogu.Compressions.Abstractions;
 using System.IO;
 using System.IO.Compression;
-using Ogu.Compressions.Abstractions;
 
 namespace Ogu.AspNetCore.Compressions
 {

@@ -1,19 +1,17 @@
 ﻿using Microsoft.Extensions.Options;
-using System.IO.Compression;
+using Ogu.Compressions.Abstractions;
 
 namespace Ogu.Compressions
 {
-    public class GzipCompressionOptions : IOptions<GzipCompressionOptions>
+    public sealed class GzipCompressionOptions : CompressionOptions, IOptions<GzipCompressionOptions>
     {
-        /// <summary>
-        /// What level of compression to use for the stream. The default is Fastest.
-        /// </summary>
-        public CompressionLevel Level { get; set; } = CompressionLevel.Fastest;
+        public GzipCompressionOptions() { }
 
-        /// <summary>
-        /// The size, in bytes, of the buffer. This value must be greater than zero. The default size is 81920.
-        /// </summary>
-        public int BufferSize { get; set; } = 81920;
+        public GzipCompressionOptions(CompressionOptions options)
+        {
+            Level = options.Level;
+            BufferSize = options.BufferSize;
+        }
 
         /// <inheritdoc />
         GzipCompressionOptions IOptions<GzipCompressionOptions>.Value => this;
