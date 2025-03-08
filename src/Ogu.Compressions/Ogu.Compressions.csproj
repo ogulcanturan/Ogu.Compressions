@@ -18,13 +18,15 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<NoWarn>$(NoWarn);1591</NoWarn>
+		<AssemblyOriginatorKeyFile>Ogu.Compressions.snk</AssemblyOriginatorKeyFile>
+		<SignAssembly>true</SignAssembly>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Brotli.NET" Version="2.1.1" Condition=" '$(TargetFramework)' == 'netstandard2.0'" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="9.0.2" />
 		<PackageReference Include="Snappier" Version="1.2.0" />
-		<PackageReference Include="ZstdSharp.Port" Version="0.8.4" />
+		<PackageReference Include="ZstdSharp.Port" Version="0.8.5" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
@@ -44,6 +46,7 @@
 	<ItemGroup>
 		<None Include="..\..\logo\ogu-logo.png" Pack="true" PackagePath="\" Visible="false" />
 		<None Include="README.md" Pack="true" PackagePath="\" Visible="false" />
+		<None Include="Ogu.Compressions.snk" Visible="false" />
 	</ItemGroup>
 
 </Project>
