@@ -38,18 +38,6 @@ namespace Ogu.Compressions
             }
         }
 
-        protected override async Task<Stream> InternalDecompressAsync(HttpContent httpContent, int bufferSize, CancellationToken cancellationToken = default)
-        {
-            var streamContent =
-#if NETSTANDARD2_0 || NETSTANDARD2_1 || NETCOREAPP3_1
-                await httpContent.ReadAsStreamAsync().ConfigureAwait(false);
-#else
-                await httpContent.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
-#endif
-
-            return await InternalDecompressToAsync(streamContent, false, bufferSize, cancellationToken).ConfigureAwait(false);
-        }
-
         protected override async Task<Stream> InternalDecompressToStreamAsync(byte[] bytes, CancellationToken cancellationToken = default)
         {
             var outputStream = new MemoryStream();
@@ -81,7 +69,7 @@ namespace Ogu.Compressions
             }
         }
 
-        protected override async Task<Stream> InternalDecompressToAsync(Stream stream, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default)
+        protected override async Task<Stream> InternalDecompressToStreamAsync(Stream stream, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default)
         {
             var outputStream = new MemoryStream();
 
@@ -105,6 +93,18 @@ namespace Ogu.Compressions
 #endif
                 throw;
             }
+        }
+
+        protected override async Task<Stream> InternalDecompressToStreamAsync(HttpContent httpContent, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default)
+        {
+            var streamContent =
+#if NETSTANDARD2_0 || NETSTANDARD2_1 || NETCOREAPP3_1
+                await httpContent.ReadAsStreamAsync().ConfigureAwait(false);
+#else
+                await httpContent.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+#endif
+
+            return await InternalDecompressToStreamAsync(streamContent, leaveOpen: leaveOpen, bufferSize, cancellationToken).ConfigureAwait(false);
         }
 
         protected override byte[] InternalDecompress(byte[] bytes)

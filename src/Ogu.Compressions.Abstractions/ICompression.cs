@@ -40,14 +40,24 @@ namespace Ogu.Compressions.Abstractions
         byte[] Compress(Stream stream, CompressionLevel level);
         byte[] Compress(Stream stream, bool leaveOpen, CompressionLevel level);
 
+        Stream CompressToStream(string input);
+        Stream CompressToStream(byte[] bytes);
+        Stream CompressToStream(Stream stream);
+        Stream CompressToStream(Stream stream, bool leaveOpen);
+        Stream CompressToStream(string input, CompressionLevel level);
+        Stream CompressToStream(byte[] bytes, CompressionLevel level);
+        Stream CompressToStream(Stream stream, CompressionLevel level);
+        Stream CompressToStream(Stream stream, bool leaveOpen, CompressionLevel compressionLevel);
+
         Task<byte[]> DecompressAsync(byte[] bytes, CancellationToken cancellationToken = default);
         Task<byte[]> DecompressAsync(Stream stream, CancellationToken cancellationToken = default);
         Task<byte[]> DecompressAsync(Stream stream, bool leaveOpen, CancellationToken cancellationToken = default);
-        Task<Stream> DecompressAsync(HttpContent httpContent, CancellationToken cancellationToken = default);
-
+        
         Task<Stream> DecompressToStreamAsync(byte[] bytes, CancellationToken cancellationToken = default);
         Task<Stream> DecompressToStreamAsync(Stream stream, CancellationToken cancellationToken = default);
         Task<Stream> DecompressToStreamAsync(Stream stream, bool leaveOpen, CancellationToken cancellationToken = default);
+        Task<Stream> DecompressToStreamAsync(HttpContent httpContent, CancellationToken cancellationToken = default);
+        Task<Stream> DecompressToStreamAsync(HttpContent httpContent, bool leaveOpen, CancellationToken cancellationToken = default);
 
         byte[] Decompress(byte[] bytes);
         byte[] Decompress(Stream stream);

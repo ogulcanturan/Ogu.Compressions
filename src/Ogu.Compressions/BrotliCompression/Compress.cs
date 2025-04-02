@@ -20,9 +20,9 @@ namespace Ogu.Compressions
             using (var memoryStream = new MemoryStream())
             {
 #if NETSTANDARD2_0
-                using (var brotliStream = new Brotli.BrotliStream(memoryStream, CompressionMode.Compress, leaveOpen: true))
+                using (var brotliStream = new Brotli.BrotliStream(memoryStream, CompressionMode.Compress, leaveOpen: false))
 #else
-                using (var brotliStream = new BrotliStream(memoryStream, level, leaveOpen: true))
+                using (var brotliStream = new BrotliStream(memoryStream, level, leaveOpen: false))
 #endif
                 {
 #if NETSTANDARD2_0
@@ -41,9 +41,9 @@ namespace Ogu.Compressions
             using (var memoryStream = new MemoryStream())
             {
 #if NETSTANDARD2_0
-                using (var brotliStream = new Brotli.BrotliStream(memoryStream, CompressionMode.Compress, leaveOpen: true))
+                using (var brotliStream = new Brotli.BrotliStream(memoryStream, CompressionMode.Compress, leaveOpen: false))
 #else
-                using (var brotliStream = new BrotliStream(memoryStream, level, leaveOpen: true))
+                using (var brotliStream = new BrotliStream(memoryStream, level, leaveOpen: false))
 #endif
                 {
                     stream.CopyTo(brotliStream);
@@ -63,9 +63,9 @@ namespace Ogu.Compressions
             using (var memoryStream = new MemoryStream())
             {
 #if NETSTANDARD2_0
-                using (var brotliStream = new Brotli.BrotliStream(memoryStream, CompressionMode.Compress, leaveOpen: true))
+                using (var brotliStream = new Brotli.BrotliStream(memoryStream, CompressionMode.Compress, leaveOpen: false))
 #else
-                using (var brotliStream = new BrotliStream(memoryStream, level, leaveOpen: true))
+                using (var brotliStream = new BrotliStream(memoryStream, level, leaveOpen: false))
 #endif
                 {
 #if NETSTANDARD2_0
@@ -84,9 +84,9 @@ namespace Ogu.Compressions
             using (var memoryStream = new MemoryStream())
             {
 #if NETSTANDARD2_0
-                using (var brotliStream = new Brotli.BrotliStream(memoryStream, CompressionMode.Compress, leaveOpen: true))
+                using (var brotliStream = new Brotli.BrotliStream(memoryStream, CompressionMode.Compress, leaveOpen: false))
 #else
-                using (var brotliStream = new BrotliStream(memoryStream, level, leaveOpen: true))
+                using (var brotliStream = new BrotliStream(memoryStream, level, leaveOpen: false))
 #endif
                 {
 #if NETSTANDARD2_0
@@ -182,6 +182,69 @@ namespace Ogu.Compressions
 #else
                 await outputStream.DisposeAsync().ConfigureAwait(false);
 #endif
+                throw;
+            }
+        }
+
+        protected override Stream InternalCompressToStream(byte[] bytes, CompressionLevel level)
+        {
+            var outputStream = new MemoryStream();
+
+            try
+            {
+#if NETSTANDARD2_0
+                using (var brotliStream = new Brotli.BrotliStream(outputStream, CompressionMode.Compress, leaveOpen: true))
+#else
+                using (var brotliStream = new BrotliStream(outputStream, level, leaveOpen: true))
+#endif
+                {
+#if NETSTANDARD2_0
+                    brotliStream.Write(bytes, 0, bytes.Length);
+#else
+                    brotliStream.Write(bytes);
+#endif
+                }
+
+                outputStream.Position = 0;
+
+                return outputStream;
+            }
+            catch
+            {
+                outputStream.Dispose();
+
+                throw;
+            }
+        }
+
+        protected override Stream InternalCompressToStream(Stream stream, CompressionLevel level, bool leaveOpen)
+        {
+            var outputStream = new MemoryStream();
+
+            try
+            {
+#if NETSTANDARD2_0
+                using (var brotliStream = new Brotli.BrotliStream(outputStream, CompressionMode.Compress, leaveOpen: true))
+#else
+                using (var brotliStream = new BrotliStream(outputStream, level, leaveOpen: true))
+#endif
+                {
+                    stream.CopyTo(brotliStream);
+                }
+
+                if (!leaveOpen)
+                {
+                    stream.Dispose();
+                }
+
+                outputStream.Position = 0;
+
+                return outputStream;
+            }
+            catch
+            {
+                outputStream.Dispose();
+
                 throw;
             }
         }

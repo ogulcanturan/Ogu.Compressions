@@ -43,5 +43,15 @@ namespace Ogu.Compressions
         {
             return Task.FromResult(stream);
         }
+
+        protected override Stream InternalCompressToStream(byte[] bytes, CompressionLevel compressionLevel)
+        {
+            return new MemoryStream(bytes);
+        }
+
+        protected override Stream InternalCompressToStream(Stream stream, CompressionLevel compressionLevel, bool leaveOpen)
+        {
+            return stream;
+        }
     }
 }

@@ -16,9 +16,9 @@ namespace Ogu.Compressions
                 using (var outputStream = new MemoryStream())
                 {
 #if NETSTANDARD2_0
-                    using (var brotliStream = new Brotli.BrotliStream(memoryStream, CompressionMode.Decompress))
+                    using (var brotliStream = new Brotli.BrotliStream(memoryStream, CompressionMode.Decompress, leaveOpen: false))
 #else
-                    using (var brotliStream = new BrotliStream(memoryStream, CompressionMode.Decompress, leaveOpen: true))
+                    using (var brotliStream = new BrotliStream(memoryStream, CompressionMode.Decompress, leaveOpen: false))
 #endif
                     {
                         await brotliStream.CopyToAsync(outputStream, bufferSize, cancellationToken).ConfigureAwait(false);
@@ -46,17 +46,6 @@ namespace Ogu.Compressions
             }
         }
 
-        protected override async Task<Stream> InternalDecompressAsync(HttpContent httpContent, int bufferSize, CancellationToken cancellationToken = default)
-        {
-            var streamContent =
-#if NETSTANDARD2_0 || NETSTANDARD2_1 || NETCOREAPP3_1
-                await httpContent.ReadAsStreamAsync().ConfigureAwait(false);
-#else
-                await httpContent.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
-#endif
-            return await InternalDecompressToAsync(streamContent, false, bufferSize, cancellationToken).ConfigureAwait(false);
-        }
-
         protected override async Task<Stream> InternalDecompressToStreamAsync(byte[] bytes, CancellationToken cancellationToken = default)
         {
             var outputStream = new MemoryStream();
@@ -66,9 +55,9 @@ namespace Ogu.Compressions
                 using (var memoryStream = new MemoryStream(bytes))
                 {
 #if NETSTANDARD2_0
-                using (var brotliStream = new Brotli.BrotliStream(memoryStream, CompressionMode.Decompress))
+                    using (var brotliStream = new Brotli.BrotliStream(memoryStream, CompressionMode.Decompress, leaveOpen: false))
 #else
-                    using (var brotliStream = new BrotliStream(memoryStream, CompressionMode.Decompress, leaveOpen: true))
+                    using (var brotliStream = new BrotliStream(memoryStream, CompressionMode.Decompress, leaveOpen: false))
 #endif
                     {
                         await brotliStream.CopyToAsync(outputStream, BufferSize, cancellationToken).ConfigureAwait(false);
@@ -90,7 +79,7 @@ namespace Ogu.Compressions
             }
         }
 
-        protected override async Task<Stream> InternalDecompressToAsync(Stream stream, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default)
+        protected override async Task<Stream> InternalDecompressToStreamAsync(Stream stream, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default)
         {
             var outputStream = new MemoryStream();
 
@@ -120,6 +109,17 @@ namespace Ogu.Compressions
             }
         }
 
+        protected override async Task<Stream> InternalDecompressToStreamAsync(HttpContent httpContent, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default)
+        {
+            var streamContent =
+#if NETSTANDARD2_0 || NETSTANDARD2_1 || NETCOREAPP3_1
+                await httpContent.ReadAsStreamAsync().ConfigureAwait(false);
+#else
+                await httpContent.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+#endif
+            return await InternalDecompressToStreamAsync(streamContent, leaveOpen: leaveOpen, bufferSize, cancellationToken).ConfigureAwait(false);
+        }
+
         protected override byte[] InternalDecompress(byte[] bytes)
         {
             using (var memoryStream = new MemoryStream(bytes))
@@ -127,9 +127,9 @@ namespace Ogu.Compressions
                 using (var outputStream = new MemoryStream())
                 {
 #if NETSTANDARD2_0
-                    using (var brotliStream = new Brotli.BrotliStream(memoryStream, CompressionMode.Decompress))
+                    using (var brotliStream = new Brotli.BrotliStream(memoryStream, CompressionMode.Decompress, leaveOpen: false))
 #else
-                    using (var brotliStream = new BrotliStream(memoryStream, CompressionMode.Decompress, leaveOpen: true))
+                    using (var brotliStream = new BrotliStream(memoryStream, CompressionMode.Decompress, leaveOpen: false))
 #endif
                     {
                         brotliStream.CopyTo(outputStream);

@@ -58,15 +58,14 @@ namespace Ogu.Compressions.Abstractions
         Task<byte[]> DecompressAsync(string encodingName, Stream stream, CancellationToken cancellationToken = default);
         Task<byte[]> DecompressAsync(CompressionType compressionType, Stream stream, bool leaveOpen, CancellationToken cancellationToken = default);
         Task<byte[]> DecompressAsync(string encodingName, Stream stream, bool leaveOpen, CancellationToken cancellationToken = default);
-        Task<Stream> DecompressAsync(CompressionType compressionType, HttpContent httpContent, CancellationToken cancellationToken = default);
-        Task<Stream> DecompressAsync(string encodingName, HttpContent httpContent, CancellationToken cancellationToken = default);
-
+   
         Task<Stream> DecompressToStreamAsync(CompressionType compressionType, byte[] bytes, CancellationToken cancellationToken = default);
         Task<Stream> DecompressToStreamAsync(string encodingName, byte[] bytes, CancellationToken cancellationToken = default);
         Task<Stream> DecompressToStreamAsync(CompressionType compressionType, Stream stream, CancellationToken cancellationToken = default);
         Task<Stream> DecompressToStreamAsync(string encodingName, Stream stream, CancellationToken cancellationToken = default);
         Task<Stream> DecompressToStreamAsync(CompressionType compressionType, Stream stream, bool leaveOpen, CancellationToken cancellationToken = default);
         Task<Stream> DecompressToStreamAsync(string encodingName, Stream stream, bool leaveOpen, CancellationToken cancellationToken = default);
-       
+        Task<Stream> DecompressToStreamAsync(CompressionType compressionType, HttpContent httpContent, CancellationToken cancellationToken = default);
+        Task<Stream> DecompressToStreamAsync(string encodingName, HttpContent httpContent, CancellationToken cancellationToken = default);
     }
 }

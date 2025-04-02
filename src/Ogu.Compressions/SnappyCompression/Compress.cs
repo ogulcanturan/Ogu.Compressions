@@ -20,7 +20,7 @@ namespace Ogu.Compressions
         {
             using (var memoryStream = new MemoryStream())
             {
-                using (var snappyStream = new SnappyStream(memoryStream, CompressionMode.Compress, leaveOpen: true))
+                using (var snappyStream = new SnappyStream(memoryStream, CompressionMode.Compress, leaveOpen: false))
                 {
 #if NETSTANDARD2_0
                     snappyStream.Write(bytes, 0, bytes.Length);
@@ -37,7 +37,7 @@ namespace Ogu.Compressions
         {
             using (var memoryStream = new MemoryStream())
             {
-                using (var snappyStream = new SnappyStream(memoryStream, CompressionMode.Compress, leaveOpen: true))
+                using (var snappyStream = new SnappyStream(memoryStream, CompressionMode.Compress, leaveOpen: false))
                 {
                     stream.CopyTo(snappyStream);
                 }
@@ -55,7 +55,7 @@ namespace Ogu.Compressions
         {
             using (var memoryStream = new MemoryStream())
             {
-                using (var snappyStream = new SnappyStream(memoryStream, CompressionMode.Compress, leaveOpen: true))
+                using (var snappyStream = new SnappyStream(memoryStream, CompressionMode.Compress, leaveOpen: false))
                 {
 #if NETSTANDARD2_0
                     await snappyStream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
@@ -72,7 +72,7 @@ namespace Ogu.Compressions
         {
             using (var memoryStream = new MemoryStream())
             {
-                using (var snappyStream = new SnappyStream(memoryStream, CompressionMode.Compress, leaveOpen: true))
+                using (var snappyStream = new SnappyStream(memoryStream, CompressionMode.Compress, leaveOpen: false))
                 {
 #if NETSTANDARD2_0
                     await stream.CopyToAsync(snappyStream).ConfigureAwait(false);
@@ -159,6 +159,61 @@ namespace Ogu.Compressions
 #else
                 await memoryStream.DisposeAsync().ConfigureAwait(false);
 #endif
+                throw;
+            }
+        }
+
+        protected override Stream InternalCompressToStream(byte[] bytes, CompressionLevel level)
+        {
+            var memoryStream = new MemoryStream();
+
+            try
+            {
+                using (var snappyStream = new SnappyStream(memoryStream, CompressionMode.Compress, leaveOpen: true))
+                {
+#if NETSTANDARD2_0
+                    snappyStream.Write(bytes, 0, bytes.Length);
+#else
+                    snappyStream.Write(bytes);
+#endif
+                }
+
+                memoryStream.Position = 0;
+
+                return memoryStream;
+            }
+            catch
+            {
+                memoryStream.Dispose();
+
+                throw;
+            }
+        }
+
+        protected override Stream InternalCompressToStream(Stream stream, CompressionLevel level, bool leaveOpen)
+        {
+            var memoryStream = new MemoryStream();
+
+            try
+            {
+                using (var snappyStream = new SnappyStream(memoryStream, CompressionMode.Compress, leaveOpen: true))
+                {
+                    stream.CopyTo(snappyStream);
+                }
+
+                if (!leaveOpen)
+                {
+                    stream.Dispose();
+                }
+
+                memoryStream.Position = 0;
+
+                return memoryStream;
+            }
+            catch
+            {
+                memoryStream.Dispose();
+
                 throw;
             }
         }

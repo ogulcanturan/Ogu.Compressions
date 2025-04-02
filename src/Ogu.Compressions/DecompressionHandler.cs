@@ -54,7 +54,7 @@ namespace Ogu.Compressions
 
             foreach (var encodingName in response.Content.Headers.ContentEncoding.Reverse())
             {
-                if (!CompressionHelpers.TryConvertEncodingNameToCompressionType(encodingName, out var compressionType))
+                if (!CompressionHelper.TryConvertEncodingNameToCompressionType(encodingName, out var compressionType))
                 {
                     return null;
                 }
@@ -66,15 +66,15 @@ namespace Ogu.Compressions
                     return null;
                 }
 
-                streamContent = await DecompressAsync(compression, streamContent ?? response.Content, cancellationToken);
+                streamContent = await DecompressToStreamAsync(compression, streamContent ?? response.Content, cancellationToken);
             }
 
             return streamContent;
         }
 
-        private static async Task<StreamContent> DecompressAsync(ICompression compression, HttpContent httpContent, CancellationToken cancellationToken = default)
+        private static async Task<StreamContent> DecompressToStreamAsync(ICompression compression, HttpContent httpContent, CancellationToken cancellationToken = default)
         {
-            var stream = await compression.DecompressAsync(httpContent, cancellationToken);
+            var stream = await compression.DecompressToStreamAsync(httpContent, cancellationToken);
 
             return new StreamContent(stream);
         }

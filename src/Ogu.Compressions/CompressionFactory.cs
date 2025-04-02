@@ -69,7 +69,7 @@ namespace Ogu.Compressions
         /// <inheritdoc/>
         public ICompression Get(string encodingName)
         {
-            _ = CompressionHelpers.TryConvertEncodingNameToCompressionType(encodingName, out var compressionType);
+            _ = CompressionHelper.TryConvertEncodingNameToCompressionType(encodingName, out var compressionType);
 
             return Get(compressionType);
         }
@@ -244,16 +244,6 @@ namespace Ogu.Compressions
             return Get(encodingName).DecompressAsync(stream, leaveOpen, cancellationToken);
         }
 
-        public Task<Stream> DecompressAsync(CompressionType compressionType, HttpContent httpContent, CancellationToken cancellationToken = default)
-        {
-            return Get(compressionType).DecompressAsync(httpContent, cancellationToken);
-        }
-
-        public Task<Stream> DecompressAsync(string encodingName, HttpContent httpContent, CancellationToken cancellationToken = default)
-        {
-            return Get(encodingName).DecompressAsync(httpContent, cancellationToken);
-        }
-
         public Task<Stream> DecompressToStreamAsync(CompressionType compressionType, byte[] bytes, CancellationToken cancellationToken = default)
         {
             return Get(compressionType).DecompressToStreamAsync(bytes, cancellationToken);
@@ -282,6 +272,16 @@ namespace Ogu.Compressions
         public Task<Stream> DecompressToStreamAsync(string encodingName, Stream stream, bool leaveOpen, CancellationToken cancellationToken = default)
         {
             return Get(encodingName).DecompressToStreamAsync(stream, leaveOpen, cancellationToken);
+        }
+
+        public Task<Stream> DecompressToStreamAsync(CompressionType compressionType, HttpContent httpContent, CancellationToken cancellationToken = default)
+        {
+            return Get(compressionType).DecompressToStreamAsync(httpContent, cancellationToken);
+        }
+
+        public Task<Stream> DecompressToStreamAsync(string encodingName, HttpContent httpContent, CancellationToken cancellationToken = default)
+        {
+            return Get(encodingName).DecompressToStreamAsync(httpContent, cancellationToken);
         }
     }
 }

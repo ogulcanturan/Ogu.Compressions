@@ -10,6 +10,9 @@ namespace Ogu.Compressions
             switch (compressionLevel)
             {
                 case CompressionLevel.Optimal:
+#if NET6_0_OR_GREATER
+                case CompressionLevel.SmallestSize:
+#endif
                     return Compressor.MaxCompressionLevel;
                 case CompressionLevel.Fastest:
                     return Compressor.MinCompressionLevel;

@@ -19,7 +19,7 @@ namespace Ogu.Compressions
         {
             using (var memoryStream = new MemoryStream())
             {
-                using (var deflateStream = new DeflateStream(memoryStream, level))
+                using (var deflateStream = new DeflateStream(memoryStream, level, leaveOpen: false))
                 {
 #if NETSTANDARD2_0
                     deflateStream.Write(bytes, 0, bytes.Length);
@@ -36,7 +36,7 @@ namespace Ogu.Compressions
         {
             using (var memoryStream = new MemoryStream())
             {
-                using (var deflateStream = new DeflateStream(memoryStream, level))
+                using (var deflateStream = new DeflateStream(memoryStream, level, leaveOpen: false))
                 {
                     stream.CopyTo(deflateStream);
                 }
@@ -54,7 +54,7 @@ namespace Ogu.Compressions
         {
             using (var memoryStream = new MemoryStream())
             {
-                using (var deflateStream = new DeflateStream(memoryStream, level))
+                using (var deflateStream = new DeflateStream(memoryStream, level, leaveOpen: false))
                 {
 #if NETSTANDARD2_0
                     await deflateStream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
@@ -71,7 +71,7 @@ namespace Ogu.Compressions
         {
             using (var memoryStream = new MemoryStream())
             {
-                using (var deflateStream = new DeflateStream(memoryStream, level))
+                using (var deflateStream = new DeflateStream(memoryStream, level, leaveOpen: false))
                 {
 
 #if NETSTANDARD2_0
@@ -100,7 +100,7 @@ namespace Ogu.Compressions
 
             try
             {
-                using (var deflateStream = new DeflateStream(memoryStream, level))
+                using (var deflateStream = new DeflateStream(memoryStream, level, leaveOpen: true))
                 {
 #if NETSTANDARD2_0
                     await deflateStream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
@@ -130,7 +130,7 @@ namespace Ogu.Compressions
 
             try
             {
-                using (var deflateStream = new DeflateStream(memoryStream, level))
+                using (var deflateStream = new DeflateStream(memoryStream, level, leaveOpen: true))
                 {
 #if NETSTANDARD2_0
                     await stream.CopyToAsync(deflateStream).ConfigureAwait(false);
@@ -159,6 +159,61 @@ namespace Ogu.Compressions
 #else
                 await memoryStream.DisposeAsync().ConfigureAwait(false);
 #endif
+                throw;
+            }
+        }
+
+        protected override Stream InternalCompressToStream(byte[] bytes, CompressionLevel level)
+        {
+            var memoryStream = new MemoryStream();
+
+            try
+            {
+                using (var deflateStream = new DeflateStream(memoryStream, level, leaveOpen: true))
+                {
+#if NETSTANDARD2_0
+                    deflateStream.Write(bytes, 0, bytes.Length);
+#else
+                    deflateStream.Write(bytes);
+#endif
+                }
+
+                memoryStream.Position = 0;
+
+                return memoryStream;
+            }
+            catch
+            {
+                memoryStream.Dispose();
+
+                throw;
+            }
+        }
+
+        protected override Stream InternalCompressToStream(Stream stream, CompressionLevel level, bool leaveOpen)
+        {
+            var memoryStream = new MemoryStream();
+
+            try
+            {
+                using (var deflateStream = new DeflateStream(memoryStream, level, leaveOpen: true))
+                {
+                    stream.CopyTo(deflateStream);
+                }
+
+                if (!leaveOpen)
+                {
+                    stream.Dispose();
+                }
+
+                memoryStream.Position = 0;
+
+                return memoryStream;
+            }
+            catch
+            {
+                memoryStream.Dispose();
+
                 throw;
             }
         }

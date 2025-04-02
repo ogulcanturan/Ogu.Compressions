@@ -60,7 +60,7 @@ namespace Ogu.Compressions
 
         public Task<byte[]> CompressAsync(Stream stream, CompressionLevel level, CancellationToken cancellationToken = default)
         {
-            return InternalCompressAsync(stream, level, false, cancellationToken);
+            return InternalCompressAsync(stream, level, leaveOpen: false, cancellationToken);
         }
 
         public Task<Stream> CompressToStreamAsync(string input, CancellationToken cancellationToken = default)
@@ -95,7 +95,7 @@ namespace Ogu.Compressions
 
         public Task<Stream> CompressToStreamAsync(Stream stream, CompressionLevel level, CancellationToken cancellationToken = default)
         {
-            return InternalCompressToStreamAsync(stream, level, false, cancellationToken);
+            return InternalCompressToStreamAsync(stream, level, leaveOpen: false, cancellationToken);
         }
 
         public Task<Stream> CompressToStreamAsync(Stream stream, bool leaveOpen, CompressionLevel compressionLevel, CancellationToken cancellationToken = default)
@@ -135,7 +135,7 @@ namespace Ogu.Compressions
 
         public byte[] Compress(Stream stream, CompressionLevel level)
         {
-            return InternalCompress(stream, level, false);
+            return InternalCompress(stream, level, leaveOpen: false);
         }
 
         public byte[] Compress(Stream stream, bool leaveOpen, CompressionLevel level)
@@ -143,9 +143,45 @@ namespace Ogu.Compressions
             return InternalCompress(stream, level, leaveOpen);
         }
 
-        protected abstract byte[] InternalCompress(byte[] bytes, CompressionLevel level);
+        public Stream CompressToStream(string input)
+        {
+            return CompressToStream(input, Level);
+        }
 
-        protected abstract byte[] InternalCompress(Stream stream, CompressionLevel level, bool leaveOpen);
+        public Stream CompressToStream(byte[] bytes)
+        {
+            return CompressToStream(bytes, Level);
+        }
+
+        public Stream CompressToStream(Stream stream)
+        {
+            return CompressToStream(stream, Level);
+        }
+
+        public Stream CompressToStream(Stream stream, bool leaveOpen)
+        {
+            return CompressToStream(stream, leaveOpen, Level);
+        }
+
+        public Stream CompressToStream(string input, CompressionLevel level)
+        {
+            return CompressToStream(Encoding.UTF8.GetBytes(input), Level);
+        }
+
+        public Stream CompressToStream(byte[] bytes, CompressionLevel level)
+        {
+            return InternalCompressToStream(bytes, level);
+        }
+
+        public Stream CompressToStream(Stream stream, CompressionLevel level)
+        {
+            return InternalCompressToStream(stream, level, leaveOpen: false);
+        }
+
+        public Stream CompressToStream(Stream stream, bool leaveOpen, CompressionLevel compressionLevel)
+        {
+            return InternalCompressToStream(stream, compressionLevel, leaveOpen);
+        }
 
         protected abstract Task<byte[]> InternalCompressAsync(byte[] bytes, CompressionLevel level, CancellationToken cancellationToken = default);
 
@@ -154,5 +190,13 @@ namespace Ogu.Compressions
         protected abstract Task<Stream> InternalCompressToStreamAsync(byte[] bytes, CompressionLevel compressionLevel, CancellationToken cancellationToken = default);
 
         protected abstract Task<Stream> InternalCompressToStreamAsync(Stream stream, CompressionLevel compressionLevel, bool leaveOpen, CancellationToken cancellationToken = default);
+
+        protected abstract byte[] InternalCompress(byte[] bytes, CompressionLevel level);
+
+        protected abstract byte[] InternalCompress(Stream stream, CompressionLevel level, bool leaveOpen);
+
+        protected abstract Stream InternalCompressToStream(byte[] bytes, CompressionLevel compressionLevel);
+
+        protected abstract Stream InternalCompressToStream(Stream stream, CompressionLevel compressionLevel, bool leaveOpen);
     }
 }

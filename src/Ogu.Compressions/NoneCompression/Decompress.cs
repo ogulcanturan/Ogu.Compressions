@@ -18,7 +18,17 @@ namespace Ogu.Compressions
             return stream.ReadAllBytesAsync(leaveOpen, cancellationToken);
         }
 
-        protected override Task<Stream> InternalDecompressAsync(HttpContent httpContent, int bufferSize, CancellationToken cancellationToken = default)
+        protected override async Task<Stream> InternalDecompressToStreamAsync(byte[] bytes, CancellationToken cancellationToken = default)
+        {
+            return await Task.FromResult(new MemoryStream(bytes)).ConfigureAwait(false);
+        }
+
+        protected override Task<Stream> InternalDecompressToStreamAsync(Stream stream, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(stream);
+        }
+
+        protected override Task<Stream> InternalDecompressToStreamAsync(HttpContent httpContent, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default)
         {
             return
 #if NETSTANDARD2_0 || NETSTANDARD2_1 || NETCOREAPP3_1
@@ -26,16 +36,6 @@ namespace Ogu.Compressions
 #else
                 httpContent.ReadAsStreamAsync(cancellationToken);
 #endif
-        }
-
-        protected override async Task<Stream> InternalDecompressToStreamAsync(byte[] bytes, CancellationToken cancellationToken = default)
-        {
-            return await Task.FromResult(new MemoryStream(bytes)).ConfigureAwait(false);
-        }
-
-        protected override Task<Stream> InternalDecompressToAsync(Stream stream, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default)
-        {
-            return Task.FromResult(stream);
         }
 
         protected override byte[] InternalDecompress(byte[] bytes)
