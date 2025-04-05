@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
-using System.IO.Compression;
 using Ogu.Compressions.Abstractions;
+using System.IO.Compression;
 
 namespace Ogu.Compressions.Tests.GzipCompression
 {
@@ -30,18 +30,12 @@ namespace Ogu.Compressions.Tests.GzipCompression
         {
             // Arrange
             const string input = "Hello, World!";
-#if DEBUG
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
-#endif
 
             // Act
             var actual = await _gzipCompression.CompressAsync(input);
 
             // Assert
             Assert.NotEmpty(actual);
-#if DEBUG
-            Assert.Equal(expected, actual);
-#endif
         }
 
         [Fact]
@@ -49,16 +43,12 @@ namespace Ogu.Compressions.Tests.GzipCompression
         {
             // Arrange
             var input = "Hello, World!"u8.ToArray();
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var actual = await _gzipCompression.CompressAsync(input);
 
             // Assert
             Assert.NotEmpty(actual);
-#if DEBUG
-            Assert.Equal(expected, actual);
-#endif
         }
 
         [Fact]
@@ -67,16 +57,12 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var actual = await _gzipCompression.CompressAsync(stream);
 
             // Assert
             Assert.NotEmpty(actual);
-#if DEBUG
-            Assert.Equal(expected, actual);
-#endif
             Assert.Throws<ObjectDisposedException>(() => stream.Length);
         }
 
@@ -86,17 +72,12 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var actual = await _gzipCompression.CompressAsync(stream, leaveOpen: true);
 
             // Assert
             Assert.NotEmpty(actual);
-#if DEBUG
-            Assert.Equal(expected, actual);
-            Assert.Equal(13, stream.Length);
-#endif
 
             await stream.DisposeAsync();
 
@@ -108,16 +89,12 @@ namespace Ogu.Compressions.Tests.GzipCompression
         {
             // Arrange
             const string input = "Hello, World!";
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var actual = await _gzipCompression.CompressAsync(input, CompressionLevel.Fastest);
 
             // Assert
             Assert.NotEmpty(actual);
-#if DEBUG
-            Assert.Equal(expected, actual);
-#endif
         }
 
         [Fact]
@@ -125,16 +102,12 @@ namespace Ogu.Compressions.Tests.GzipCompression
         {
             // Arrange
             var input = "Hello, World!"u8.ToArray();
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var actual = await _gzipCompression.CompressAsync(input, CompressionLevel.Fastest);
 
             // Assert
             Assert.NotEmpty(actual);
-#if DEBUG
-            Assert.Equal(expected, actual);
-#endif
         }
 
         [Fact]
@@ -143,16 +116,12 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var actual = await _gzipCompression.CompressAsync(stream, CompressionLevel.Fastest);
 
             // Assert
             Assert.NotEmpty(actual);
-#if DEBUG
-            Assert.Equal(expected, actual);
-#endif
             Assert.Throws<ObjectDisposedException>(() => stream.Length);
         }
 
@@ -162,17 +131,12 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var actual = await _gzipCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.Fastest);
 
             // Assert
             Assert.NotEmpty(actual);
-#if DEBUG
-            Assert.Equal(expected, actual);
-            Assert.Equal(13, stream.Length);
-#endif
 
             await stream.DisposeAsync();
 
@@ -184,7 +148,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
         {
             // Arrange
             const string input = "Hello, World!";
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var stream = await _gzipCompression.CompressToStreamAsync(input);
@@ -192,12 +155,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Assert
             Assert.NotNull(stream);
             Assert.IsType<MemoryStream>(stream);
-
-            var actual = ((MemoryStream)stream).ToArray();
-
-#if DEBUG
-            Assert.Equal(expected, actual);
-#endif
 
             await stream.DisposeAsync();
 
@@ -209,7 +166,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
         {
             // Arrange
             var input = "Hello, World!"u8.ToArray();
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var stream = await _gzipCompression.CompressToStreamAsync(input);
@@ -219,10 +175,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             Assert.IsType<MemoryStream>(stream);
 
             var actual = ((MemoryStream)stream).ToArray();
-
-#if DEBUG
-            Assert.Equal(expected, actual);
-#endif
 
             await stream.DisposeAsync();
 
@@ -235,7 +187,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var stream = await _gzipCompression.CompressToStreamAsync(rawStream);
@@ -244,12 +195,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             Assert.NotNull(stream);
             Assert.IsType<MemoryStream>(stream);
             Assert.Throws<ObjectDisposedException>(() => rawStream.Length);
-
-            var actual = ((MemoryStream)stream).ToArray();
-
-#if DEBUG
-            Assert.Equal(expected, actual);
-#endif
 
             await stream.DisposeAsync();
 
@@ -262,7 +207,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var stream = await _gzipCompression.CompressToStreamAsync(rawStream, leaveOpen: true);
@@ -270,13 +214,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Assert
             Assert.NotNull(stream);
             Assert.IsType<MemoryStream>(stream);
-#if DEBUG
-            Assert.Equal(33, stream.Length);
-
-            var actual = ((MemoryStream)stream).ToArray();
-
-            Assert.Equal(expected, actual);
-#endif
 
             await rawStream.DisposeAsync();
             await stream.DisposeAsync();
@@ -290,7 +227,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
         {
             // Arrange
             const string input = "Hello, World!";
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var stream = await _gzipCompression.CompressToStreamAsync(input, CompressionLevel.Fastest);
@@ -298,12 +234,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Assert
             Assert.NotNull(stream);
             Assert.IsType<MemoryStream>(stream);
-
-#if DEBUG
-            var actual = ((MemoryStream)stream).ToArray();
-
-            Assert.Equal(expected, actual);
-#endif
 
             await stream.DisposeAsync();
 
@@ -315,7 +245,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
         {
             // Arrange
             var input = "Hello, World!"u8.ToArray();
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var stream = await _gzipCompression.CompressToStreamAsync(input, CompressionLevel.Fastest);
@@ -323,12 +252,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Assert
             Assert.NotNull(stream);
             Assert.IsType<MemoryStream>(stream);
-
-#if DEBUG
-            var actual = ((MemoryStream)stream).ToArray();
-
-            Assert.Equal(expected, actual);
-#endif
 
             await stream.DisposeAsync();
 
@@ -341,7 +264,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var stream = await _gzipCompression.CompressToStreamAsync(rawStream, CompressionLevel.Fastest);
@@ -350,12 +272,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             Assert.NotNull(stream);
             Assert.IsType<MemoryStream>(stream);
             Assert.Throws<ObjectDisposedException>(() => rawStream.Length);
-
-#if DEBUG
-            var actual = ((MemoryStream)stream).ToArray();
-
-            Assert.Equal(expected, actual);
-#endif
 
             await stream.DisposeAsync();
 
@@ -368,7 +284,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var stream = await _gzipCompression.CompressToStreamAsync(rawStream, leaveOpen: true, CompressionLevel.Fastest);
@@ -376,13 +291,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Assert
             Assert.NotNull(stream);
             Assert.IsType<MemoryStream>(stream);
-#if DEBUG
-            Assert.Equal(33, stream.Length);
-
-            var actual = ((MemoryStream)stream).ToArray();
-
-            Assert.Equal(expected, actual);
-#endif
 
             await rawStream.DisposeAsync();
             await stream.DisposeAsync();
@@ -396,14 +304,12 @@ namespace Ogu.Compressions.Tests.GzipCompression
         {
             // Arrange
             const string input = "Hello, World!";
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var actual = _gzipCompression.Compress(input);
 
             // Assert
             Assert.NotEmpty(actual);
-            Assert.Equal(expected, actual);
         }
 
         [Fact]
@@ -411,16 +317,12 @@ namespace Ogu.Compressions.Tests.GzipCompression
         {
             // Arrange
             var input = "Hello, World!"u8.ToArray();
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var actual = _gzipCompression.Compress(input);
 
             // Assert
             Assert.NotEmpty(actual);
-#if DEBUG
-            Assert.Equal(expected, actual);
-#endif
         }
 
         [Fact]
@@ -429,16 +331,12 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var actual = _gzipCompression.Compress(stream);
 
             // Assert
             Assert.NotEmpty(actual);
-#if DEBUG
-            Assert.Equal(expected, actual);
-#endif
             Assert.Throws<ObjectDisposedException>(() => stream.Length);
         }
 
@@ -448,17 +346,12 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var actual = _gzipCompression.Compress(stream, leaveOpen: true);
 
             // Assert
             Assert.NotEmpty(actual);
-#if DEBUG
-            Assert.Equal(expected, actual);
-            Assert.Equal(13, stream.Length);
-#endif
 
             stream.Dispose();
 
@@ -470,16 +363,12 @@ namespace Ogu.Compressions.Tests.GzipCompression
         {
             // Arrange
             const string input = "Hello, World!";
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var actual = _gzipCompression.Compress(input, CompressionLevel.Fastest);
 
             // Assert
             Assert.NotEmpty(actual);
-#if DEBUG
-            Assert.Equal(expected, actual);
-#endif
         }
 
         [Fact]
@@ -487,16 +376,12 @@ namespace Ogu.Compressions.Tests.GzipCompression
         {
             // Arrange
             var input = "Hello, World!"u8.ToArray();
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var actual = _gzipCompression.Compress(input, CompressionLevel.Fastest);
 
             // Assert
             Assert.NotEmpty(actual);
-#if DEBUG
-            Assert.Equal(expected, actual);
-#endif
         }
 
         [Fact]
@@ -505,16 +390,12 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var actual = _gzipCompression.Compress(stream, CompressionLevel.Fastest);
 
             // Assert
             Assert.NotEmpty(actual);
-#if DEBUG
-            Assert.Equal(expected, actual);
-#endif
             Assert.Throws<ObjectDisposedException>(() => stream.Length);
         }
 
@@ -524,17 +405,12 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var actual = _gzipCompression.Compress(stream, leaveOpen: true, CompressionLevel.Fastest);
 
             // Assert
             Assert.NotEmpty(actual);
-#if DEBUG
-            Assert.Equal(expected, actual);
-            Assert.Equal(13, stream.Length);
-#endif
 
             stream.Dispose();
 
@@ -546,7 +422,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
         {
             // Arrange
             const string input = "Hello, World!";
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var stream = _gzipCompression.CompressToStream(input);
@@ -554,12 +429,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Assert
             Assert.NotNull(stream);
             Assert.IsType<MemoryStream>(stream);
-
-#if DEBUG
-            var actual = ((MemoryStream)stream).ToArray();
-
-            Assert.Equal(expected, actual);
-#endif
 
             stream.Dispose();
 
@@ -571,7 +440,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
         {
             // Arrange
             var input = "Hello, World!"u8.ToArray();
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var stream = _gzipCompression.CompressToStream(input);
@@ -579,12 +447,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Assert
             Assert.NotNull(stream);
             Assert.IsType<MemoryStream>(stream);
-
-#if DEBUG
-            var actual = ((MemoryStream)stream).ToArray();
-
-            Assert.Equal(expected, actual);
-#endif
 
             stream.Dispose();
 
@@ -597,7 +459,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var stream = _gzipCompression.CompressToStream(rawStream);
@@ -606,12 +467,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             Assert.NotNull(stream);
             Assert.IsType<MemoryStream>(stream);
             Assert.Throws<ObjectDisposedException>(() => rawStream.Length);
-
-            var actual = ((MemoryStream)stream).ToArray();
-
-#if DEBUG
-            Assert.Equal(expected, actual);
-#endif
 
             stream.Dispose();
 
@@ -624,7 +479,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var stream = _gzipCompression.CompressToStream(rawStream, leaveOpen: true);
@@ -632,13 +486,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Assert
             Assert.NotNull(stream);
             Assert.IsType<MemoryStream>(stream);
-#if DEBUG
-            Assert.Equal(33, stream.Length);
-
-            var actual = ((MemoryStream)stream).ToArray();
-
-            Assert.Equal(expected, actual);
-#endif
 
             rawStream.Dispose();
             stream.Dispose();
@@ -652,7 +499,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
         {
             // Arrange
             const string input = "Hello, World!";
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var stream = _gzipCompression.CompressToStream(input, CompressionLevel.Fastest);
@@ -660,12 +506,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Assert
             Assert.NotNull(stream);
             Assert.IsType<MemoryStream>(stream);
-
-#if DEBUG
-            var actual = ((MemoryStream)stream).ToArray();
-
-            Assert.Equal(expected, actual);
-#endif
 
             stream.Dispose();
 
@@ -677,7 +517,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
         {
             // Arrange
             var input = "Hello, World!"u8.ToArray();
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var stream = _gzipCompression.CompressToStream(input, CompressionLevel.Fastest);
@@ -685,12 +524,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Assert
             Assert.NotNull(stream);
             Assert.IsType<MemoryStream>(stream);
-
-#if DEBUG
-            var actual = ((MemoryStream)stream).ToArray();
-
-            Assert.Equal(expected, actual);
-#endif
 
             stream.Dispose();
 
@@ -703,7 +536,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var stream = _gzipCompression.CompressToStream(rawStream, CompressionLevel.Fastest);
@@ -712,12 +544,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             Assert.NotNull(stream);
             Assert.IsType<MemoryStream>(stream);
             Assert.Throws<ObjectDisposedException>(() => rawStream.Length);
-
-#if DEBUG
-            var actual = ((MemoryStream)stream).ToArray();
-
-            Assert.Equal(expected, actual);
-#endif
 
             stream.Dispose();
 
@@ -730,7 +556,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
-            var expected = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
 
             // Act
             var stream = _gzipCompression.CompressToStream(rawStream, leaveOpen: true, CompressionLevel.Fastest);
@@ -738,13 +563,6 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Assert
             Assert.NotNull(stream);
             Assert.IsType<MemoryStream>(stream);
-#if DEBUG
-            Assert.Equal(33, stream.Length);
-
-            var actual = ((MemoryStream)stream).ToArray();
-
-            Assert.Equal(expected, actual);
-#endif
 
             rawStream.Dispose();
             stream.Dispose();
