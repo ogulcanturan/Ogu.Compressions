@@ -41,7 +41,11 @@ namespace Ogu.Compressions
                     stream.CopyTo(deflateStream);
                 }
 
-                if (!leaveOpen)
+                if (leaveOpen)
+                {
+                    stream.Position = 0;
+                }
+                else
                 {
                     stream.Dispose();
                 }
@@ -81,7 +85,11 @@ namespace Ogu.Compressions
 #endif
                 }
 
-                if (!leaveOpen)
+                if (leaveOpen)
+                {
+                    stream.Position = 0;
+                }
+                else
                 {
 #if NETSTANDARD2_0
                     stream.Dispose();
@@ -139,7 +147,11 @@ namespace Ogu.Compressions
 #endif
                 }
 
-                if (!leaveOpen)
+                if (leaveOpen)
+                {
+                    stream.Position = 0;
+                }
+                else
                 {
 #if NETSTANDARD2_0
                     stream.Dispose();
@@ -201,7 +213,11 @@ namespace Ogu.Compressions
                     stream.CopyTo(deflateStream);
                 }
 
-                if (!leaveOpen)
+                if (leaveOpen)
+                {
+                    stream.Position = 0;
+                }
+                else
                 {
                     stream.Dispose();
                 }

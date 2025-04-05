@@ -34,6 +34,11 @@ namespace Ogu.Compressions
                     await deflateStream.CopyToAsync(outputStream, bufferSize, cancellationToken).ConfigureAwait(false);
                 }
 
+                if (leaveOpen)
+                {
+                    stream.Position = 0;
+                }
+
                 return outputStream.ToArray();
             }
         }
@@ -76,6 +81,11 @@ namespace Ogu.Compressions
                 using (var deflateStream = new DeflateStream(stream, CompressionMode.Decompress, leaveOpen))
                 {
                     await deflateStream.CopyToAsync(outputStream, bufferSize, cancellationToken).ConfigureAwait(false);
+                }
+
+                if (leaveOpen)
+                {
+                    stream.Position = 0;
                 }
 
                 outputStream.Position = 0;
@@ -128,6 +138,11 @@ namespace Ogu.Compressions
                 using (var deflateStream = new DeflateStream(stream, CompressionMode.Decompress, leaveOpen))
                 {
                     deflateStream.CopyTo(outputStream);
+                }
+
+                if (leaveOpen)
+                {
+                    stream.Position = 0;
                 }
 
                 return outputStream.ToArray();

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
-using System.IO.Compression;
 using Ogu.Compressions.Abstractions;
+using System.IO.Compression;
 
 namespace Ogu.Compressions.Tests.BrotliCompression
 {

@@ -1,4 +1,6 @@
-﻿namespace Ogu.Compressions.Tests.BrotliCompression
+﻿using System.IO.Compression;
+
+namespace Ogu.Compressions.Tests.BrotliCompression
 {
     public partial class BrotliCompressionTests
     {
@@ -134,10 +136,9 @@
         public async Task DecompressToStreamAsync_HttpContentInput_ReturnsDecompressedBytes()
         {
             // Arrange
-            var input = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
-            var rawStream = new MemoryStream(input);
-            var httpContent = new StreamContent(rawStream);
-            var expected = "Hello, World!"u8.ToArray();
+            var input = "Hello, World!"u8.ToArray();
+            var compressed = await _brotliCompression.CompressToStreamAsync(input);
+            var httpContent = new StreamContent(compressed);
 
             // Act
             var stream = await _brotliCompression.DecompressToStreamAsync(httpContent);
@@ -145,7 +146,7 @@
             // Assert
             Assert.NotNull(stream);
             Assert.IsType<MemoryStream>(stream);
-            Assert.Throws<ObjectDisposedException>(() => rawStream.Length);
+            Assert.Throws<ObjectDisposedException>(() => compressed.Length);
             await Assert.ThrowsAsync<ObjectDisposedException>(async () =>
             {
                 var streamLength = (await httpContent.ReadAsStreamAsync()).Length;
@@ -153,7 +154,7 @@
 
             var actual = ((MemoryStream)stream).ToArray();
 
-            Assert.Equal(expected, actual);
+            Assert.Equal(input, actual);
 
             await stream.DisposeAsync();
 

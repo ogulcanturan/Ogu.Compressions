@@ -35,6 +35,11 @@ namespace Ogu.Compressions
                     await snappyStream.CopyToAsync(outputStream, bufferSize, cancellationToken).ConfigureAwait(false);
                 }
 
+                if (leaveOpen)
+                {
+                    stream.Position = 0;
+                }
+
                 return outputStream.ToArray();
             }
         }
@@ -77,6 +82,11 @@ namespace Ogu.Compressions
                 using (var snappyStream = new SnappyStream(stream, CompressionMode.Decompress, leaveOpen))
                 {
                     await snappyStream.CopyToAsync(outputStream, bufferSize, cancellationToken).ConfigureAwait(false);
+                }
+
+                if (leaveOpen)
+                {
+                    stream.Position = 0;
                 }
 
                 outputStream.Position = 0;
@@ -129,6 +139,11 @@ namespace Ogu.Compressions
                 using (var snappyStream = new SnappyStream(stream, CompressionMode.Decompress, leaveOpen))
                 {
                     snappyStream.CopyTo(outputStream);
+                }
+
+                if (leaveOpen)
+                {
+                    stream.Position = 0;
                 }
 
                 return outputStream.ToArray();
