@@ -9,11 +9,7 @@ namespace Ogu.Compressions
 {
     public partial class DeflateCompression : CompressionBase, IDeflateCompression
     {
-        public DeflateCompression(IOptions<DeflateCompressionOptions> opts) : base(opts.Value.Level, opts.Value.BufferSize) { }
-
-        public override string EncodingName { get; } = EncodingNames.Deflate;
-
-        public override CompressionType CompressionType { get; } = CompressionType.Deflate;
+        public DeflateCompression(IOptions<DeflateCompressionOptions> opts) : base(opts.Value) { }
 
         protected override byte[] InternalCompress(byte[] bytes, CompressionLevel level)
         {

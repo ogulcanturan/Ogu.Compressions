@@ -10,7 +10,7 @@ namespace Ogu.Compressions.Abstractions
     {
         string EncodingName { get; }
         int BufferSize { get; }
-        CompressionType CompressionType { get; }
+        CompressionType Type { get; }
         CompressionLevel Level { get; }
 
         Task<byte[]> CompressAsync(string input, CancellationToken cancellationToken = default);

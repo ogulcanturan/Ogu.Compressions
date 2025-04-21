@@ -13,7 +13,10 @@ namespace Ogu.Compressions
             BufferSize = options.BufferSize;
         }
 
-        /// <inheritdoc />
+        public override string EncodingName => EncodingNames.Deflate;
+
+        public override CompressionType Type => CompressionType.Deflate;
+
         DeflateCompressionOptions IOptions<DeflateCompressionOptions>.Value => this;
     }
 }

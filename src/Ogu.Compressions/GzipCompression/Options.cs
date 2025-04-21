@@ -13,6 +13,10 @@ namespace Ogu.Compressions
             BufferSize = options.BufferSize;
         }
 
+        public override string EncodingName => EncodingNames.Gzip;
+
+        public override CompressionType Type => CompressionType.Gzip;
+
         /// <inheritdoc />
         GzipCompressionOptions IOptions<GzipCompressionOptions>.Value => this;
     }

@@ -18,9 +18,9 @@ namespace Ogu.AspNetCore.Compressions
             _bufferSize = optionsValue.BufferSize;
         }
 
-        public string EncodingName { get; } = EncodingNames.Zstd;
+        public string EncodingName => EncodingNames.Zstd;
 
-        public bool SupportsFlush { get; } = true;
+        public bool SupportsFlush => true;
 
         public Stream CreateStream(Stream outputStream)
         {

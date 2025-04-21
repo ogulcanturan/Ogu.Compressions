@@ -13,6 +13,10 @@ namespace Ogu.Compressions
             BufferSize = options.BufferSize;
         }
 
+        public override string EncodingName => EncodingNames.Brotli;
+
+        public override CompressionType Type => CompressionType.Brotli;
+
         /// <inheritdoc />
         BrotliCompressionOptions IOptions<BrotliCompressionOptions>.Value => this;
     }

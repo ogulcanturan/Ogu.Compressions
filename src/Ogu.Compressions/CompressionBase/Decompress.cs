@@ -1,12 +1,11 @@
-﻿using Ogu.Compressions.Abstractions;
-using System.IO;
+﻿using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ogu.Compressions
 {
-    public abstract partial class CompressionBase : ICompression
+    public abstract partial class CompressionBase
     {
         public Task<byte[]> DecompressAsync(byte[] bytes, CancellationToken cancellationToken = default)
         {

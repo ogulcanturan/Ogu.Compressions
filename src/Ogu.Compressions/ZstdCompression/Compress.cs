@@ -9,11 +9,7 @@ namespace Ogu.Compressions
 {
     public partial class ZstdCompression : CompressionBase, IZstdCompression
     {
-        public ZstdCompression(IOptions<ZstdCompressionOptions> opts) : base(opts.Value.Level, opts.Value.BufferSize) { }
-
-        public override string EncodingName { get; } = EncodingNames.Zstd;
-
-        public override CompressionType CompressionType { get; } = CompressionType.Zstd;
+        public ZstdCompression(IOptions<ZstdCompressionOptions> opts) : base(opts.Value) { }
 
         protected override byte[] InternalCompress(byte[] bytes, CompressionLevel level)
         {

@@ -13,6 +13,10 @@ namespace Ogu.Compressions
             BufferSize = options.BufferSize;
         }
 
+        public override string EncodingName => EncodingNames.Snappy;
+
+        public override CompressionType Type => CompressionType.Snappy;
+
         /// <inheritdoc />
         SnappyCompressionOptions IOptions<SnappyCompressionOptions>.Value => this;
     }

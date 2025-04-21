@@ -9,11 +9,7 @@ namespace Ogu.Compressions
 {
     public partial class BrotliCompression : CompressionBase, IBrotliCompression
     {
-        public BrotliCompression(IOptions<BrotliCompressionOptions> opts) : base(opts.Value.Level, opts.Value.BufferSize) { }
-
-        public override string EncodingName { get; } = EncodingNames.Brotli;
-
-        public override CompressionType CompressionType { get; } = CompressionType.Brotli;
+        public BrotliCompression(IOptions<BrotliCompressionOptions> opts) : base(opts.Value) { }
 
         protected override byte[] InternalCompress(byte[] bytes, CompressionLevel level)
         {

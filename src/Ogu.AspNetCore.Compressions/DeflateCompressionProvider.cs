@@ -15,9 +15,9 @@ namespace Ogu.AspNetCore.Compressions
             _options = opts.Value;
         }
 
-        public string EncodingName { get; } = EncodingNames.Deflate;
+        public string EncodingName => EncodingNames.Deflate;
 
-        public bool SupportsFlush { get; } = true;
+        public bool SupportsFlush => true;
 
         public Stream CreateStream(Stream outputStream)
         {

@@ -8,11 +8,7 @@ namespace Ogu.Compressions
 {
     public partial class NoneCompression : CompressionBase, INoneCompression
     {
-        public NoneCompression() : base(CompressionLevel.Fastest, 0) { }
-
-        public override string EncodingName { get; } = string.Empty;
-
-        public override CompressionType CompressionType { get; } = CompressionType.None;
+        public NoneCompression() : base(string.Empty, 0, CompressionType.None, CompressionLevel.Fastest) { }
 
         protected override byte[] InternalCompress(byte[] bytes, CompressionLevel level)
         {

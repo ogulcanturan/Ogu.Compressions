@@ -8,9 +8,9 @@ namespace Ogu.AspNetCore.Compressions
 {
     public class SnappyCompressionProvider : ICompressionProvider
     {
-        public string EncodingName { get; } = EncodingNames.Snappy;
+        public string EncodingName => EncodingNames.Snappy;
 
-        public bool SupportsFlush { get; } = true;
+        public bool SupportsFlush => true;
 
         public Stream CreateStream(Stream outputStream)
         {

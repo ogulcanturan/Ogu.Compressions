@@ -6,20 +6,25 @@ using System.Threading.Tasks;
 
 namespace Ogu.Compressions.Abstractions
 {
+    /// <summary>
+    /// Factory interface for retrieving compression implementations and performing asynchronous compression and decompression operations.
+    /// </summary>
     public interface ICompressionFactory
     {
         /// <summary>
-        /// Returns specified type compression or null if there is no such service
+        /// Retrieves a compression implementation based on the specified <see cref="CompressionType"/>.
+        /// Returns <c>null</c> if no matching service is found.
         /// </summary>
-        /// <param name="compressionType"></param>
-        /// <returns></returns>
+        /// <param name="compressionType">The type of compression to retrieve.</param>
+        /// <returns>An <see cref="ICompression"/> instance if available; otherwise, <c>null</c>.</returns>
         ICompression Get(CompressionType compressionType);
 
         /// <summary>
-        /// Returns specified type compression or none compression if not matches or null if there is no such service
+        /// Retrieves a compression implementation based on the specified encoding name.
+        /// Returns a "none" compression implementation if no match is found, or <c>null</c> if no applicable service is available.
         /// </summary>
-        /// <param name="encodingName"></param>
-        /// <returns></returns>
+        /// <param name="encodingName">The name of the encoding (e.g. "br", "deflate", "snappy", "zstd", "gzip" or "" for NoneCompression.)</param>
+        /// <returns>An <see cref="ICompression"/> instance, a "none" compression if not matched, or <c>null</c> if unavailable.</returns>
         ICompression Get(string encodingName);
 
         Task<byte[]> CompressAsync(CompressionType compressionType, string input, CancellationToken cancellationToken = default);

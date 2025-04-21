@@ -9,11 +9,7 @@ namespace Ogu.Compressions
 {
     public partial class GzipCompression : CompressionBase, IGzipCompression
     {
-        public GzipCompression(IOptions<GzipCompressionOptions> opts) : base(opts.Value.Level, opts.Value.BufferSize) { }
-
-        public override string EncodingName { get; } = EncodingNames.Gzip;
-
-        public override CompressionType CompressionType { get; } = CompressionType.Gzip;
+        public GzipCompression(IOptions<GzipCompressionOptions> opts) : base(opts.Value) { }
 
         protected override byte[] InternalCompress(byte[] bytes, CompressionLevel level)
         {

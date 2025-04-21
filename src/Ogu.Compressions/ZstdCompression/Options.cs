@@ -13,6 +13,10 @@ namespace Ogu.Compressions
             BufferSize = options.BufferSize;
         }
 
+        public override string EncodingName => EncodingNames.Zstd;
+
+        public override CompressionType Type => CompressionType.Zstd;
+
         /// <inheritdoc />
         ZstdCompressionOptions IOptions<ZstdCompressionOptions>.Value => this;
     }

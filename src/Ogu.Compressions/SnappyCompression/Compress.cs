@@ -10,11 +10,7 @@ namespace Ogu.Compressions
 {
     public partial class SnappyCompression : CompressionBase, ISnappyCompression
     {
-        public SnappyCompression(IOptions<SnappyCompressionOptions> opts) : base(opts.Value.Level, opts.Value.BufferSize) { }
-
-        public override string EncodingName { get; } = EncodingNames.Snappy;
-
-        public override CompressionType CompressionType { get; } = CompressionType.Snappy;
+        public SnappyCompression(IOptions<SnappyCompressionOptions> opts) : base(opts.Value) { }
 
         protected override byte[] InternalCompress(byte[] bytes, CompressionLevel level)
         {

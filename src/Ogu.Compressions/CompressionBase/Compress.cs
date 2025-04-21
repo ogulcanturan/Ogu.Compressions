@@ -9,19 +9,25 @@ namespace Ogu.Compressions
 {
     public abstract partial class CompressionBase : ICompression
     {
-        protected CompressionBase(CompressionLevel level, int bufferSize)
+        protected CompressionBase(CompressionOptions options) : this(options.EncodingName, options.BufferSize, options.Type, options.Level)
         {
-            Level = level;
-            BufferSize = bufferSize;
         }
 
-        public CompressionLevel Level { get; }
+        protected CompressionBase(string encodingName, int bufferSize, CompressionType type, CompressionLevel level)
+        {
+            EncodingName = encodingName;
+            BufferSize = bufferSize;
+            Type = type;
+            Level = level;
+        }
+
+        public string EncodingName { get; }
 
         public int BufferSize { get; }
 
-        public abstract CompressionType CompressionType { get; }
+        public CompressionType Type { get; }
 
-        public abstract string EncodingName { get; }
+        public CompressionLevel Level { get; }
 
         public Task<byte[]> CompressAsync(string input, CancellationToken cancellationToken = default)
         {
