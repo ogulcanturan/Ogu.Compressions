@@ -57,6 +57,36 @@ namespace Ogu.Compressions.Abstractions
         Task<Stream> CompressToStreamAsync(CompressionType compressionType, Stream stream, CompressionLevel level, CancellationToken cancellationToken = default);
         Task<Stream> CompressToStreamAsync(string encodingName, Stream stream, bool leaveOpen, CompressionLevel level, CancellationToken cancellationToken = default);
 
+        byte[] Compress(CompressionType compressionType, string input);
+        byte[] Compress(string encodingName, string input);
+        byte[] Compress(CompressionType compressionType, byte[] bytes);
+        byte[] Compress(string encodingName, byte[] bytes);
+        byte[] Compress(CompressionType compressionType, Stream stream);
+        byte[] Compress(string encodingName, Stream stream);
+        byte[] Compress(CompressionType compressionType, Stream stream, bool leaveOpen);
+        byte[] Compress(string encodingName, Stream stream, bool leaveOpen);
+        byte[] Compress(CompressionType compressionType, string input, CompressionLevel level);
+        byte[] Compress(string encodingName, string input, CompressionLevel level);
+        byte[] Compress(CompressionType compressionType, byte[] bytes, CompressionLevel level);
+        byte[] Compress(string encodingName, byte[] bytes, CompressionLevel level);
+        byte[] Compress(CompressionType compressionType, Stream stream, CompressionLevel level);
+        byte[] Compress(string encodingName, Stream stream, bool leaveOpen, CompressionLevel level);
+
+        Stream CompressToStream(CompressionType compressionType, string input);
+        Stream CompressToStream(string encodingName, string input);
+        Stream CompressToStream(CompressionType compressionType, byte[] bytes);
+        Stream CompressToStream(string encodingName, byte[] bytes);
+        Stream CompressToStream(CompressionType compressionType, Stream stream);
+        Stream CompressToStream(string encodingName, Stream stream);
+        Stream CompressToStream(CompressionType compressionType, Stream stream, bool leaveOpen);
+        Stream CompressToStream(string encodingName, Stream stream, bool leaveOpen);
+        Stream CompressToStream(CompressionType compressionType, string input, CompressionLevel level);
+        Stream CompressToStream(string encodingName, string input, CompressionLevel level);
+        Stream CompressToStream(CompressionType compressionType, byte[] bytes, CompressionLevel level);
+        Stream CompressToStream(string encodingName, byte[] bytes, CompressionLevel level);
+        Stream CompressToStream(CompressionType compressionType, Stream stream, CompressionLevel level);
+        Stream CompressToStream(string encodingName, Stream stream, bool leaveOpen, CompressionLevel level);
+
         Task<byte[]> DecompressAsync(CompressionType compressionType, byte[] bytes, CancellationToken cancellationToken = default);
         Task<byte[]> DecompressAsync(string encodingName, byte[] bytes, CancellationToken cancellationToken = default);
         Task<byte[]> DecompressAsync(CompressionType compressionType, Stream stream, CancellationToken cancellationToken = default);
@@ -72,5 +102,12 @@ namespace Ogu.Compressions.Abstractions
         Task<Stream> DecompressToStreamAsync(string encodingName, Stream stream, bool leaveOpen, CancellationToken cancellationToken = default);
         Task<Stream> DecompressToStreamAsync(CompressionType compressionType, HttpContent httpContent, CancellationToken cancellationToken = default);
         Task<Stream> DecompressToStreamAsync(string encodingName, HttpContent httpContent, CancellationToken cancellationToken = default);
+
+        byte[] Decompress(CompressionType compressionType, byte[] bytes);
+        byte[] Decompress(string encodingName, byte[] bytes);
+        byte[] Decompress(CompressionType compressionType, Stream stream);
+        byte[] Decompress(string encodingName, Stream stream);
+        byte[] Decompress(CompressionType compressionType, Stream stream, bool leaveOpen);
+        byte[] Decompress(string encodingName, Stream stream, bool leaveOpen);
     }
 }

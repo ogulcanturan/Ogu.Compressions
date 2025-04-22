@@ -215,7 +215,147 @@ namespace Ogu.Compressions
         {
             return Get(encodingName).CompressToStreamAsync(stream, level, cancellationToken);
         }
-        
+
+        public byte[] Compress(CompressionType compressionType, string input)
+        {
+            return Get(compressionType).Compress(input);
+        }
+
+        public byte[] Compress(string encodingName, string input)
+        {
+            return Get(encodingName).Compress(input);
+        }
+
+        public byte[] Compress(CompressionType compressionType, byte[] bytes)
+        {
+            return Get(compressionType).Compress(bytes);
+        }
+
+        public byte[] Compress(string encodingName, byte[] bytes)
+        {
+            return Get(encodingName).Compress(bytes);
+        }
+
+        public byte[] Compress(CompressionType compressionType, Stream stream)
+        {
+            return Get(compressionType).Compress(stream);
+        }
+
+        public byte[] Compress(string encodingName, Stream stream)
+        {
+            return Get(encodingName).Compress(stream);
+        }
+
+        public byte[] Compress(CompressionType compressionType, Stream stream, bool leaveOpen)
+        {
+            return Get(compressionType).Compress(stream);
+        }
+
+        public byte[] Compress(string encodingName, Stream stream, bool leaveOpen)
+        {
+            return Get(encodingName).Compress(stream);
+        }
+
+        public byte[] Compress(CompressionType compressionType, string input, CompressionLevel level)
+        {
+            return Get(compressionType).Compress(input, level);
+        }
+
+        public byte[] Compress(string encodingName, string input, CompressionLevel level)
+        {
+            return Get(encodingName).Compress(input, level);
+        }
+
+        public byte[] Compress(CompressionType compressionType, byte[] bytes, CompressionLevel level)
+        {
+            return Get(compressionType).Compress(bytes, level);
+        }
+
+        public byte[] Compress(string encodingName, byte[] bytes, CompressionLevel level)
+        {
+            return Get(encodingName).Compress(bytes, level);
+        }
+
+        public byte[] Compress(CompressionType compressionType, Stream stream, CompressionLevel level)
+        {
+            return Get(compressionType).Compress(stream, level);
+        }
+
+        public byte[] Compress(string encodingName, Stream stream, bool leaveOpen, CompressionLevel level)
+        {
+            return Get(encodingName).Compress(stream, level);
+        }
+
+        public Stream CompressToStream(CompressionType compressionType, string input)
+        {
+            return Get(compressionType).CompressToStream(input);
+        }
+
+        public Stream CompressToStream(string encodingName, string input)
+        {
+            return Get(encodingName).CompressToStream(input);
+        }
+
+        public Stream CompressToStream(CompressionType compressionType, byte[] bytes)
+        {
+            return Get(compressionType).CompressToStream(bytes);
+        }
+
+        public Stream CompressToStream(string encodingName, byte[] bytes)
+        {
+            return Get(encodingName).CompressToStream(bytes);
+        }
+
+        public Stream CompressToStream(CompressionType compressionType, Stream stream)
+        {
+            return Get(compressionType).CompressToStream(stream);
+        }
+
+        public Stream CompressToStream(string encodingName, Stream stream)
+        {
+            return Get(encodingName).CompressToStream(stream);
+        }
+
+        public Stream CompressToStream(CompressionType compressionType, Stream stream, bool leaveOpen)
+        {
+            return Get(compressionType).CompressToStream(stream);
+        }
+
+        public Stream CompressToStream(string encodingName, Stream stream, bool leaveOpen)
+        {
+            return Get(encodingName).CompressToStream(stream);
+        }
+
+        public Stream CompressToStream(CompressionType compressionType, string input, CompressionLevel level)
+        {
+            return Get(compressionType).CompressToStream(input, level);
+        }
+
+        public Stream CompressToStream(string encodingName, string input, CompressionLevel level)
+        {
+            return Get(encodingName).CompressToStream(input, level);
+        }
+
+        public Stream CompressToStream(CompressionType compressionType, byte[] bytes, CompressionLevel level)
+        {
+            return Get(compressionType).CompressToStream(bytes, level);
+        }
+
+        public Stream CompressToStream(string encodingName, byte[] bytes, CompressionLevel level)
+        {
+            return Get(encodingName).CompressToStream(bytes, level);
+        }
+
+        public Stream CompressToStream(CompressionType compressionType, Stream stream, CompressionLevel level)
+        {
+            return Get(compressionType).CompressToStream(stream, level);
+        }
+
+        public Stream CompressToStream(string encodingName, Stream stream, bool leaveOpen, CompressionLevel level)
+        {
+            return Get(encodingName).CompressToStream(stream, level);
+        }
+
         public Task<byte[]> DecompressAsync(CompressionType compressionType, byte[] bytes, CancellationToken cancellationToken = default)
         {
             return Get(compressionType).DecompressAsync(bytes, cancellationToken);
@@ -284,6 +424,39 @@ namespace Ogu.Compressions
         public Task<Stream> DecompressToStreamAsync(string encodingName, HttpContent httpContent, CancellationToken cancellationToken = default)
         {
             return Get(encodingName).DecompressToStreamAsync(httpContent, cancellationToken);
+        }
+
+
+
+
+        public byte[] Decompress(CompressionType compressionType, byte[] bytes)
+        {
+            return Get(compressionType).Decompress(bytes);
+        }
+
+        public byte[] Decompress(string encodingName, byte[] bytes)
+        {
+            return Get(encodingName).Decompress(bytes);
+        }
+
+        public byte[] Decompress(CompressionType compressionType, Stream stream)
+        {
+            return Get(compressionType).Decompress(stream);
+        }
+
+        public byte[] Decompress(string encodingName, Stream stream)
+        {
+            return Get(encodingName).Decompress(stream);
+        }
+
+        public byte[] Decompress(CompressionType compressionType, Stream stream, bool leaveOpen)
+        {
+            return Get(compressionType).Decompress(stream, leaveOpen);
+        }
+
+        public byte[] Decompress(string encodingName, Stream stream, bool leaveOpen)
+        {
+            return Get(encodingName).Decompress(stream, leaveOpen);
         }
     }
 }
