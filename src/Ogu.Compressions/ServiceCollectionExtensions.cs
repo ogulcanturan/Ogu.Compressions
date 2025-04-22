@@ -93,13 +93,13 @@ namespace Microsoft.Extensions.DependencyInjection
             return services;
         }
 
-        public static IServiceCollection AddCompressions(this IServiceCollection services, Action<CompressionOptions> opts = null)
+        public static IServiceCollection AddCompressions(this IServiceCollection services, Action<CompressionFactoryOptions> opts = null)
         {
             services.AddOptions();
 
             if (opts != null)
             {
-                var options = new CompressionOptions();
+                var options = new CompressionFactoryOptions();
                 opts.Invoke(options);
 
                 services.Configure<BrotliCompressionOptions>(brotliOpts =>

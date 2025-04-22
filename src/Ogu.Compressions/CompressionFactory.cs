@@ -17,15 +17,17 @@ namespace Ogu.Compressions
         private readonly IGzipCompression _gzipCompression;
         private readonly INoneCompression _noneCompression;
 
-        public CompressionFactory() : this(new CompressionOptions()) { }
+        public CompressionFactory() : this(new CompressionFactoryOptions()) { }
 
-        public CompressionFactory(CompressionOptions opts)
+        public CompressionFactory(IOptions<CompressionFactoryOptions> opts)
         {
-            _brotliCompression = new BrotliCompression(Options.Create(new BrotliCompressionOptions(opts)));
-            _deflateCompression = new DeflateCompression(Options.Create(new DeflateCompressionOptions(opts)));
-            _snappyCompression = new SnappyCompression(Options.Create(new SnappyCompressionOptions(opts)));
-            _zstdCompression = new ZstdCompression(Options.Create(new ZstdCompressionOptions(opts)));
-            _gzipCompression = new GzipCompression(Options.Create(new GzipCompressionOptions(opts)));
+            var compressionFactoryOptions = opts.Value;
+
+            _brotliCompression = new BrotliCompression(new BrotliCompressionOptions(compressionFactoryOptions.Level, compressionFactoryOptions.BufferSize));
+            _deflateCompression = new DeflateCompression(new DeflateCompressionOptions(compressionFactoryOptions.Level, compressionFactoryOptions.BufferSize));
+            _snappyCompression = new SnappyCompression(new SnappyCompressionOptions(compressionFactoryOptions.Level, compressionFactoryOptions.BufferSize));
+            _zstdCompression = new ZstdCompression(new ZstdCompressionOptions(compressionFactoryOptions.Level, compressionFactoryOptions.BufferSize));
+            _gzipCompression = new GzipCompression(new GzipCompressionOptions(compressionFactoryOptions.Level, compressionFactoryOptions.BufferSize));
             _noneCompression = new NoneCompression();
         }
 

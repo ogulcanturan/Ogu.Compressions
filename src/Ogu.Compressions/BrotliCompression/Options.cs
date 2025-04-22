@@ -1,23 +1,23 @@
 ﻿using Microsoft.Extensions.Options;
 using Ogu.Compressions.Abstractions;
+using System.IO.Compression;
 
 namespace Ogu.Compressions
 {
     public sealed class BrotliCompressionOptions : CompressionOptions, IOptions<BrotliCompressionOptions>
     {
-        public BrotliCompressionOptions() { }
-
-        public BrotliCompressionOptions(CompressionOptions options)
+        public BrotliCompressionOptions()
         {
-            Level = options.Level;
-            BufferSize = options.BufferSize;
+        }
+
+        public BrotliCompressionOptions(CompressionLevel level, int bufferSize) : base(level, bufferSize)
+        {
         }
 
         public override string EncodingName => EncodingNames.Brotli;
 
         public override CompressionType Type => CompressionType.Brotli;
 
-        /// <inheritdoc />
         BrotliCompressionOptions IOptions<BrotliCompressionOptions>.Value => this;
     }
 }

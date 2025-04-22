@@ -61,7 +61,7 @@ namespace Ogu.Compressions.Tests
         public void Constructor_WhenCalled_WithCompressionOptions_InitializesCorrectly()
         {
             // Arrange
-            var compressionOptions = new CompressionOptions
+            var compressionOptions = new CompressionFactoryOptions
             {
                 BufferSize = 4096,
                 Level = CompressionLevel.Optimal

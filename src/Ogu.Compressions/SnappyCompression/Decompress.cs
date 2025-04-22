@@ -1,5 +1,4 @@
-﻿using Ogu.Compressions.Abstractions;
-using Snappier;
+﻿using Snappier;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ogu.Compressions
 {
-    public partial class SnappyCompression : CompressionBase, ISnappyCompression
+    public partial class SnappyCompression
     {
         protected override async Task<byte[]> InternalDecompressAsync(byte[] bytes, int bufferSize, CancellationToken cancellationToken = default)
         {

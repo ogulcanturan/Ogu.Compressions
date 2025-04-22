@@ -1,5 +1,4 @@
-﻿using Ogu.Compressions.Abstractions;
-using System.IO;
+﻿using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
 using System.Threading;
@@ -7,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ogu.Compressions
 {
-    public partial class DeflateCompression : CompressionBase, IDeflateCompression
+    public partial class DeflateCompression
     {
         protected override async Task<byte[]> InternalDecompressAsync(byte[] bytes, int bufferSize, CancellationToken cancellationToken = default)
         {

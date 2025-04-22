@@ -1,12 +1,11 @@
-﻿using Ogu.Compressions.Abstractions;
-using System.IO;
+﻿using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ogu.Compressions
 {
-    public partial class NoneCompression : CompressionBase, INoneCompression
+    public partial class NoneCompression
     {
         protected override Task<byte[]> InternalDecompressAsync(byte[] bytes, int bufferSize, CancellationToken cancellationToken = default)
         {

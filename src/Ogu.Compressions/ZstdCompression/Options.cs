@@ -1,23 +1,23 @@
 ﻿using Microsoft.Extensions.Options;
 using Ogu.Compressions.Abstractions;
+using System.IO.Compression;
 
 namespace Ogu.Compressions
 {
-    public sealed class ZstdCompressionOptions : CompressionOptions, IOptions<ZstdCompressionOptions>
+    public class ZstdCompressionOptions : CompressionOptions, IOptions<ZstdCompressionOptions>
     {
-        public ZstdCompressionOptions() { }
-
-        public ZstdCompressionOptions(CompressionOptions options)
+        public ZstdCompressionOptions()
         {
-            Level = options.Level;
-            BufferSize = options.BufferSize;
+        }
+
+        public ZstdCompressionOptions(CompressionLevel level, int bufferSize) : base(level, bufferSize)
+        {
         }
 
         public override string EncodingName => EncodingNames.Zstd;
 
         public override CompressionType Type => CompressionType.Zstd;
 
-        /// <inheritdoc />
         ZstdCompressionOptions IOptions<ZstdCompressionOptions>.Value => this;
     }
 }

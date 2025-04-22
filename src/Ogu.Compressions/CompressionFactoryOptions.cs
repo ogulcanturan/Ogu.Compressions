@@ -1,18 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
 using System.IO.Compression;
 
-namespace Ogu.AspNetCore.Compressions
+namespace Ogu.Compressions
 {
-    public sealed class ZstdCompressionProviderOptions : IOptions<ZstdCompressionProviderOptions>
+    public class CompressionFactoryOptions : IOptions<CompressionFactoryOptions>
     {
-        public ZstdCompressionProviderOptions() { }
-
-        public ZstdCompressionProviderOptions(CompressionLevel level, int bufferSize)
-        {
-            Level = level;
-            BufferSize = bufferSize;
-        }
-
         /// <summary>
         /// The compression level to use for the stream.
         /// The default is <see cref="CompressionLevel.Fastest" />.
@@ -27,7 +19,6 @@ namespace Ogu.AspNetCore.Compressions
         /// </remarks>
         public int BufferSize { get; set; } = 81920;
 
-
-        ZstdCompressionProviderOptions IOptions<ZstdCompressionProviderOptions>.Value => this;
+        CompressionFactoryOptions IOptions<CompressionFactoryOptions>.Value => this;
     }
 }
