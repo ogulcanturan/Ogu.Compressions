@@ -426,9 +426,6 @@ namespace Ogu.Compressions
             return Get(encodingName).DecompressToStreamAsync(httpContent, cancellationToken);
         }
 
-
-
-
         public byte[] Decompress(CompressionType compressionType, byte[] bytes)
         {
             return Get(compressionType).Decompress(bytes);
