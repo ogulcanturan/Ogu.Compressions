@@ -18,7 +18,7 @@ private readonly IBrotliCompression _compression;
 
 public BrotliController(IBrotliCompression compression)
 {
-     compression = compression;
+     _compression = compression;
 }
 ```
 
