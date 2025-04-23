@@ -1,4 +1,5 @@
 ﻿using Ogu.Compressions.Abstractions;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -50,26 +51,44 @@ namespace Ogu.Compressions
 
         private static async Task<StreamContent> GetDecompressedStreamContentOrDefaultAsync(ICompressionFactory compressionFactory, HttpResponseMessage response, CancellationToken cancellationToken)
         {
+            if (!TryGetCompressions(compressionFactory, response.Content.Headers.ContentEncoding, out var compressors))
+            {
+                return null;
+            }
+
             StreamContent streamContent = null;
 
-            foreach (var encodingName in response.Content.Headers.ContentEncoding.Reverse())
+            foreach (var compressor in compressors.Reverse())
+            {
+                streamContent = await DecompressToStreamAsync(compressor, streamContent ?? response.Content, cancellationToken);
+            }
+
+            return streamContent;
+        }
+
+        private static bool TryGetCompressions(ICompressionFactory compressionFactory, IEnumerable<string> encodingNames, out IEnumerable<ICompression> compressions)
+        {
+            var compressionList = new List<ICompression>();
+            compressions = compressionList;
+
+            foreach (var encodingName in encodingNames)
             {
                 if (!CompressionHelper.TryConvertEncodingNameToCompressionType(encodingName, out var compressionType) || compressionType == CompressionType.None)
                 {
-                    return null;
+                    return false;
                 }
-                
+
                 var compression = compressionFactory.Get(compressionType);
 
                 if (compression == null)
                 {
-                    return null;
+                    return false;
                 }
 
-                streamContent = await DecompressToStreamAsync(compression, streamContent ?? response.Content, cancellationToken);
+                compressionList.Add(compression);
             }
 
-            return streamContent;
+            return true;
         }
 
         private static async Task<StreamContent> DecompressToStreamAsync(ICompression compression, HttpContent httpContent, CancellationToken cancellationToken = default)

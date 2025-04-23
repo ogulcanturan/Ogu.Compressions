@@ -22,7 +22,7 @@ namespace Ogu.Compressions.Tests.GzipCompression
             Assert.NotNull(_gzipCompression);
             Assert.Equal(EncodingNames.Gzip, _gzipCompression.EncodingName);
             Assert.Equal(CompressionLevel.Fastest, _gzipCompression.Level);
-            Assert.Equal(81920, _gzipCompression.BufferSize);
+            Assert.Equal(CompressionDefaults.BufferSize, _gzipCompression.BufferSize);
         }
 
         [Fact]

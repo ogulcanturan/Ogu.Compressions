@@ -6,11 +6,32 @@ using System.Threading.Tasks;
 
 namespace Ogu.Compressions.Abstractions
 {
+    /// <summary>
+    /// Defines the interface for compression algorithms to performing asynchronous compression and decompression operations.
+    /// </summary>
     public interface ICompression
     {
+        /// <summary>
+        /// Gets the name of the encoding used for underlying compression.
+        /// </summary>
         string EncodingName { get; }
+
+        /// <summary>
+        /// Gets the size, in bytes, of the buffer. The default size is 81920.
+        /// </summary>
+        /// <remarks>
+        /// Value must be greater than zero.
+        /// </remarks>
         int BufferSize { get; }
+
+        /// <summary>
+        /// Gets the type of compression. This value identifies which compression algorithm is used.
+        /// </summary>
         CompressionType Type { get; }
+
+        /// <summary>
+        /// Gets the compression level to use for the underlying stream.
+        /// </summary>
         CompressionLevel Level { get; }
 
         Task<byte[]> CompressAsync(string input, CancellationToken cancellationToken = default);

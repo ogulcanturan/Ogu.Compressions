@@ -2,12 +2,24 @@
 
 namespace Ogu.Compressions.Abstractions
 {
+    /// <summary>
+    /// Represents the base class for options related to compression, such as the compression level and buffer size.
+    /// </summary>
     public abstract class CompressionOptions
     {
-        protected CompressionOptions() : this(CompressionLevel.Fastest, 81920)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CompressionOptions"/> class with default values.
+        /// The default compression level is <see cref="CompressionLevel.Fastest"/> and the default buffer size is 81920 bytes.
+        /// </summary>
+        protected CompressionOptions() : this(CompressionLevel.Fastest, CompressionDefaults.BufferSize)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CompressionOptions"/> class with specified values for compression level and buffer size.
+        /// </summary>
+        /// <param name="level">The compression level to use.</param>
+        /// <param name="bufferSize">The size, in bytes, of the buffer to use.</param>
         protected CompressionOptions(CompressionLevel level, int bufferSize)
         {
             Level = level;

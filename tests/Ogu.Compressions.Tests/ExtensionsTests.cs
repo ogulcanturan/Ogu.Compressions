@@ -1,20 +1,21 @@
-﻿using System.IO.Compression;
+﻿using Ogu.Compressions.Abstractions;
+using System.IO.Compression;
 using ZstdSharp;
 
 namespace Ogu.Compressions.Tests
 {
-    public class MappingExtensionsTests
+    public class ExtensionsTests
     {
         [Fact]
-        public void ToZstd_ReturnsCorrectCompressionLevel()
+        public void ToZstdLevel_ReturnsCorrectCompressionLevel()
         {
             // Arrange & Act
-            var optimalResult = CompressionLevel.Optimal.ToZstd();
+            var optimalResult = CompressionLevel.Optimal.ToZstdLevel();
 #if NET6_0_OR_GREATER
-            var smallestSizeResult = CompressionLevel.SmallestSize.ToZstd();
+            var smallestSizeResult = CompressionLevel.SmallestSize.ToZstdLevel();
 #endif
-            var fastestResult = CompressionLevel.Fastest.ToZstd();
-            var noCompressionResult = CompressionLevel.NoCompression.ToZstd();
+            var fastestResult = CompressionLevel.Fastest.ToZstdLevel();
+            var noCompressionResult = CompressionLevel.NoCompression.ToZstdLevel();
 
             // Assert
             Assert.Equal(Compressor.MaxCompressionLevel, optimalResult);

@@ -22,7 +22,7 @@ namespace Ogu.Compressions.Tests.DeflateCompression
             Assert.NotNull(_deflateCompression);
             Assert.Equal(EncodingNames.Deflate, _deflateCompression.EncodingName);
             Assert.Equal(CompressionLevel.Fastest, _deflateCompression.Level);
-            Assert.Equal(81920, _deflateCompression.BufferSize);
+            Assert.Equal(CompressionDefaults.BufferSize, _deflateCompression.BufferSize);
         }
 
         [Fact]

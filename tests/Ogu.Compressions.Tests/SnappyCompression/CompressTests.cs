@@ -22,7 +22,7 @@ namespace Ogu.Compressions.Tests.SnappyCompression
             Assert.NotNull(_snappyCompression);
             Assert.Equal(EncodingNames.Snappy, _snappyCompression.EncodingName);
             Assert.Equal(CompressionLevel.Fastest, _snappyCompression.Level);
-            Assert.Equal(81920, _snappyCompression.BufferSize);
+            Assert.Equal(CompressionDefaults.BufferSize, _snappyCompression.BufferSize);
         }
 
         [Fact]

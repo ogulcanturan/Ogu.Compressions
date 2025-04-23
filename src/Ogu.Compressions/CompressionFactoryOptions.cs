@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using Ogu.Compressions.Abstractions;
 using System.IO.Compression;
 
 namespace Ogu.Compressions
@@ -17,7 +18,7 @@ namespace Ogu.Compressions
         /// <remarks>
         /// Value must be greater than zero.
         /// </remarks>
-        public int BufferSize { get; set; } = 81920;
+        public int BufferSize { get; set; } = CompressionDefaults.BufferSize;
 
         CompressionFactoryOptions IOptions<CompressionFactoryOptions>.Value => this;
     }

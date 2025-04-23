@@ -22,7 +22,7 @@ namespace Ogu.Compressions.Tests.ZstdCompression
             Assert.NotNull(_zstdCompression);
             Assert.Equal(EncodingNames.Zstd, _zstdCompression.EncodingName);
             Assert.Equal(CompressionLevel.Fastest, _zstdCompression.Level);
-            Assert.Equal(81920, _zstdCompression.BufferSize);
+            Assert.Equal(CompressionDefaults.BufferSize, _zstdCompression.BufferSize);
         }
 
         [Fact]

@@ -1,4 +1,5 @@
 ﻿using System.IO.Compression;
+using Ogu.Compressions.Abstractions;
 
 namespace Ogu.Compressions.Tests.NoneCompression
 {
@@ -17,7 +18,7 @@ namespace Ogu.Compressions.Tests.NoneCompression
         {
             // Assert
             Assert.NotNull(_noneCompression);
-            Assert.Equal(string.Empty, _noneCompression.EncodingName);
+            Assert.Equal(EncodingNames.None, _noneCompression.EncodingName);
             Assert.Equal(CompressionLevel.Fastest, _noneCompression.Level);
             Assert.Equal(0, _noneCompression.BufferSize);
         }

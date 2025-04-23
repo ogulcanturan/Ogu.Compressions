@@ -74,7 +74,7 @@ namespace Ogu.Compressions.Tests
             Assert.Equal(expected, actual);
             Assert.Equal(13, input.Length);
 
-            input.DisposeAsync();
+            await input.DisposeAsync();
 
             Assert.Throws<ObjectDisposedException>(() => input.Length);
         }

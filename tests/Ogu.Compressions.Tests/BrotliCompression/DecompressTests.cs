@@ -1,6 +1,4 @@
-﻿using System.IO.Compression;
-
-namespace Ogu.Compressions.Tests.BrotliCompression
+﻿namespace Ogu.Compressions.Tests.BrotliCompression
 {
     public partial class BrotliCompressionTests
     {

@@ -22,7 +22,7 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             Assert.NotNull(_brotliCompression);
             Assert.Equal(EncodingNames.Brotli, _brotliCompression.EncodingName);
             Assert.Equal(CompressionLevel.Fastest, _brotliCompression.Level);
-            Assert.Equal(81920, _brotliCompression.BufferSize);
+            Assert.Equal(CompressionDefaults.BufferSize, _brotliCompression.BufferSize);
         }
 
         [Fact]

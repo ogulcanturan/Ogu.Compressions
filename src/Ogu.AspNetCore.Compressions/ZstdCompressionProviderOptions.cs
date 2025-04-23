@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using System.IO.Compression;
+using Ogu.Compressions.Abstractions;
 
 namespace Ogu.AspNetCore.Compressions
 {
@@ -25,7 +26,7 @@ namespace Ogu.AspNetCore.Compressions
         /// <remarks>
         /// Value must be greater than zero.
         /// </remarks>
-        public int BufferSize { get; set; } = 81920;
+        public int BufferSize { get; set; } = CompressionDefaults.BufferSize;
 
 
         ZstdCompressionProviderOptions IOptions<ZstdCompressionProviderOptions>.Value => this;
