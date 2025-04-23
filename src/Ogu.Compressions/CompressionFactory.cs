@@ -47,7 +47,6 @@ namespace Ogu.Compressions
             _noneCompression = noneCompression;
         }
 
-        /// <inheritdoc/>
         public ICompression Get(CompressionType compressionType)
         {
             switch (compressionType)
@@ -68,7 +67,6 @@ namespace Ogu.Compressions
             }
         }
 
-        /// <inheritdoc/>
         public ICompression Get(string encodingName)
         {
             _ = CompressionHelper.TryConvertEncodingNameToCompressionType(encodingName, out var compressionType);

@@ -54,7 +54,7 @@ namespace Ogu.Compressions
 
             foreach (var encodingName in response.Content.Headers.ContentEncoding.Reverse())
             {
-                if (!CompressionHelper.TryConvertEncodingNameToCompressionType(encodingName, out var compressionType))
+                if (!CompressionHelper.TryConvertEncodingNameToCompressionType(encodingName, out var compressionType) || compressionType == CompressionType.None)
                 {
                     return null;
                 }

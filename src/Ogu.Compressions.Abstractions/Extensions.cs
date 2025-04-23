@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Compression;
 using System.Linq;
 using System.Net.Http.Headers;
 
 namespace Ogu.Compressions.Abstractions
 {
-    public static class MappingExtensions
+    public static class Extensions
     {
         private static readonly Lazy<Dictionary<CompressionType, string>> LazyCompressionTypeToEncodingName =
             new Lazy<Dictionary<CompressionType, string>>(() => new Dictionary<CompressionType, string>()
@@ -15,7 +16,7 @@ namespace Ogu.Compressions.Abstractions
                 { CompressionType.Snappy, EncodingNames.Snappy },
                 { CompressionType.Zstd, EncodingNames.Zstd },
                 { CompressionType.Gzip, EncodingNames.Gzip },
-                { CompressionType.None, string.Empty }
+                { CompressionType.None, EncodingNames.None }
             });
 
         public static string ToEncodingName(this CompressionType compressionType)
@@ -23,10 +24,27 @@ namespace Ogu.Compressions.Abstractions
 #if NETSTANDARD2_0
             return LazyCompressionTypeToEncodingName.Value.TryGetValue(compressionType, out var encodingName) 
                 ? encodingName 
-                : string.Empty;
+                : EncodingNames.None;
 #else
-            return LazyCompressionTypeToEncodingName.Value.GetValueOrDefault(compressionType, string.Empty);
+            return LazyCompressionTypeToEncodingName.Value.GetValueOrDefault(compressionType, EncodingNames.None);
 #endif
+        }
+
+        public static int ToZstdLevel(this CompressionLevel level)
+        {
+            switch (level)
+            {
+                case CompressionLevel.Optimal:
+#if NET6_0_OR_GREATER
+                case CompressionLevel.SmallestSize:
+#endif
+                    return 22;
+                case CompressionLevel.Fastest:
+                    return -131072;
+                case CompressionLevel.NoCompression:
+                default:
+                    return 3;
+            }
         }
 
         public static void AddToRequestHeaders(this CompressionType compressionType, HttpRequestHeaders headers)

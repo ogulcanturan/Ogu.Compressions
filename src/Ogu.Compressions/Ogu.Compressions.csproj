@@ -23,7 +23,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Brotli.NET" Version="2.1.1" Condition=" '$(TargetFramework)' == 'netstandard2.0'" />
+		<PackageReference Include="Brotli.NET" Version="2.1.1" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="2.1.0" />
 		<PackageReference Include="Snappier" Version="1.2.0" />
 		<PackageReference Include="ZstdSharp.Port" Version="0.8.5" />

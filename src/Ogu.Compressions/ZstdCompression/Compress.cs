@@ -15,7 +15,7 @@ namespace Ogu.Compressions
         {
             using (var memoryStream = new MemoryStream())
             {
-                using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstd(), BufferSize, leaveOpen: false))
+                using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstdLevel(), BufferSize, leaveOpen: false))
                 {
 #if NETSTANDARD2_0
                     zStdStream.Write(bytes, 0, bytes.Length);
@@ -32,7 +32,7 @@ namespace Ogu.Compressions
         {
             using (var memoryStream = new MemoryStream())
             {
-                using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstd(), BufferSize, leaveOpen: false))
+                using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstdLevel(), BufferSize, leaveOpen: false))
                 {
                     stream.CopyTo(zStdStream);
                 }
@@ -54,7 +54,7 @@ namespace Ogu.Compressions
         {
             using (var memoryStream = new MemoryStream())
             {
-                using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstd(), BufferSize, leaveOpen: false))
+                using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstdLevel(), BufferSize, leaveOpen: false))
                 {
 #if NETSTANDARD2_0
                     await zStdStream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
@@ -71,7 +71,7 @@ namespace Ogu.Compressions
         {
             using (var memoryStream = new MemoryStream())
             {
-                using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstd(), BufferSize, leaveOpen: false))
+                using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstdLevel(), BufferSize, leaveOpen: false))
                 {
 #if NETSTANDARD2_0
                     await stream.CopyToAsync(zStdStream).ConfigureAwait(false);
@@ -103,7 +103,7 @@ namespace Ogu.Compressions
 
             try
             {
-                using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstd(), BufferSize, leaveOpen: true))
+                using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstdLevel(), BufferSize, leaveOpen: true))
                 {
 #if NETSTANDARD2_0
                     await zStdStream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
@@ -133,7 +133,7 @@ namespace Ogu.Compressions
 
             try
             {
-                using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstd(), BufferSize, leaveOpen: true))
+                using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstdLevel(), BufferSize, leaveOpen: true))
                 {
 #if NETSTANDARD2_0
                     await stream.CopyToAsync(zStdStream).ConfigureAwait(false);
@@ -176,7 +176,7 @@ namespace Ogu.Compressions
 
             try
             {
-                using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstd(), BufferSize, leaveOpen: true))
+                using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstdLevel(), BufferSize, leaveOpen: true))
                 {
 #if NETSTANDARD2_0
                     zStdStream.Write(bytes, 0, bytes.Length);
@@ -203,7 +203,7 @@ namespace Ogu.Compressions
 
             try
             {
-                using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstd(), BufferSize, leaveOpen: true))
+                using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstdLevel(), BufferSize, leaveOpen: true))
                 {
                     stream.CopyTo(zStdStream);
                 }

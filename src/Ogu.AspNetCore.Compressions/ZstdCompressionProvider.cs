@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Options;
-using Ogu.Compressions;
 using Ogu.Compressions.Abstractions;
 using System.IO;
 
@@ -14,7 +13,8 @@ namespace Ogu.AspNetCore.Compressions
         public ZstdCompressionProvider(IOptions<ZstdCompressionProviderOptions> options)
         {
             var optionsValue = options.Value;
-            _compressionLevel = optionsValue.Level.ToZstd();
+
+            _compressionLevel = optionsValue.Level.ToZstdLevel();
             _bufferSize = optionsValue.BufferSize;
         }
 
@@ -24,7 +24,7 @@ namespace Ogu.AspNetCore.Compressions
 
         public Stream CreateStream(Stream outputStream)
         {
-            return new ZstdSharp.CompressionStream(outputStream, _compressionLevel, _bufferSize,  leaveOpen: true);
+            return new ZstdSharp.CompressionStream(outputStream, _compressionLevel, _bufferSize, leaveOpen: true);
         }
     }
 }

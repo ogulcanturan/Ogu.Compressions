@@ -16,14 +16,14 @@ namespace Ogu.Compressions.Abstractions
         /// Returns <c>null</c> if no matching service is found.
         /// </summary>
         /// <param name="compressionType">The type of compression to retrieve.</param>
-        /// <returns>An <see cref="ICompression"/> instance if available; otherwise, <c>null</c>.</returns>
+        /// <returns>A <see cref="ICompression"/> instance if available; otherwise, <c>null</c>.</returns>
         ICompression Get(CompressionType compressionType);
 
         /// <summary>
         /// Retrieves a compression implementation based on the specified encoding name.
         /// Returns a "none" compression implementation if no match is found, or <c>null</c> if no applicable service is available.
         /// </summary>
-        /// <param name="encodingName">The name of the encoding (e.g. "br", "deflate", "snappy", "zstd", "gzip" or "" for NoneCompression.)</param>
+        /// <param name="encodingName">The name of the encoding (e.g. "br", "deflate", "snappy", "zstd", "gzip" or "none" for NoneCompression.)</param>
         /// <returns>An <see cref="ICompression"/> instance, a "none" compression if not matched, or <c>null</c> if unavailable.</returns>
         ICompression Get(string encodingName);
 

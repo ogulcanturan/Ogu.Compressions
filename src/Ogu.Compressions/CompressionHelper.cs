@@ -15,7 +15,8 @@ namespace Ogu.Compressions
                 { EncodingNames.Snappy, CompressionType.Snappy },
                 { "zstandard", CompressionType.Zstd },
                 { EncodingNames.Zstd, CompressionType.Zstd },
-                { EncodingNames.Gzip, CompressionType.Gzip }
+                { EncodingNames.Gzip, CompressionType.Gzip },
+                { EncodingNames.None, CompressionType.None }
             });
 
         public static bool TryConvertEncodingNameToCompressionType(string encodingName, out CompressionType compressionType)
