@@ -29,8 +29,11 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
+      - name: Restore Dependencies
+        run: dotnet restore
+
       - name: Build Project
-        run: dotnet build --configuration Release /p:Version=${{ github.event.inputs.version_number }}
+        run: dotnet build --no-restore --configuration Release /p:Version=${{ github.event.inputs.version_number }}
 
       - name: Test Project
         run: dotnet test --configuration Release --no-build
@@ -40,8 +43,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - name: Pack NuGet package
+      - name: Create NuGet Packages
         run: dotnet pack --configuration Release --output nupkgs /p:PackageVersion=${{ github.event.inputs.version_number }} --no-build
 
-      - name: Push NuGet packages
+      - name: Push NuGet Packages
         run: dotnet nuget push nupkgs/*.nupkg --skip-duplicate --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
