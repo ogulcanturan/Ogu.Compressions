@@ -13,19 +13,19 @@ namespace Ogu.Compressions.Abstractions
     {
         /// <summary>
         /// Retrieves a compression implementation based on the specified <see cref="CompressionType"/>.
-        /// Returns <c>null</c> if no matching service is found.
+        /// Returns <see cref="CompressionType.None" /> compression if no matching service is found.
         /// </summary>
         /// <param name="compressionType">The type of compression to retrieve.</param>
-        /// <returns>A <see cref="ICompression"/> instance if available; otherwise, <c>null</c>.</returns>
-        ICompression Get(CompressionType compressionType);
+        /// <returns>A <see cref="ICompression"/> instance if available; otherwise, <c><see cref="CompressionType.None" /></c> compression.</returns>
+        ICompression GetCompression(CompressionType compressionType);
 
         /// <summary>
         /// Retrieves a compression implementation based on the specified encoding name.
         /// Returns a "none" compression implementation if no match is found, or <c>null</c> if no applicable service is available.
         /// </summary>
-        /// <param name="encodingName">The name of the encoding (e.g. "br", "deflate", "snappy", "zstd", "gzip" or "none" for NoneCompression.)</param>
-        /// <returns>An <see cref="ICompression"/> instance, a "none" compression if not matched, or <c>null</c> if unavailable.</returns>
-        ICompression Get(string encodingName);
+        /// <param name="encodingName">The name of the encoding. e.g., "br", "deflate", "snappy", "zstd", "gzip" or "none" (used internally to indicate no compression; does not correspond to a real encoding header).</param>
+        /// <returns>An <see cref="ICompression"/> instance, a "none" compression if not matched.</returns>
+        ICompression GetCompression(string encodingName);
 
         Task<byte[]> CompressAsync(CompressionType compressionType, string input, CancellationToken cancellationToken = default);
         Task<byte[]> CompressAsync(string encodingName, string input, CancellationToken cancellationToken = default);

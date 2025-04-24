@@ -1,18 +1,32 @@
-﻿using Ogu.Compressions.Abstractions;
-using System.IO;
+﻿using System.IO;
 using System.IO.Compression;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ogu.Compressions
+namespace Ogu.Compressions.Abstractions
 {
-    public abstract partial class CompressionBase : ICompression
+    /// <summary>
+    /// Represents the base class for compression algorithms.
+    /// </summary>
+    public abstract class CompressionBase : ICompression
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CompressionBase"/> class using the specified compression options.
+        /// </summary>
+        /// <param name="options">The <see cref="CompressionOptions"/> that contains the encoding name, buffer size, compression type, and compression level.</param>
         protected CompressionBase(CompressionOptions options) : this(options.EncodingName, options.BufferSize, options.Type, options.Level)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CompressionBase"/> class with the specified encoding name, buffer size, compression type, and compression level.
+        /// </summary>
+        /// <param name="encodingName">The name of the compression encoding (e.g., "gzip", "deflate", etc.).</param>
+        /// <param name="bufferSize">The size of the buffer used for compression operations.</param>
+        /// <param name="type">The type of compression algorithm to be used.</param>
+        /// <param name="level">The compression level to be applied during compression.</param>
         protected CompressionBase(string encodingName, int bufferSize, CompressionType type, CompressionLevel level)
         {
             EncodingName = encodingName;
@@ -59,9 +73,9 @@ namespace Ogu.Compressions
             return InternalCompressAsync(bytes, level, cancellationToken);
         }
 
-        public Task<byte[]> CompressAsync(Stream stream, bool leaveOpen, CompressionLevel compressionLevel, CancellationToken cancellationToken = default)
+        public Task<byte[]> CompressAsync(Stream stream, bool leaveOpen, CompressionLevel level, CancellationToken cancellationToken = default)
         {
-            return InternalCompressAsync(stream, compressionLevel, leaveOpen, cancellationToken);
+            return InternalCompressAsync(stream, level, leaveOpen, cancellationToken);
         }
 
         public Task<byte[]> CompressAsync(Stream stream, CompressionLevel level, CancellationToken cancellationToken = default)
@@ -104,9 +118,9 @@ namespace Ogu.Compressions
             return InternalCompressToStreamAsync(stream, level, leaveOpen: false, cancellationToken);
         }
 
-        public Task<Stream> CompressToStreamAsync(Stream stream, bool leaveOpen, CompressionLevel compressionLevel, CancellationToken cancellationToken = default)
+        public Task<Stream> CompressToStreamAsync(Stream stream, bool leaveOpen, CompressionLevel level, CancellationToken cancellationToken = default)
         {
-            return InternalCompressToStreamAsync(stream, compressionLevel, leaveOpen, cancellationToken);
+            return InternalCompressToStreamAsync(stream, level, leaveOpen, cancellationToken);
         }
 
         public byte[] Compress(string input)
@@ -184,9 +198,9 @@ namespace Ogu.Compressions
             return InternalCompressToStream(stream, level, leaveOpen: false);
         }
 
-        public Stream CompressToStream(Stream stream, bool leaveOpen, CompressionLevel compressionLevel)
+        public Stream CompressToStream(Stream stream, bool leaveOpen, CompressionLevel level)
         {
-            return InternalCompressToStream(stream, compressionLevel, leaveOpen);
+            return InternalCompressToStream(stream, level, leaveOpen);
         }
 
         protected abstract Task<byte[]> InternalCompressAsync(byte[] bytes, CompressionLevel level, CancellationToken cancellationToken = default);
@@ -204,5 +218,68 @@ namespace Ogu.Compressions
         protected abstract Stream InternalCompressToStream(byte[] bytes, CompressionLevel compressionLevel);
 
         protected abstract Stream InternalCompressToStream(Stream stream, CompressionLevel compressionLevel, bool leaveOpen);
+
+        public Task<byte[]> DecompressAsync(byte[] bytes, CancellationToken cancellationToken = default)
+        {
+            return InternalDecompressAsync(bytes, BufferSize, cancellationToken);
+        }
+
+        public Task<byte[]> DecompressAsync(Stream stream, CancellationToken cancellationToken = default)
+        {
+            return InternalDecompressAsync(stream, leaveOpen: false, BufferSize, cancellationToken);
+        }
+
+        public Task<byte[]> DecompressAsync(Stream stream, bool leaveOpen, CancellationToken cancellationToken = default)
+        {
+            return InternalDecompressAsync(stream, leaveOpen, BufferSize, cancellationToken);
+        }
+
+        public Task<Stream> DecompressToStreamAsync(byte[] bytes, CancellationToken cancellationToken = default)
+        {
+            return InternalDecompressToStreamAsync(bytes, cancellationToken);
+        }
+
+        public Task<Stream> DecompressToStreamAsync(Stream stream, CancellationToken cancellationToken = default)
+        {
+            return InternalDecompressToStreamAsync(stream, leaveOpen: false, BufferSize, cancellationToken);
+        }
+
+        public Task<Stream> DecompressToStreamAsync(Stream stream, bool leaveOpen, CancellationToken cancellationToken = default)
+        {
+            return InternalDecompressToStreamAsync(stream, leaveOpen, BufferSize, cancellationToken);
+        }
+
+        public Task<Stream> DecompressToStreamAsync(HttpContent httpContent, CancellationToken cancellationToken = default)
+        {
+            return InternalDecompressToStreamAsync(httpContent, leaveOpen: false, BufferSize, cancellationToken);
+        }
+
+        public Task<Stream> DecompressToStreamAsync(HttpContent httpContent, bool leaveOpen, CancellationToken cancellationToken = default)
+        {
+            return InternalDecompressToStreamAsync(httpContent, leaveOpen, BufferSize, cancellationToken);
+        }
+
+        public byte[] Decompress(byte[] bytes)
+        {
+            return InternalDecompress(bytes);
+        }
+
+        public byte[] Decompress(Stream stream)
+        {
+            return InternalDecompress(stream, leaveOpen: false);
+        }
+
+        public byte[] Decompress(Stream stream, bool leaveOpen)
+        {
+            return InternalDecompress(stream, leaveOpen);
+        }
+
+        protected abstract Task<byte[]> InternalDecompressAsync(byte[] bytes, int bufferSize, CancellationToken cancellationToken = default);
+        protected abstract Task<byte[]> InternalDecompressAsync(Stream stream, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default);
+        protected abstract Task<Stream> InternalDecompressToStreamAsync(byte[] bytes, CancellationToken cancellationToken = default);
+        protected abstract Task<Stream> InternalDecompressToStreamAsync(Stream stream, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default);
+        protected abstract Task<Stream> InternalDecompressToStreamAsync(HttpContent httpContent, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default);
+        protected abstract byte[] InternalDecompress(byte[] bytes);
+        protected abstract byte[] InternalDecompress(Stream stream, bool leaveOpen);
     }
 }

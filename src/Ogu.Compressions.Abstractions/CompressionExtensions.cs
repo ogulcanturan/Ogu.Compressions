@@ -6,7 +6,10 @@ using System.Net.Http.Headers;
 
 namespace Ogu.Compressions.Abstractions
 {
-    public static class Extensions
+    /// <summary>
+    /// Provides extension methods for working with compression types.
+    /// </summary>
+    public static class CompressionExtensions
     {
         private static readonly Lazy<Dictionary<CompressionType, string>> LazyCompressionTypeToEncodingName =
             new Lazy<Dictionary<CompressionType, string>>(() => new Dictionary<CompressionType, string>
@@ -94,7 +97,12 @@ namespace Ogu.Compressions.Abstractions
                 case CompressionLevel.NoCompression:
                     return -131072;
                 default:
-                    return Math.Max(22, Math.Min(-131072, (int)level));
+
+                    var value = (int)level;
+
+                    return value < -131072 || value > 22
+                        ? Math.Max(22, Math.Min(-131072, value))
+                        : value;
             }
         }
 
@@ -223,5 +231,12 @@ namespace Ogu.Compressions.Abstractions
                 requestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue(kvp.Key.ToEncodingName(), kvp.Value));
             }
         }
+
+#if NETSTANDARD2_0
+        public static TValue GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue = default)
+        {
+            return dictionary.TryGetValue(key, out var value) ? value : defaultValue;
+        }
+#endif
     }
 }

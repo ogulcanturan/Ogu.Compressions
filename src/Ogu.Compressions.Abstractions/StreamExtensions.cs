@@ -2,10 +2,19 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ogu.Compressions
+namespace Ogu.Compressions.Abstractions
 {
+    /// <summary>
+    /// Provides extension methods for the <see cref="Stream"/> class.
+    /// </summary>
     public static class StreamExtensions
     {
+        /// <summary>
+        /// Reads all bytes from the specified stream and returns them as a <see cref="byte"/> array.
+        /// </summary>
+        /// <param name="stream">The stream to read from.</param>
+        /// <param name="leaveOpen">If true, the stream will not be disposed after reading.</param>
+        /// <returns>A <see cref="byte"/> array containing the bytes read from the stream.</returns>
         public static byte[] ReadAllBytes(this Stream stream, bool leaveOpen)
         {
             if (stream is MemoryStream memoryStream)
@@ -35,6 +44,13 @@ namespace Ogu.Compressions
             }
         }
 
+        /// <summary>
+        /// Reads all bytes from the specified stream asynchronously and returns them as a <see cref="byte"/> array.
+        /// </summary>
+        /// <param name="stream">The stream to read from.</param>
+        /// <param name="leaveOpen">If true, the stream will not be disposed after reading.</param>
+        /// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
+        /// <returns>A task that represents the asynchronous operation, which wraps the <see cref="byte"/> array containing the bytes read from the stream.</returns>
         public static async Task<byte[]> ReadAllBytesAsync(this Stream stream, bool leaveOpen, CancellationToken cancellationToken = default)
         {
             if (stream is MemoryStream memoryStream)

@@ -78,7 +78,7 @@ namespace Ogu.Compressions
                     return false;
                 }
 
-                var compression = compressionFactory.Get(compressionType);
+                var compression = compressionFactory.GetCompression(compressionType);
 
                 if (compression == null)
                 {

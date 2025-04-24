@@ -1,50 +1,29 @@
-﻿using Microsoft.Extensions.Options;
-using Ogu.Compressions.Abstractions;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ogu.Compressions
+namespace Ogu.Compressions.Abstractions
 {
-    public class CompressionFactory : ICompressionFactory
+    public class CompressionProvider : ICompressionFactory
     {
-        private readonly IBrotliCompression _brotliCompression;
-        private readonly IDeflateCompression _deflateCompression;
-        private readonly ISnappyCompression _snappyCompression;
-        private readonly IZstdCompression _zstdCompression;
-        private readonly IGzipCompression _gzipCompression;
-        private readonly INoneCompression _noneCompression;
+        private readonly Dictionary<CompressionType, ICompression> _compressions;
 
-        public CompressionFactory() : this(new CompressionFactoryOptions()) { }
-
-        public CompressionFactory(IOptions<CompressionFactoryOptions> opts)
+        public CompressionProvider(IEnumerable<ICompression> compressions)
         {
-            var compressionFactoryOptions = opts.Value;
-
-            _brotliCompression = new BrotliCompression(new BrotliCompressionOptions(compressionFactoryOptions.Level, compressionFactoryOptions.BufferSize));
-            _deflateCompression = new DeflateCompression(new DeflateCompressionOptions(compressionFactoryOptions.Level, compressionFactoryOptions.BufferSize));
-            _snappyCompression = new SnappyCompression(new SnappyCompressionOptions(compressionFactoryOptions.Level, compressionFactoryOptions.BufferSize));
-            _zstdCompression = new ZstdCompression(new ZstdCompressionOptions(compressionFactoryOptions.Level, compressionFactoryOptions.BufferSize));
-            _gzipCompression = new GzipCompression(new GzipCompressionOptions(compressionFactoryOptions.Level, compressionFactoryOptions.BufferSize));
-            _noneCompression = new NoneCompression();
+            _compressions = compressions
+                .GroupBy(compressor => compressor.Type)
+                .ToDictionary(
+                    compressor => compressor.Key,
+                    compressor => compressor.LastOrDefault());
         }
 
-        public CompressionFactory(
-            IBrotliCompression brotliCompression, 
-            IDeflateCompression deflateCompression, 
-            ISnappyCompression snappyCompression, 
-            IZstdCompression zstdCompression, 
-            IGzipCompression gzipCompression, 
-            INoneCompression noneCompression)
+        public IEnumerable<ICompression> GetCompressions()
         {
-            _brotliCompression = brotliCompression;
-            _deflateCompression = deflateCompression;
-            _snappyCompression = snappyCompression;
-            _zstdCompression = zstdCompression;
-            _gzipCompression = gzipCompression;
-            _noneCompression = noneCompression;
+            return _compressions.Values;
         }
 
         public ICompression GetCompression(CompressionType compressionType)
@@ -52,406 +31,444 @@ namespace Ogu.Compressions
             switch (compressionType)
             {
                 case CompressionType.Brotli:
-                    return _brotliCompression;
+                    {
+                        return _compressions.GetValueOrDefault(CompressionType.Brotli);
+                    }
                 case CompressionType.Deflate:
-                    return _deflateCompression;
+                    {
+                        return _compressions.GetValueOrDefault(CompressionType.Deflate);
+                    }
                 case CompressionType.Snappy:
-                    return _snappyCompression;
+                    {
+                        return _compressions.GetValueOrDefault(CompressionType.Snappy);
+
+                    }
                 case CompressionType.Zstd:
-                    return _zstdCompression;
+                    {
+                        return _compressions.GetValueOrDefault(CompressionType.Zstd);
+
+                    }
                 case CompressionType.Gzip:
-                    return _gzipCompression;
+                    {
+                        return _compressions.GetValueOrDefault(CompressionType.Gzip);
+
+                    }
                 case CompressionType.None:
+                    {
+                        return _compressions.GetValueOrDefault(CompressionType.None);
+                    }
                 default:
-                    return _noneCompression;
+                    return null;
             }
         }
 
         public ICompression GetCompression(string encodingName)
         {
-            _ = CompressionHelper.TryConvertEncodingNameToCompressionType(encodingName, out var compressionType);
+            return CompressionHelper.TryConvertEncodingNameToCompressionType(encodingName, out var compressionType)
+                ? GetCompression(compressionType)
+                : null;
+        }
 
-            return GetCompression(compressionType);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        /// <exception cref="CompressorNotAvailableException"></exception>
+        public ICompression GetRequiredCompression(CompressionType type)
+        {
+            return GetCompression(type) ?? throw new CompressorNotAvailableException(type);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="encodingName"></param>
+        /// <returns></returns>
+        /// <exception cref="CompressorNotAvailableException"></exception>
+        public ICompression GetRequiredCompression(string encodingName)
+        {
+            return GetCompression(encodingName) ?? throw new CompressorNotAvailableException(encodingName);
         }
 
         public Task<byte[]> CompressAsync(CompressionType compressionType, string input, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).CompressAsync(input, cancellationToken);
+            return GetRequiredCompression(compressionType).CompressAsync(input, cancellationToken);
         }
 
         public Task<byte[]> CompressAsync(string encodingName, string input, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).CompressAsync(input, cancellationToken);
+            return GetRequiredCompression(encodingName).CompressAsync(input, cancellationToken);
         }
 
         public Task<byte[]> CompressAsync(CompressionType compressionType, byte[] bytes, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).CompressAsync(bytes, cancellationToken);
+            return GetRequiredCompression(compressionType).CompressAsync(bytes, cancellationToken);
         }
 
         public Task<byte[]> CompressAsync(string encodingName, byte[] bytes, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).CompressAsync(bytes, cancellationToken);
+            return GetRequiredCompression(encodingName).CompressAsync(bytes, cancellationToken);
         }
 
         public Task<byte[]> CompressAsync(CompressionType compressionType, Stream stream, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).CompressAsync(stream, cancellationToken);
+            return GetRequiredCompression(compressionType).CompressAsync(stream, cancellationToken);
         }
 
         public Task<byte[]> CompressAsync(string encodingName, Stream stream, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).CompressAsync(stream, cancellationToken);
+            return GetRequiredCompression(encodingName).CompressAsync(stream, cancellationToken);
         }
 
         public Task<byte[]> CompressAsync(CompressionType compressionType, Stream stream, bool leaveOpen, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).CompressAsync(stream, cancellationToken);
+            return GetRequiredCompression(compressionType).CompressAsync(stream, cancellationToken);
         }
 
         public Task<byte[]> CompressAsync(string encodingName, Stream stream, bool leaveOpen, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).CompressAsync(stream, cancellationToken);
+            return GetRequiredCompression(encodingName).CompressAsync(stream, cancellationToken);
         }
 
         public Task<byte[]> CompressAsync(CompressionType compressionType, string input, CompressionLevel level, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).CompressAsync(input, level, cancellationToken);
+            return GetRequiredCompression(compressionType).CompressAsync(input, level, cancellationToken);
         }
 
         public Task<byte[]> CompressAsync(string encodingName, string input, CompressionLevel level, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).CompressAsync(input, level, cancellationToken);
+            return GetRequiredCompression(encodingName).CompressAsync(input, level, cancellationToken);
         }
 
         public Task<byte[]> CompressAsync(CompressionType compressionType, byte[] bytes, CompressionLevel level, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).CompressAsync(bytes, level, cancellationToken);
+            return GetRequiredCompression(compressionType).CompressAsync(bytes, level, cancellationToken);
         }
 
         public Task<byte[]> CompressAsync(string encodingName, byte[] bytes, CompressionLevel level, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).CompressAsync(bytes, level, cancellationToken);
+            return GetRequiredCompression(encodingName).CompressAsync(bytes, level, cancellationToken);
         }
 
         public Task<byte[]> CompressAsync(CompressionType compressionType, Stream stream, CompressionLevel level, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).CompressAsync(stream, level, cancellationToken);
+            return GetRequiredCompression(compressionType).CompressAsync(stream, level, cancellationToken);
         }
 
         public Task<byte[]> CompressAsync(string encodingName, Stream stream, bool leaveOpen, CompressionLevel level, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).CompressAsync(stream, level, cancellationToken);
+            return GetRequiredCompression(encodingName).CompressAsync(stream, level, cancellationToken);
         }
 
         public Task<Stream> CompressToStreamAsync(CompressionType compressionType, string input, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).CompressToStreamAsync(input, cancellationToken);
+            return GetRequiredCompression(compressionType).CompressToStreamAsync(input, cancellationToken);
         }
 
         public Task<Stream> CompressToStreamAsync(string encodingName, string input, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).CompressToStreamAsync(input, cancellationToken);
+            return GetRequiredCompression(encodingName).CompressToStreamAsync(input, cancellationToken);
         }
 
         public Task<Stream> CompressToStreamAsync(CompressionType compressionType, byte[] bytes, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).CompressToStreamAsync(bytes, cancellationToken);
+            return GetRequiredCompression(compressionType).CompressToStreamAsync(bytes, cancellationToken);
         }
 
         public Task<Stream> CompressToStreamAsync(string encodingName, byte[] bytes, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).CompressToStreamAsync(bytes, cancellationToken);
+            return GetRequiredCompression(encodingName).CompressToStreamAsync(bytes, cancellationToken);
         }
 
         public Task<Stream> CompressToStreamAsync(CompressionType compressionType, Stream stream, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).CompressToStreamAsync(stream, cancellationToken);
+            return GetRequiredCompression(compressionType).CompressToStreamAsync(stream, cancellationToken);
         }
 
         public Task<Stream> CompressToStreamAsync(string encodingName, Stream stream, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).CompressToStreamAsync(stream, cancellationToken);
+            return GetRequiredCompression(encodingName).CompressToStreamAsync(stream, cancellationToken);
         }
 
         public Task<Stream> CompressToStreamAsync(CompressionType compressionType, Stream stream, bool leaveOpen, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).CompressToStreamAsync(stream, cancellationToken);
+            return GetRequiredCompression(compressionType).CompressToStreamAsync(stream, cancellationToken);
         }
 
         public Task<Stream> CompressToStreamAsync(string encodingName, Stream stream, bool leaveOpen, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).CompressToStreamAsync(stream, cancellationToken);
+            return GetRequiredCompression(encodingName).CompressToStreamAsync(stream, cancellationToken);
         }
 
         public Task<Stream> CompressToStreamAsync(CompressionType compressionType, string input, CompressionLevel level, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).CompressToStreamAsync(input, level, cancellationToken);
+            return GetRequiredCompression(compressionType).CompressToStreamAsync(input, level, cancellationToken);
         }
 
         public Task<Stream> CompressToStreamAsync(string encodingName, string input, CompressionLevel level, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).CompressToStreamAsync(input, level, cancellationToken);
+            return GetRequiredCompression(encodingName).CompressToStreamAsync(input, level, cancellationToken);
         }
 
         public Task<Stream> CompressToStreamAsync(CompressionType compressionType, byte[] bytes, CompressionLevel level, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).CompressToStreamAsync(bytes, level, cancellationToken);
+            return GetRequiredCompression(compressionType).CompressToStreamAsync(bytes, level, cancellationToken);
         }
 
         public Task<Stream> CompressToStreamAsync(string encodingName, byte[] bytes, CompressionLevel level, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).CompressToStreamAsync(bytes, level, cancellationToken);
+            return GetRequiredCompression(encodingName).CompressToStreamAsync(bytes, level, cancellationToken);
         }
 
         public Task<Stream> CompressToStreamAsync(CompressionType compressionType, Stream stream, CompressionLevel level, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).CompressToStreamAsync(stream, level, cancellationToken);
+            return GetRequiredCompression(compressionType).CompressToStreamAsync(stream, level, cancellationToken);
         }
 
         public Task<Stream> CompressToStreamAsync(string encodingName, Stream stream, bool leaveOpen, CompressionLevel level, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).CompressToStreamAsync(stream, level, cancellationToken);
+            return GetRequiredCompression(encodingName).CompressToStreamAsync(stream, level, cancellationToken);
         }
 
         public byte[] Compress(CompressionType compressionType, string input)
         {
-            return GetCompression(compressionType).Compress(input);
+            return GetRequiredCompression(compressionType).Compress(input);
         }
 
         public byte[] Compress(string encodingName, string input)
         {
-            return GetCompression(encodingName).Compress(input);
+            return GetRequiredCompression(encodingName).Compress(input);
         }
 
         public byte[] Compress(CompressionType compressionType, byte[] bytes)
         {
-            return GetCompression(compressionType).Compress(bytes);
+            return GetRequiredCompression(compressionType).Compress(bytes);
         }
 
         public byte[] Compress(string encodingName, byte[] bytes)
         {
-            return GetCompression(encodingName).Compress(bytes);
+            return GetRequiredCompression(encodingName).Compress(bytes);
         }
 
         public byte[] Compress(CompressionType compressionType, Stream stream)
         {
-            return GetCompression(compressionType).Compress(stream);
+            return GetRequiredCompression(compressionType).Compress(stream);
         }
 
         public byte[] Compress(string encodingName, Stream stream)
         {
-            return GetCompression(encodingName).Compress(stream);
+            return GetRequiredCompression(encodingName).Compress(stream);
         }
 
         public byte[] Compress(CompressionType compressionType, Stream stream, bool leaveOpen)
         {
-            return GetCompression(compressionType).Compress(stream);
+            return GetRequiredCompression(compressionType).Compress(stream);
         }
 
         public byte[] Compress(string encodingName, Stream stream, bool leaveOpen)
         {
-            return GetCompression(encodingName).Compress(stream);
+            return GetRequiredCompression(encodingName).Compress(stream);
         }
 
         public byte[] Compress(CompressionType compressionType, string input, CompressionLevel level)
         {
-            return GetCompression(compressionType).Compress(input, level);
+            return GetRequiredCompression(compressionType).Compress(input, level);
         }
 
         public byte[] Compress(string encodingName, string input, CompressionLevel level)
         {
-            return GetCompression(encodingName).Compress(input, level);
+            return GetRequiredCompression(encodingName).Compress(input, level);
         }
 
         public byte[] Compress(CompressionType compressionType, byte[] bytes, CompressionLevel level)
         {
-            return GetCompression(compressionType).Compress(bytes, level);
+            return GetRequiredCompression(compressionType).Compress(bytes, level);
         }
 
         public byte[] Compress(string encodingName, byte[] bytes, CompressionLevel level)
         {
-            return GetCompression(encodingName).Compress(bytes, level);
+            return GetRequiredCompression(encodingName).Compress(bytes, level);
         }
 
         public byte[] Compress(CompressionType compressionType, Stream stream, CompressionLevel level)
         {
-            return GetCompression(compressionType).Compress(stream, level);
+            return GetRequiredCompression(compressionType).Compress(stream, level);
         }
 
         public byte[] Compress(string encodingName, Stream stream, bool leaveOpen, CompressionLevel level)
         {
-            return GetCompression(encodingName).Compress(stream, level);
+            return GetRequiredCompression(encodingName).Compress(stream, level);
         }
 
         public Stream CompressToStream(CompressionType compressionType, string input)
         {
-            return GetCompression(compressionType).CompressToStream(input);
+            return GetRequiredCompression(compressionType).CompressToStream(input);
         }
 
         public Stream CompressToStream(string encodingName, string input)
         {
-            return GetCompression(encodingName).CompressToStream(input);
+            return GetRequiredCompression(encodingName).CompressToStream(input);
         }
 
         public Stream CompressToStream(CompressionType compressionType, byte[] bytes)
         {
-            return GetCompression(compressionType).CompressToStream(bytes);
+            return GetRequiredCompression(compressionType).CompressToStream(bytes);
         }
 
         public Stream CompressToStream(string encodingName, byte[] bytes)
         {
-            return GetCompression(encodingName).CompressToStream(bytes);
+            return GetRequiredCompression(encodingName).CompressToStream(bytes);
         }
 
         public Stream CompressToStream(CompressionType compressionType, Stream stream)
         {
-            return GetCompression(compressionType).CompressToStream(stream);
+            return GetRequiredCompression(compressionType).CompressToStream(stream);
         }
 
         public Stream CompressToStream(string encodingName, Stream stream)
         {
-            return GetCompression(encodingName).CompressToStream(stream);
+            return GetRequiredCompression(encodingName).CompressToStream(stream);
         }
 
         public Stream CompressToStream(CompressionType compressionType, Stream stream, bool leaveOpen)
         {
-            return GetCompression(compressionType).CompressToStream(stream);
+            return GetRequiredCompression(compressionType).CompressToStream(stream);
         }
 
         public Stream CompressToStream(string encodingName, Stream stream, bool leaveOpen)
         {
-            return GetCompression(encodingName).CompressToStream(stream);
+            return GetRequiredCompression(encodingName).CompressToStream(stream);
         }
 
         public Stream CompressToStream(CompressionType compressionType, string input, CompressionLevel level)
         {
-            return GetCompression(compressionType).CompressToStream(input, level);
+            return GetRequiredCompression(compressionType).CompressToStream(input, level);
         }
 
         public Stream CompressToStream(string encodingName, string input, CompressionLevel level)
         {
-            return GetCompression(encodingName).CompressToStream(input, level);
+            return GetRequiredCompression(encodingName).CompressToStream(input, level);
         }
 
         public Stream CompressToStream(CompressionType compressionType, byte[] bytes, CompressionLevel level)
         {
-            return GetCompression(compressionType).CompressToStream(bytes, level);
+            return GetRequiredCompression(compressionType).CompressToStream(bytes, level);
         }
 
         public Stream CompressToStream(string encodingName, byte[] bytes, CompressionLevel level)
         {
-            return GetCompression(encodingName).CompressToStream(bytes, level);
+            return GetRequiredCompression(encodingName).CompressToStream(bytes, level);
         }
 
         public Stream CompressToStream(CompressionType compressionType, Stream stream, CompressionLevel level)
         {
-            return GetCompression(compressionType).CompressToStream(stream, level);
+            return GetRequiredCompression(compressionType).CompressToStream(stream, level);
         }
 
         public Stream CompressToStream(string encodingName, Stream stream, bool leaveOpen, CompressionLevel level)
         {
-            return GetCompression(encodingName).CompressToStream(stream, level);
+            return GetRequiredCompression(encodingName).CompressToStream(stream, level);
         }
 
         public Task<byte[]> DecompressAsync(CompressionType compressionType, byte[] bytes, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).DecompressAsync(bytes, cancellationToken);
+            return GetRequiredCompression(compressionType).DecompressAsync(bytes, cancellationToken);
         }
 
         public Task<byte[]> DecompressAsync(string encodingName, byte[] bytes, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).DecompressAsync(bytes, cancellationToken);
+            return GetRequiredCompression(encodingName).DecompressAsync(bytes, cancellationToken);
         }
 
         public Task<byte[]> DecompressAsync(CompressionType compressionType, Stream stream, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).DecompressAsync(stream, cancellationToken);
+            return GetRequiredCompression(compressionType).DecompressAsync(stream, cancellationToken);
         }
 
         public Task<byte[]> DecompressAsync(string encodingName, Stream stream, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).DecompressAsync(stream, cancellationToken);
+            return GetRequiredCompression(encodingName).DecompressAsync(stream, cancellationToken);
         }
 
         public Task<byte[]> DecompressAsync(CompressionType compressionType, Stream stream, bool leaveOpen, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).DecompressAsync(stream, leaveOpen, cancellationToken);
+            return GetRequiredCompression(compressionType).DecompressAsync(stream, leaveOpen, cancellationToken);
         }
 
         public Task<byte[]> DecompressAsync(string encodingName, Stream stream, bool leaveOpen, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).DecompressAsync(stream, leaveOpen, cancellationToken);
+            return GetRequiredCompression(encodingName).DecompressAsync(stream, leaveOpen, cancellationToken);
         }
 
         public Task<Stream> DecompressToStreamAsync(CompressionType compressionType, byte[] bytes, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).DecompressToStreamAsync(bytes, cancellationToken);
+            return GetRequiredCompression(compressionType).DecompressToStreamAsync(bytes, cancellationToken);
         }
 
         public Task<Stream> DecompressToStreamAsync(string encodingName, byte[] bytes, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).DecompressToStreamAsync(bytes, cancellationToken);
+            return GetRequiredCompression(encodingName).DecompressToStreamAsync(bytes, cancellationToken);
         }
 
         public Task<Stream> DecompressToStreamAsync(CompressionType compressionType, Stream stream, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).DecompressToStreamAsync(stream, cancellationToken);
+            return GetRequiredCompression(compressionType).DecompressToStreamAsync(stream, cancellationToken);
         }
 
         public Task<Stream> DecompressToStreamAsync(string encodingName, Stream stream, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).DecompressToStreamAsync(stream, cancellationToken);
+            return GetRequiredCompression(encodingName).DecompressToStreamAsync(stream, cancellationToken);
         }
 
         public Task<Stream> DecompressToStreamAsync(CompressionType compressionType, Stream stream, bool leaveOpen, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).DecompressToStreamAsync(stream, leaveOpen, cancellationToken);
+            return GetRequiredCompression(compressionType).DecompressToStreamAsync(stream, leaveOpen, cancellationToken);
         }
 
         public Task<Stream> DecompressToStreamAsync(string encodingName, Stream stream, bool leaveOpen, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).DecompressToStreamAsync(stream, leaveOpen, cancellationToken);
+            return GetRequiredCompression(encodingName).DecompressToStreamAsync(stream, leaveOpen, cancellationToken);
         }
 
         public Task<Stream> DecompressToStreamAsync(CompressionType compressionType, HttpContent httpContent, CancellationToken cancellationToken = default)
         {
-            return GetCompression(compressionType).DecompressToStreamAsync(httpContent, cancellationToken);
+            return GetRequiredCompression(compressionType).DecompressToStreamAsync(httpContent, cancellationToken);
         }
 
         public Task<Stream> DecompressToStreamAsync(string encodingName, HttpContent httpContent, CancellationToken cancellationToken = default)
         {
-            return GetCompression(encodingName).DecompressToStreamAsync(httpContent, cancellationToken);
+            return GetRequiredCompression(encodingName).DecompressToStreamAsync(httpContent, cancellationToken);
         }
 
         public byte[] Decompress(CompressionType compressionType, byte[] bytes)
         {
-            return GetCompression(compressionType).Decompress(bytes);
+            return GetRequiredCompression(compressionType).Decompress(bytes);
         }
 
         public byte[] Decompress(string encodingName, byte[] bytes)
         {
-            return GetCompression(encodingName).Decompress(bytes);
+            return GetRequiredCompression(encodingName).Decompress(bytes);
         }
 
         public byte[] Decompress(CompressionType compressionType, Stream stream)
         {
-            return GetCompression(compressionType).Decompress(stream);
+            return GetRequiredCompression(compressionType).Decompress(stream);
         }
 
         public byte[] Decompress(string encodingName, Stream stream)
         {
-            return GetCompression(encodingName).Decompress(stream);
+            return GetRequiredCompression(encodingName).Decompress(stream);
         }
 
         public byte[] Decompress(CompressionType compressionType, Stream stream, bool leaveOpen)
         {
-            return GetCompression(compressionType).Decompress(stream, leaveOpen);
+            return GetRequiredCompression(compressionType).Decompress(stream, leaveOpen);
         }
 
         public byte[] Decompress(string encodingName, Stream stream, bool leaveOpen)
         {
-            return GetCompression(encodingName).Decompress(stream, leaveOpen);
+            return GetRequiredCompression(encodingName).Decompress(stream, leaveOpen);
         }
     }
 }

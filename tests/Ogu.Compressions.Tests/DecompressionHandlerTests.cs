@@ -16,7 +16,7 @@ namespace Ogu.Compressions.Tests
 
             var decompressedContent = new MemoryStream(decompressedBytes);
 
-            mockCompressionFactory.Setup(factory => factory.Get(CompressionType.Brotli)).Returns(mockCompression.Object);
+            mockCompressionFactory.Setup(factory => factory.GetCompression(CompressionType.Brotli)).Returns(mockCompression.Object);
             mockCompression
                 .Setup(factory => factory.DecompressToStreamAsync(It.IsAny<HttpContent>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(decompressedContent);

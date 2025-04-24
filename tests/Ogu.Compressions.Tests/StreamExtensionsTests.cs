@@ -1,4 +1,5 @@
-﻿using MemoryStream = System.IO.MemoryStream;
+﻿using Ogu.Compressions.Abstractions;
+using MemoryStream = System.IO.MemoryStream;
 
 namespace Ogu.Compressions.Tests
 {

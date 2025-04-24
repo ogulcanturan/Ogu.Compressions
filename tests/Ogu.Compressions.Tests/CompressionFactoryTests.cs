@@ -6,6 +6,7 @@ namespace Ogu.Compressions.Tests
     public class CompressionFactoryTests
     {
         private readonly CompressionFactory _compressionFactory;
+
         public CompressionFactoryTests()
         {
             _compressionFactory = new CompressionFactory();
@@ -15,12 +16,12 @@ namespace Ogu.Compressions.Tests
         public void Constructor_WhenCalled_InitializesCorrectly()
         {
             // Act
-            var brotliCompression = _compressionFactory.Get(CompressionType.Brotli);
-            var deflateCompression = _compressionFactory.Get(CompressionType.Deflate);
-            var snappyCompression = _compressionFactory.Get(CompressionType.Snappy);
-            var zstdCompression = _compressionFactory.Get(CompressionType.Zstd);
-            var gzipCompression = _compressionFactory.Get(CompressionType.Gzip);
-            var noneCompression = _compressionFactory.Get(CompressionType.None);
+            var brotliCompression = _compressionFactory.GetCompression(CompressionType.Brotli);
+            var deflateCompression = _compressionFactory.GetCompression(CompressionType.Deflate);
+            var snappyCompression = _compressionFactory.GetCompression(CompressionType.Snappy);
+            var zstdCompression = _compressionFactory.GetCompression(CompressionType.Zstd);
+            var gzipCompression = _compressionFactory.GetCompression(CompressionType.Gzip);
+            var noneCompression = _compressionFactory.GetCompression(CompressionType.None);
 
             // Assert
             Assert.NotNull(brotliCompression);
@@ -29,7 +30,7 @@ namespace Ogu.Compressions.Tests
             Assert.NotNull(zstdCompression);
             Assert.NotNull(gzipCompression);
             Assert.NotNull(noneCompression);
-            Assert.NotNull(_compressionFactory.Get(""));
+            Assert.NotNull(_compressionFactory.GetCompression(""));
 
             Assert.Equal(EncodingNames.Brotli, brotliCompression.EncodingName);
             Assert.Equal(CompressionLevel.Fastest, brotliCompression.Level);
@@ -69,12 +70,12 @@ namespace Ogu.Compressions.Tests
             // Act
             var compressionFactory = new CompressionFactory(compressionOptions);
 
-            var brotliCompression = compressionFactory.Get(CompressionType.Brotli);
-            var deflateCompression = compressionFactory.Get(CompressionType.Deflate);
-            var snappyCompression = compressionFactory.Get(CompressionType.Snappy);
-            var zstdCompression = compressionFactory.Get(CompressionType.Zstd);
-            var gzipCompression = compressionFactory.Get(CompressionType.Gzip);
-            var noneCompression = compressionFactory.Get(CompressionType.None);
+            var brotliCompression = compressionFactory.GetCompression(CompressionType.Brotli);
+            var deflateCompression = compressionFactory.GetCompression(CompressionType.Deflate);
+            var snappyCompression = compressionFactory.GetCompression(CompressionType.Snappy);
+            var zstdCompression = compressionFactory.GetCompression(CompressionType.Zstd);
+            var gzipCompression = compressionFactory.GetCompression(CompressionType.Gzip);
+            var noneCompression = compressionFactory.GetCompression(CompressionType.None);
 
             // Assert
             Assert.NotNull(brotliCompression);
@@ -83,7 +84,7 @@ namespace Ogu.Compressions.Tests
             Assert.NotNull(zstdCompression);
             Assert.NotNull(gzipCompression);
             Assert.NotNull(noneCompression);
-            Assert.NotNull(_compressionFactory.Get(string.Empty));
+            Assert.NotNull(_compressionFactory.GetCompression(string.Empty));
 
             Assert.Equal(EncodingNames.Brotli, brotliCompression.EncodingName);
             Assert.Equal(compressionOptions.Level, brotliCompression.Level);
@@ -114,12 +115,12 @@ namespace Ogu.Compressions.Tests
         public void Get_CompressionTypeInput_ReturnsCorrectCompression()
         {
             // Act
-            var brotliCompression = _compressionFactory.Get(CompressionType.Brotli);
-            var deflateCompression = _compressionFactory.Get(CompressionType.Deflate);
-            var snappyCompression = _compressionFactory.Get(CompressionType.Snappy);
-            var zstdCompression = _compressionFactory.Get(CompressionType.Zstd);
-            var gzipCompression = _compressionFactory.Get(CompressionType.Gzip);
-            var noneCompression = _compressionFactory.Get(CompressionType.None);
+            var brotliCompression = _compressionFactory.GetCompression(CompressionType.Brotli);
+            var deflateCompression = _compressionFactory.GetCompression(CompressionType.Deflate);
+            var snappyCompression = _compressionFactory.GetCompression(CompressionType.Snappy);
+            var zstdCompression = _compressionFactory.GetCompression(CompressionType.Zstd);
+            var gzipCompression = _compressionFactory.GetCompression(CompressionType.Gzip);
+            var noneCompression = _compressionFactory.GetCompression(CompressionType.None);
 
             // Assert
             Assert.IsType<Compressions.BrotliCompression>(brotliCompression);
@@ -133,12 +134,12 @@ namespace Ogu.Compressions.Tests
         [Fact]
         public void Get_EncodingNameInput_ReturnsCorrectCompression()
         {
-            var brotliCompression = _compressionFactory.Get(EncodingNames.Brotli);
-            var deflateCompression = _compressionFactory.Get(EncodingNames.Deflate);
-            var snappyCompression = _compressionFactory.Get(EncodingNames.Snappy);
-            var zstdCompression = _compressionFactory.Get(EncodingNames.Zstd);
-            var gzipCompression = _compressionFactory.Get(EncodingNames.Gzip);
-            var noneCompression = _compressionFactory.Get(EncodingNames.None);
+            var brotliCompression = _compressionFactory.GetCompression(EncodingNames.Brotli);
+            var deflateCompression = _compressionFactory.GetCompression(EncodingNames.Deflate);
+            var snappyCompression = _compressionFactory.GetCompression(EncodingNames.Snappy);
+            var zstdCompression = _compressionFactory.GetCompression(EncodingNames.Zstd);
+            var gzipCompression = _compressionFactory.GetCompression(EncodingNames.Gzip);
+            var noneCompression = _compressionFactory.GetCompression(EncodingNames.None);
 
             // Assert
             Assert.IsType<Compressions.BrotliCompression>(brotliCompression);

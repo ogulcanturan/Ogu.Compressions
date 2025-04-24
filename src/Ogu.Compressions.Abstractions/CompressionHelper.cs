@@ -1,10 +1,9 @@
-﻿using Ogu.Compressions.Abstractions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace Ogu.Compressions
+namespace Ogu.Compressions.Abstractions
 {
-    internal static class CompressionHelper
+    public static class CompressionHelper
     {
         private static readonly Lazy<Dictionary<string, CompressionType>> LazyEncodingNameToCompressionType =
             new Lazy<Dictionary<string, CompressionType>>(() => new Dictionary<string, CompressionType>(StringComparer.OrdinalIgnoreCase)
