@@ -17,7 +17,6 @@ namespace Ogu.Compressions.Tests.Abstractions
 
             var compressionProvider = serviceProvider.GetRequiredService<ICompressionProvider>();
 
-
             var brotliCompression = compressionProvider.GetCompression(CompressionType.Brotli);
             var deflateCompression = compressionProvider.GetCompression(CompressionType.Deflate);
             var snappyCompression = compressionProvider.GetCompression(CompressionType.Snappy);
@@ -28,11 +27,11 @@ namespace Ogu.Compressions.Tests.Abstractions
 
             // Assert
             Assert.IsType<BrotliCompression>(brotliCompression);
-            Assert.IsType<Compressions.DeflateCompression>(deflateCompression);
-            Assert.IsType<Compressions.SnappyCompression>(snappyCompression);
-            Assert.IsType<Compressions.ZstdCompression>(zstdCompression);
-            Assert.IsType<Compressions.GzipCompression>(gzipCompression);
-            Assert.IsType<Compressions.NoneCompression>(noneCompression);
+            Assert.IsType<DeflateCompression>(deflateCompression);
+            Assert.IsType<SnappyCompression>(snappyCompression);
+            Assert.IsType<ZstdCompression>(zstdCompression);
+            Assert.IsType<GzipCompression>(gzipCompression);
+            Assert.IsType<NoneCompression>(noneCompression);
             Assert.Null(emptyCompression);
         }
 
@@ -56,11 +55,11 @@ namespace Ogu.Compressions.Tests.Abstractions
 
             // Assert
             Assert.IsType<BrotliCompression>(brotliCompression);
-            Assert.IsType<Compressions.DeflateCompression>(deflateCompression);
-            Assert.IsType<Compressions.SnappyCompression>(snappyCompression);
-            Assert.IsType<Compressions.ZstdCompression>(zstdCompression);
-            Assert.IsType<Compressions.GzipCompression>(gzipCompression);
-            Assert.IsType<Compressions.NoneCompression>(noneCompression);
+            Assert.IsType<DeflateCompression>(deflateCompression);
+            Assert.IsType<SnappyCompression>(snappyCompression);
+            Assert.IsType<ZstdCompression>(zstdCompression);
+            Assert.IsType<GzipCompression>(gzipCompression);
+            Assert.IsType<NoneCompression>(noneCompression);
             Assert.Null(emptyCompression);
         }
 
@@ -83,11 +82,11 @@ namespace Ogu.Compressions.Tests.Abstractions
             var emptyCompression = () => compressionProvider.GetRequiredCompression(string.Empty);
 
             Assert.IsType<BrotliCompression>(brotliCompression);
-            Assert.IsType<Compressions.DeflateCompression>(deflateCompression);
-            Assert.IsType<Compressions.SnappyCompression>(snappyCompression);
-            Assert.IsType<Compressions.ZstdCompression>(zstdCompression);
-            Assert.IsType<Compressions.GzipCompression>(gzipCompression);
-            Assert.IsType<Compressions.NoneCompression>(noneCompression);
+            Assert.IsType<DeflateCompression>(deflateCompression);
+            Assert.IsType<SnappyCompression>(snappyCompression);
+            Assert.IsType<ZstdCompression>(zstdCompression);
+            Assert.IsType<GzipCompression>(gzipCompression);
+            Assert.IsType<NoneCompression>(noneCompression);
             Assert.Throws<CompressionNotAvailableException>(emptyCompression);
         }
 
@@ -111,11 +110,11 @@ namespace Ogu.Compressions.Tests.Abstractions
 
             // Assert
             Assert.IsType<BrotliCompression>(brotliCompression);
-            Assert.IsType<Compressions.DeflateCompression>(deflateCompression);
-            Assert.IsType<Compressions.SnappyCompression>(snappyCompression);
-            Assert.IsType<Compressions.ZstdCompression>(zstdCompression);
-            Assert.IsType<Compressions.GzipCompression>(gzipCompression);
-            Assert.IsType<Compressions.NoneCompression>(noneCompression);
+            Assert.IsType<DeflateCompression>(deflateCompression);
+            Assert.IsType<SnappyCompression>(snappyCompression);
+            Assert.IsType<ZstdCompression>(zstdCompression);
+            Assert.IsType<GzipCompression>(gzipCompression);
+            Assert.IsType<NoneCompression>(noneCompression);
             Assert.Throws<CompressionNotAvailableException>(emptyCompression);
         }
 
