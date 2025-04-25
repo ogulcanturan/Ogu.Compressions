@@ -1,19 +1,34 @@
-﻿using Ogu.Compressions.Abstractions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ogu.Compressions
+namespace Ogu.Compressions.Abstractions
 {
-    public class DecompressionHandler : DelegatingHandler
+    /// <summary>
+    /// A custom HTTP handler for decompressing response content based on the Content-Encoding header.
+    /// </summary>
+    /// <remarks>
+    /// This handler is responsible for checking the response's Content-Encoding header and decompressing the content
+    /// if the appropriate encoding is detected. It uses the <see cref="ICompressionProvider"/> to get the necessary 
+    /// compression implementation for decompressing the content.
+    /// </remarks>
+    public sealed class DecompressionHandler : DelegatingHandler
     {
-        private readonly ICompressionFactory _compressionFactory;
+        private readonly ICompressionProvider _compressionProvider;
 
-        public DecompressionHandler(ICompressionFactory compressionFactory)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DecompressionHandler"/> class.
+        /// </summary>
+        /// <param name="compressionProvider">The compression provider used for retrieving compression implementations.</param>
+        /// <remarks>
+        /// The <paramref name="compressionProvider"/> is injected to provide the necessary compression algorithms for 
+        /// decompressing the response content based on the Content-Encoding header.
+        /// </remarks>
+        public DecompressionHandler(ICompressionProvider compressionProvider)
         {
-            _compressionFactory = compressionFactory;
+            _compressionProvider = compressionProvider;
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -25,7 +40,7 @@ namespace Ogu.Compressions
                 return response;
             }
 
-            var streamContent = await GetDecompressedStreamContentOrDefaultAsync(_compressionFactory, response, cancellationToken);
+            var streamContent = await GetDecompressedStreamContentOrDefaultAsync(_compressionProvider, response, cancellationToken);
 
             if (streamContent == null)
             {
@@ -49,9 +64,9 @@ namespace Ogu.Compressions
             return (response?.Content.Headers.ContentEncoding.Count ?? 0) == 0;
         }
 
-        private static async Task<StreamContent> GetDecompressedStreamContentOrDefaultAsync(ICompressionFactory compressionFactory, HttpResponseMessage response, CancellationToken cancellationToken)
+        private static async Task<StreamContent> GetDecompressedStreamContentOrDefaultAsync(ICompressionProvider compressionProvider, HttpResponseMessage response, CancellationToken cancellationToken)
         {
-            if (!TryGetCompressions(compressionFactory, response.Content.Headers.ContentEncoding, out var compressors))
+            if (!TryGetCompressions(compressionProvider, response.Content.Headers.ContentEncoding, out var compressors))
             {
                 return null;
             }
@@ -66,7 +81,7 @@ namespace Ogu.Compressions
             return streamContent;
         }
 
-        private static bool TryGetCompressions(ICompressionFactory compressionFactory, IEnumerable<string> encodingNames, out IEnumerable<ICompression> compressions)
+        private static bool TryGetCompressions(ICompressionProvider compressionProvider, IEnumerable<string> encodingNames, out IEnumerable<ICompression> compressions)
         {
             var compressionList = new List<ICompression>();
             compressions = compressionList;
@@ -78,7 +93,7 @@ namespace Ogu.Compressions
                     return false;
                 }
 
-                var compression = compressionFactory.GetCompression(compressionType);
+                var compression = compressionProvider.GetCompression(compressionType);
 
                 if (compression == null)
                 {

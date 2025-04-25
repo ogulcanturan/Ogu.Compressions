@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.ResponseCompression;
-using Ogu.Compressions.Abstractions;
+﻿using Ogu.Compressions.Abstractions;
 using Snappier;
 using System.IO;
 using System.IO.Compression;
+using ICompressionProvider = Microsoft.AspNetCore.ResponseCompression.ICompressionProvider;
 
 namespace Ogu.AspNetCore.Compressions
 {

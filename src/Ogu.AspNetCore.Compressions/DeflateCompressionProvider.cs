@@ -1,27 +1,30 @@
-﻿using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Ogu.Compressions.Abstractions;
 using System.IO;
 using System.IO.Compression;
+using ICompressionProvider = Microsoft.AspNetCore.ResponseCompression.ICompressionProvider;
 
 namespace Ogu.AspNetCore.Compressions
 {
     public class DeflateCompressionProvider : ICompressionProvider
     {
-        private readonly DeflateCompressionProviderOptions _options;
-
         public DeflateCompressionProvider(IOptions<DeflateCompressionProviderOptions> opts)
         {
-            _options = opts.Value;
+            Level = opts.Value.Level;
         }
 
         public string EncodingName => EncodingNames.Deflate;
+
+        /// <summary>
+        /// Gets the compression level to use for the underlying stream.
+        /// </summary>
+        public CompressionLevel Level { get; }
 
         public bool SupportsFlush => true;
 
         public Stream CreateStream(Stream outputStream)
         {
-            return new DeflateStream(outputStream, _options.Level, leaveOpen: true);
+            return new DeflateStream(outputStream, Level, leaveOpen: true);
         }
     }
 }

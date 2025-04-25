@@ -32,7 +32,7 @@
 
         /// <summary>
         /// The encoding name used for <see cref="CompressionType.None" /> compression.
-        /// This value is used internally to indicate no compression and does not correspond to a real encoding.
+        /// This value is used internally to indicate no compression and does not correspond to a real encoding header.
         /// </summary>
         public const string None = "none";
     }

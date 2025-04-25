@@ -12,7 +12,7 @@ namespace Ogu.Compressions.Tests
             // Arrange
             var decompressedBytes = "Hello, World!"u8.ToArray();
             var mockCompression = new Mock<ICompression>();
-            var mockCompressionFactory = new Mock<ICompressionFactory>();
+            var mockCompressionFactory = new Mock<ICompressionProvider>();
 
             var decompressedContent = new MemoryStream(decompressedBytes);
 

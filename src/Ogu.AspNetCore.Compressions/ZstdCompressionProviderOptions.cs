@@ -4,10 +4,21 @@ using Ogu.Compressions.Abstractions;
 
 namespace Ogu.AspNetCore.Compressions
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public sealed class ZstdCompressionProviderOptions : IOptions<ZstdCompressionProviderOptions>
     {
-        public ZstdCompressionProviderOptions() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ZstdCompressionProviderOptions"/> class with default values.
+        /// </summary>
+        public ZstdCompressionProviderOptions() : this(CompressionLevel.Fastest, CompressionDefaults.BufferSize) { }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ZstdCompressionProviderOptions"/> class with the specified compression level and buffer size.
+        /// </summary>
+        /// <param name="level"></param>
+        /// <param name="bufferSize"></param>
         public ZstdCompressionProviderOptions(CompressionLevel level, int bufferSize)
         {
             Level = level;
@@ -15,18 +26,23 @@ namespace Ogu.AspNetCore.Compressions
         }
 
         /// <summary>
-        /// The compression level to use for the stream.
-        /// The default is <see cref="CompressionLevel.Fastest" />.
+        /// Gets the name of the encoding used for underlying compression.
         /// </summary>
-        public CompressionLevel Level { get; set; } = CompressionLevel.Fastest;
+        public string EncodingName => EncodingNames.Zstd;
 
         /// <summary>
-        /// The size, in bytes, of the buffer. The default size is 81920.
+        /// Gets the compression level to use for the underlying stream.
+        /// The default is <see cref="CompressionLevel.Fastest" />.
+        /// </summary>
+        public CompressionLevel Level { get; }
+
+        /// <summary>
+        /// Gets the size, in bytes, of the buffer. The default size is 81920.
         /// </summary>
         /// <remarks>
         /// Value must be greater than zero.
         /// </remarks>
-        public int BufferSize { get; set; } = CompressionDefaults.BufferSize;
+        public int BufferSize { get; }
 
 
         ZstdCompressionProviderOptions IOptions<ZstdCompressionProviderOptions>.Value => this;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO.Compression;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
 
 namespace Ogu.Compressions.Abstractions
 {
@@ -83,6 +84,7 @@ namespace Ogu.Compressions.Abstractions
         /// Custom values can be provided by casting an integer to <see cref="CompressionLevel"/>, e.g.,
         /// <c>(CompressionLevel)5</c> will return 5, clamped between -131072 and 22.
         /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int ToZstdLevel(this CompressionLevel level)
         {
             switch (level)
@@ -178,7 +180,7 @@ namespace Ogu.Compressions.Abstractions
         }
 
         /// <summary>
-        /// Adds the specified collection of <see cref="CompressionType"/> values to the <c>Accept-Encoding</c>
+        /// Adds the specified collection of <see cref="CompressionType"/> values to the '<c>Accept-Encoding</c>'
         /// header of the HTTP request. Compression types with a value of <see cref="CompressionType.None"/> are ignored.
         /// </summary>
         /// <param name="compressionTypes">A collection of compression types to add.</param>
