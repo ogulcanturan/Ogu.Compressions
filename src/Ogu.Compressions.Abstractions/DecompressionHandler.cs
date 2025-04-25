@@ -88,14 +88,9 @@ namespace Ogu.Compressions.Abstractions
 
             foreach (var encodingName in encodingNames)
             {
-                if (!CompressionHelper.TryConvertEncodingNameToCompressionType(encodingName, out var compressionType) || compressionType == CompressionType.None)
-                {
-                    return false;
-                }
+                var compression = compressionProvider.GetCompression(encodingName);
 
-                var compression = compressionProvider.GetCompression(compressionType);
-
-                if (compression == null)
+                if (compression == null || compression.Type == CompressionType.None)
                 {
                     return false;
                 }

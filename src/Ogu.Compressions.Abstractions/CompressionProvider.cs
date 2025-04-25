@@ -16,20 +16,22 @@ namespace Ogu.Compressions.Abstractions
     public class CompressionProvider : ICompressionProvider
     {
         private readonly Dictionary<CompressionType, ICompression> _compressions;
+        private readonly ICompressionTypeResolver _compressionTypeResolver;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CompressionProvider"/> class with the specified collection of compressions.
         /// </summary>
-        /// <param name="compressions">
-        /// A collection of <see cref="ICompression"/> implementations that will be used by the provider.
-        /// </param>
-        public CompressionProvider(IEnumerable<ICompression> compressions)
+        /// <param name="compressions">A collection of <see cref="ICompression"/> implementations that will be used by the provider./// </param>
+        /// <param name="compressionTypeResolver">An instance of <see cref="ICompressionTypeResolver"/> used to resolve compression types from encoding names.</param>
+        public CompressionProvider(IEnumerable<ICompression> compressions, ICompressionTypeResolver compressionTypeResolver = null)
         {
             _compressions = compressions
                 .GroupBy(compressor => compressor.Type)
                 .ToDictionary(
                     compressor => compressor.Key,
                     compressor => compressor.LastOrDefault());
+
+            _compressionTypeResolver = compressionTypeResolver ?? new CompressionTypeResolver();
 
             Compressions = _compressions.Values;
         }
@@ -43,8 +45,8 @@ namespace Ogu.Compressions.Abstractions
 
         public ICompression GetCompression(string encodingName)
         {
-            return CompressionHelper.TryConvertEncodingNameToCompressionType(encodingName, out var compressionType)
-                ? GetCompression(compressionType)
+            return _compressionTypeResolver.TryResolve(encodingName, out var type)
+                ? GetCompression(type)
                 : null;
         }
 

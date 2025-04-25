@@ -12,7 +12,7 @@
 		<RepositoryUrl>https://github.com/ogulcanturan/Ogu.Compressions</RepositoryUrl>
 		<PackageTags>compression;brotli;deflate;gzip;snappy;zstd;netstandard;netcore;extensions</PackageTags>
 		<RepositoryType>git</RepositoryType>
-		<Description>This library provides concrete implementations of most popular compression algorithms using third-party libraries and also some utilities</Description>
+		<Description>This library aggregates all Ogu.Compressions.* packages and provides DI registration extensions</Description>
 		<PackageIcon>ogu-logo.png</PackageIcon>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -24,13 +24,15 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Options" Version="2.1.0" />
-		<PackageReference Include="Snappier" Version="1.2.0" />
-		<PackageReference Include="ZstdSharp.Port" Version="0.8.5" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Ogu.Compressions.Abstractions\Ogu.Compressions.Abstractions.csproj" />
 		<ProjectReference Include="..\Ogu.Compressions.Brotli\Ogu.Compressions.Brotli.csproj" />
+		<ProjectReference Include="..\Ogu.Compressions.Deflate\Ogu.Compressions.Deflate.csproj" />
+		<ProjectReference Include="..\Ogu.Compressions.Gzip\Ogu.Compressions.Gzip.csproj" />
+		<ProjectReference Include="..\Ogu.Compressions.None\Ogu.Compressions.None.csproj" />
+		<ProjectReference Include="..\Ogu.Compressions.Snappy\Ogu.Compressions.Snappy.csproj" />
+		<ProjectReference Include="..\Ogu.Compressions.Zstd\Ogu.Compressions.Zstd.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

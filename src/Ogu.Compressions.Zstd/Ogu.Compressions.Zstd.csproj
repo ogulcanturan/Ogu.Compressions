@@ -2,33 +2,38 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
-		<AssemblyName>Ogu.Compressions.Abstractions</AssemblyName>
-		<PackageId>Ogu.Compressions.Abstractions</PackageId>
-		<Product>Ogu.Compressions.Abstractions</Product>
+		<AssemblyName>Ogu.Compressions.Zstd</AssemblyName>
+		<PackageId>Ogu.Compressions.Zstd</PackageId>
+		<Product>Ogu.Compressions.Zstd</Product>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<Authors>Oğulcan TURAN</Authors>
 		<Copyright>Copyright (c) Oğulcan TURAN 2024</Copyright>
-		<PackageProjectUrl>https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.Compressions.Abstractions</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.Compressions.Zstd</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/ogulcanturan/Ogu.Compressions</RepositoryUrl>
-		<PackageTags>compression;abstractions;interfaces;netstandard;netcore;extensions</PackageTags>
-		<Description>This library defines unified interfaces for the Ogu.Compressions.* library</Description>
+		<PackageTags>compression;zstd;interfaces;netstandard;netcore;extensions</PackageTags>
+		<Description>This library provides Zstandard compression support for the Ogu.Compressions library</Description>
 		<PackageIcon>ogu-logo.png</PackageIcon>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<NoWarn>$(NoWarn);1591</NoWarn>
-		<AssemblyOriginatorKeyFile>Ogu.Compressions.Abstractions.snk</AssemblyOriginatorKeyFile>
+		<AssemblyOriginatorKeyFile>Ogu.Compressions.Zstd.snk</AssemblyOriginatorKeyFile>
 		<SignAssembly>true</SignAssembly>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="2.1.0" />
+		<PackageReference Include="ZstdSharp.Port" Version="0.8.5" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="..\..\logo\ogu-logo.png" Pack="true" PackagePath="\" Visible="false" />
 		<None Include="README.md" Pack="true" PackagePath="\" Visible="false" />
-		<None Include="Ogu.Compressions.Abstractions.snk" Visible="false" />
+		<None Include="Ogu.Compressions.Zstd.snk" Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Ogu.Compressions.Abstractions\Ogu.Compressions.Abstractions.csproj" />
 	</ItemGroup>
 
 </Project>

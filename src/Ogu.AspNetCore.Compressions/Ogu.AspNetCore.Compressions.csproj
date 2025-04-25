@@ -22,22 +22,14 @@
 		<SignAssembly>true</SignAssembly>
 	</PropertyGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' Or '$(TargetFramework)' == 'netstandard2.1'">
-		<PackageReference Include="Microsoft.AspNetCore.ResponseCompression" Version="2.3.0" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1' Or '$(TargetFramework)' == 'net5.0' Or '$(TargetFramework)' == 'net6.0' Or '$(TargetFramework)' == 'net7.0' Or '$(TargetFramework)' == 'net8.0' Or '$(TargetFramework)' == 'net9.0'">
-		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\Ogu.Compressions\Ogu.Compressions.csproj" />
-	</ItemGroup>
-
 	<ItemGroup>
 		<None Include="..\..\logo\ogu-logo.png" Pack="true" PackagePath="\" Visible="false" />
 		<None Include="README.md" Pack="true" PackagePath="\" Visible="false" />
 		<None Include="Ogu.AspNetCore.Compressions.snk" Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Ogu.AspNetCore.Compressions.Snappy\Ogu.AspNetCore.Compressions.Snappy.csproj" />
 	</ItemGroup>
 
 </Project>
