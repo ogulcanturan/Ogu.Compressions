@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ogu.AspNetCore.Compressions;
-using Ogu.Compressions;
+using Ogu.Compressions.Abstractions;
 using System.IO.Compression;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,7 +34,7 @@ builder.Services.AddResponseCompression(opts =>
     opts.EnableForHttps = true;
 });
 
-builder.Services.AddTransient<DecompressionHandler>();
+builder.Services.AddSingleton<DecompressionHandler>();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient("DecompressionHandler").AddHttpMessageHandler<DecompressionHandler>();
 

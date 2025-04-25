@@ -7,20 +7,20 @@ using System.Threading.Tasks;
 
 namespace Sample.Api.Controllers
 {
-    [Route("api/compressions")]
+    [Route("api/[controller]")]
     public class CompressionsController : ControllerBase
     {
-        private readonly ICompressionFactory _compression;
+        private readonly ICompressionProvider _compressionProvider;
 
-        public CompressionsController(ICompressionFactory compression)
+        public CompressionsController(ICompressionProvider compressionProvider)
         {
-            _compression = compression;
+            _compressionProvider = compressionProvider;
         }
 
         [HttpPost("compress")]
         public async Task<IActionResult> Compress([FromBody] string rawInput, [FromQuery] CompressionType compressionType, CancellationToken cancellationToken = default)
         {
-            var result = await _compression.CompressAsync(compressionType, rawInput, cancellationToken);
+            var result = await _compressionProvider.CompressAsync(compressionType, rawInput, cancellationToken);
 
             return Ok(Convert.ToBase64String(result));
         }
@@ -30,7 +30,7 @@ namespace Sample.Api.Controllers
         {
             var bytes = Convert.FromBase64String(base64CompressedInput);
 
-            var result = await _compression.DecompressAsync(compressionType, bytes, cancellationToken);
+            var result = await _compressionProvider.DecompressAsync(compressionType, bytes, cancellationToken);
 
             return Ok(Encoding.UTF8.GetString(result));
         }

@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using Ogu.Compressions.Abstractions;
+﻿using Ogu.Compressions.Abstractions;
 using System.IO.Compression;
 
 namespace Ogu.Compressions.Tests.Zstd
@@ -10,9 +9,7 @@ namespace Ogu.Compressions.Tests.Zstd
 
         public ZstdCompressionTests()
         {
-            _zstdCompression =
-                new ZstdCompression(
-                    Options.Create<ZstdCompressionOptions>(new ZstdCompressionOptions()));
+            _zstdCompression = new ZstdCompression(new ZstdCompressionOptions());
         }
 
         [Fact]

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ogu.Compressions.Abstractions;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 using System;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Sample.Api.Controllers
 {

@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using Ogu.Compressions.Abstractions;
+﻿using Ogu.Compressions.Abstractions;
 using System.IO.Compression;
 
 namespace Ogu.Compressions.Tests.Snappy
@@ -10,9 +9,7 @@ namespace Ogu.Compressions.Tests.Snappy
 
         public SnappyCompressionTests()
         {
-            _snappyCompression =
-                new Compressions.SnappyCompression(
-                    Options.Create<SnappyCompressionOptions>(new SnappyCompressionOptions()));
+            _snappyCompression = new SnappyCompression(new SnappyCompressionOptions());
         }
 
         [Fact]

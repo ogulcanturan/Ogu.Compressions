@@ -1,18 +1,15 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Ogu.Compressions.Abstractions;
 using System.IO.Compression;
-using Ogu.Compressions.Abstractions;
 
 namespace Ogu.Compressions.Tests.Deflate
 {
     public partial class DeflateCompressionTests
     {
-        private readonly Compressions.DeflateCompression _deflateCompression;
+        private readonly DeflateCompression _deflateCompression;
 
         public DeflateCompressionTests()
         {
-            _deflateCompression =
-                new Compressions.DeflateCompression(
-                    Options.Create<DeflateCompressionOptions>(new DeflateCompressionOptions()));
+            _deflateCompression = new DeflateCompression(new DeflateCompressionOptions());
         }
 
         [Fact]

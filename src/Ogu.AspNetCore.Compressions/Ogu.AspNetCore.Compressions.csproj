@@ -29,7 +29,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\Ogu.AspNetCore.Compressions.Deflate\Ogu.AspNetCore.Compressions.Deflate.csproj" />
 	  <ProjectReference Include="..\Ogu.AspNetCore.Compressions.Snappy\Ogu.AspNetCore.Compressions.Snappy.csproj" />
+	  <ProjectReference Include="..\Ogu.AspNetCore.Compressions.Zstd\Ogu.AspNetCore.Compressions.Zstd.csproj" />
 	</ItemGroup>
 
 </Project>

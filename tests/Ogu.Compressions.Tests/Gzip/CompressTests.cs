@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using Ogu.Compressions.Abstractions;
+﻿using Ogu.Compressions.Abstractions;
 using System.IO.Compression;
 
 namespace Ogu.Compressions.Tests.Gzip
@@ -10,9 +9,7 @@ namespace Ogu.Compressions.Tests.Gzip
 
         public GzipCompressionTests()
         {
-            _gzipCompression =
-                new Compressions.GzipCompression(
-                    Options.Create<GzipCompressionOptions>(new GzipCompressionOptions()));
+            _gzipCompression = new GzipCompression(new GzipCompressionOptions());
         }
 
         [Fact]

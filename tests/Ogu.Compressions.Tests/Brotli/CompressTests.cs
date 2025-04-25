@@ -1,18 +1,16 @@
-﻿using Microsoft.Extensions.Options;
-using Ogu.Compressions.Abstractions;
+﻿using Ogu.Compressions.Abstractions;
 using System.IO.Compression;
 
 namespace Ogu.Compressions.Tests.Brotli
 {
     public partial class BrotliCompressionTests
     {
-        private readonly Compressions.BrotliCompression _brotliCompression;
+        private readonly BrotliCompression _brotliCompression;
 
         public BrotliCompressionTests()
         {
             _brotliCompression =
-                new Compressions.BrotliCompression(
-                    Options.Create<BrotliCompressionOptions>(new BrotliCompressionOptions()));
+                new BrotliCompression(new BrotliCompressionOptions());
         }
 
         [Fact]

@@ -1,5 +1,5 @@
-﻿using System.IO.Compression;
-using Ogu.Compressions.Abstractions;
+﻿using Ogu.Compressions.Abstractions;
+using System.IO.Compression;
 
 namespace Ogu.Compressions.Tests.None
 {
@@ -9,8 +9,7 @@ namespace Ogu.Compressions.Tests.None
 
         public NoneCompressionTests()
         {
-            _noneCompression =
-                new NoneCompression();
+            _noneCompression = new NoneCompression();
         }
 
         [Fact]
