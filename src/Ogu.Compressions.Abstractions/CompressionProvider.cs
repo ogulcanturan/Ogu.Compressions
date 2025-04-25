@@ -128,12 +128,12 @@ namespace Ogu.Compressions.Abstractions
             return GetRequiredCompression(encodingName).CompressAsync(stream, level, cancellationToken);
         }
 
-        public Task<byte[]> CompressAsync(CompressionType type, Stream stream, bool leaveOpen, CompressionLevel level, CancellationToken cancellationToken = default)
+        public Task<byte[]> CompressAsync(CompressionType type, Stream stream, CompressionLevel level, bool leaveOpen, CancellationToken cancellationToken = default)
         {
             return GetRequiredCompression(type).CompressAsync(stream, leaveOpen, level, cancellationToken);
         }
 
-        public Task<byte[]> CompressAsync(string encodingName, Stream stream, bool leaveOpen, CompressionLevel level, CancellationToken cancellationToken = default)
+        public Task<byte[]> CompressAsync(string encodingName, Stream stream, CompressionLevel level, bool leaveOpen, CancellationToken cancellationToken = default)
         {
             return GetRequiredCompression(encodingName).CompressAsync(stream, leaveOpen, level, cancellationToken);
         }
@@ -208,12 +208,12 @@ namespace Ogu.Compressions.Abstractions
             return GetRequiredCompression(encodingName).CompressToStreamAsync(stream, level, cancellationToken);
         }
 
-        public Task<Stream> CompressToStreamAsync(CompressionType type, Stream stream, bool leaveOpen, CompressionLevel level, CancellationToken cancellationToken = default)
+        public Task<Stream> CompressToStreamAsync(CompressionType type, Stream stream, CompressionLevel level, bool leaveOpen, CancellationToken cancellationToken = default)
         {
             return GetRequiredCompression(type).CompressToStreamAsync(stream, leaveOpen, level, cancellationToken);
         }
 
-        public Task<Stream> CompressToStreamAsync(string encodingName, Stream stream, bool leaveOpen, CompressionLevel level, CancellationToken cancellationToken = default)
+        public Task<Stream> CompressToStreamAsync(string encodingName, Stream stream, CompressionLevel level, bool leaveOpen, CancellationToken cancellationToken = default)
         {
             return GetRequiredCompression(encodingName).CompressToStreamAsync(stream, leaveOpen, level, cancellationToken);
         }
@@ -288,12 +288,12 @@ namespace Ogu.Compressions.Abstractions
             return GetRequiredCompression(encodingName).Compress(stream, level);
         }
 
-        public byte[] Compress(CompressionType type, Stream stream, bool leaveOpen, CompressionLevel level)
+        public byte[] Compress(CompressionType type, Stream stream, CompressionLevel level, bool leaveOpen)
         {
             return GetRequiredCompression(type).Compress(stream, leaveOpen, level);
         }
 
-        public byte[] Compress(string encodingName, Stream stream, bool leaveOpen, CompressionLevel level)
+        public byte[] Compress(string encodingName, Stream stream, CompressionLevel level, bool leaveOpen)
         {
             return GetRequiredCompression(encodingName).Compress(stream, leaveOpen, level);
         }
@@ -368,12 +368,12 @@ namespace Ogu.Compressions.Abstractions
             return GetRequiredCompression(encodingName).CompressToStream(stream, level);
         }
 
-        public Stream CompressToStream(CompressionType type, Stream stream, bool leaveOpen, CompressionLevel level)
+        public Stream CompressToStream(CompressionType type, Stream stream, CompressionLevel level, bool leaveOpen)
         {
             return GetRequiredCompression(type).CompressToStream(stream, leaveOpen, level);
         }
 
-        public Stream CompressToStream(string encodingName, Stream stream, bool leaveOpen, CompressionLevel level)
+        public Stream CompressToStream(string encodingName, Stream stream, CompressionLevel level, bool leaveOpen)
         {
             return GetRequiredCompression(encodingName).CompressToStream(stream, leaveOpen, level);
         }

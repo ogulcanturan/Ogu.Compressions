@@ -228,28 +228,28 @@ namespace Ogu.Compressions.Abstractions
         /// </summary>
         /// <param name="type">The type of compression to be used.</param>
         /// <param name="stream">The stream to compress.</param>
-        /// <param name="leaveOpen">Indicates whether the <paramref name="stream"/> should remain open after the operation.</param>
         /// <param name="level">The compression level to use.</param>
+        /// <param name="leaveOpen">Indicates whether the <paramref name="stream"/> should remain open after the operation.</param>
         /// <param name="cancellationToken">A token to cancel the operation.</param>
         /// <returns>
         /// A task that represents the asynchronous compression operation, which wraps the <see cref="byte" /> array containing the compressed data.
         /// </returns>
         /// <exception cref="CompressionNotAvailableException">Thrown when no compression implementation is registered for the specified type.</exception>
-        Task<byte[]> CompressAsync(CompressionType type, Stream stream, bool leaveOpen, CompressionLevel level, CancellationToken cancellationToken = default);
+        Task<byte[]> CompressAsync(CompressionType type, Stream stream, CompressionLevel level, bool leaveOpen, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Asynchronously compresses the given <paramref name="stream"/> using the specified compression level, with an option to leave the stream open after the operation.
         /// </summary>
         /// <param name="encodingName">The name of the encoding. e.g., "br", "deflate", "snappy", "zstd", "gzip" or "none" (used internally to indicate no compression; does not correspond to a real encoding header).</param>
         /// <param name="stream">The stream to compress.</param>
-        /// <param name="leaveOpen">Indicates whether the <paramref name="stream"/> should remain open after the operation.</param>
         /// <param name="level">The compression level to use.</param>
+        /// <param name="leaveOpen">Indicates whether the <paramref name="stream"/> should remain open after the operation.</param>
         /// <param name="cancellationToken">A token to cancel the operation.</param>
         /// <returns>
         /// A task that represents the asynchronous compression operation, which wraps the <see cref="byte" /> array containing the compressed data.
         /// </returns>
         /// <exception cref="CompressionNotAvailableException">Thrown when no matching implementation is found or if no applicable service available for the specified type.</exception>
-        Task<byte[]> CompressAsync(string encodingName, Stream stream, bool leaveOpen, CompressionLevel level, CancellationToken cancellationToken = default);
+        Task<byte[]> CompressAsync(string encodingName, Stream stream, CompressionLevel level, bool leaveOpen, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Asynchronously compresses the given input string to a stream.
@@ -436,8 +436,8 @@ namespace Ogu.Compressions.Abstractions
         /// </summary>
         /// <param name="type">The type of compression to be used.</param>
         /// <param name="stream">The stream to compress.</param>
-        /// <param name="leaveOpen">Indicates whether the <paramref name="stream"/> should remain open after the operation.</param>
         /// <param name="level">The compression level to use.</param>
+        /// <param name="leaveOpen">Indicates whether the <paramref name="stream"/> should remain open after the operation.</param>
         /// <param name="cancellationToken">A token to cancel the operation.</param>
         /// <returns>
         /// A task that represents the asynchronous compression operation, which wraps the stream containing the compressed data.
@@ -446,15 +446,15 @@ namespace Ogu.Compressions.Abstractions
         /// The returned stream is positioned at the beginning. Caller is responsible for disposing the stream.
         /// </remarks>
         /// <exception cref="CompressionNotAvailableException">Thrown when no compression implementation is registered for the specified type.</exception>
-        Task<Stream> CompressToStreamAsync(CompressionType type, Stream stream, bool leaveOpen, CompressionLevel level, CancellationToken cancellationToken = default);
+        Task<Stream> CompressToStreamAsync(CompressionType type, Stream stream, CompressionLevel level, bool leaveOpen, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Asynchronously compresses the given <paramref name="stream"/> to another stream using the specified compression level, with an option to leave the stream open after the operation.
         /// </summary>
         /// <param name="encodingName">The name of the encoding. e.g., "br", "deflate", "snappy", "zstd", "gzip" or "none" (used internally to indicate no compression; does not correspond to a real encoding header).</param>
         /// <param name="stream">The stream to compress.</param>
-        /// <param name="leaveOpen">Indicates whether the <paramref name="stream"/> should remain open after the operation.</param>
         /// <param name="level">The compression level to use.</param>
+        /// <param name="leaveOpen">Indicates whether the <paramref name="stream"/> should remain open after the operation.</param>
         /// <param name="cancellationToken">A token to cancel the operation.</param>
         /// <returns>
         /// A task that represents the asynchronous compression operation, which wraps the stream containing the compressed data.
@@ -463,7 +463,7 @@ namespace Ogu.Compressions.Abstractions
         /// The returned stream is positioned at the beginning. Caller is responsible for disposing the stream.
         /// </remarks>
         /// <exception cref="CompressionNotAvailableException">Thrown when no matching implementation is found or if no applicable service available for the specified type.</exception>
-        Task<Stream> CompressToStreamAsync(string encodingName, Stream stream, bool leaveOpen, CompressionLevel level, CancellationToken cancellationToken = default);
+        Task<Stream> CompressToStreamAsync(string encodingName, Stream stream, CompressionLevel level, bool leaveOpen, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Compresses the given input string.
@@ -608,22 +608,22 @@ namespace Ogu.Compressions.Abstractions
         /// </summary>
         /// <param name="type">The type of compression to be used.</param>
         /// <param name="stream">The stream to compress.</param>
-        /// <param name="leaveOpen">Indicates whether the <paramref name="stream"/> should remain open after the operation.</param>
         /// <param name="level">The compression level to use.</param>
+        /// <param name="leaveOpen">Indicates whether the <paramref name="stream"/> should remain open after the operation.</param>
         /// <returns>A <see cref="byte" /> array containing the compressed data.</returns>
         /// <exception cref="CompressionNotAvailableException">Thrown when no compression implementation is registered for the specified type.</exception>
-        byte[] Compress(CompressionType type, Stream stream, bool leaveOpen, CompressionLevel level);
+        byte[] Compress(CompressionType type, Stream stream, CompressionLevel level, bool leaveOpen);
 
         /// <summary>
         /// Compresses the given <paramref name="stream"/> using the specified compression level, with an option to leave the stream open after the operation.
         /// </summary>
         /// <param name="encodingName">The name of the encoding. e.g., "br", "deflate", "snappy", "zstd", "gzip" or "none" (used internally to indicate no compression; does not correspond to a real encoding header).</param>
         /// <param name="stream">The stream to compress.</param>
-        /// <param name="leaveOpen">Indicates whether the <paramref name="stream"/> should remain open after the operation.</param>
         /// <param name="level">The compression level to use.</param>
+        /// <param name="leaveOpen">Indicates whether the <paramref name="stream"/> should remain open after the operation.</param>
         /// <returns>A <see cref="byte" /> array containing the compressed data.</returns>
         /// <exception cref="CompressionNotAvailableException">Thrown when no matching implementation is found or if no applicable service available for the specified type.</exception>
-        byte[] Compress(string encodingName, Stream stream, bool leaveOpen, CompressionLevel level);
+        byte[] Compress(string encodingName, Stream stream, CompressionLevel level, bool leaveOpen);
 
         /// <summary>
         /// Compresses the given input string to a stream.
@@ -818,28 +818,28 @@ namespace Ogu.Compressions.Abstractions
         /// </summary>
         /// <param name="type">The type of compression to be used.</param>
         /// <param name="stream">The stream to compress.</param>
-        /// <param name="leaveOpen">Indicates whether the <paramref name="stream"/> should remain open after the operation.</param>
         /// <param name="level">The compression level to use.</param>
+        /// <param name="leaveOpen">Indicates whether the <paramref name="stream"/> should remain open after the operation.</param>
         /// <returns>A stream containing the compressed data.</returns>
         /// <remarks>
         /// The returned stream is positioned at the beginning. Caller is responsible for disposing the stream.
         /// </remarks>
         /// <exception cref="CompressionNotAvailableException">Thrown when no compression implementation is registered for the specified type.</exception>
-        Stream CompressToStream(CompressionType type, Stream stream, bool leaveOpen, CompressionLevel level);
+        Stream CompressToStream(CompressionType type, Stream stream, CompressionLevel level, bool leaveOpen);
 
         /// <summary>
         /// Compresses the given <paramref name="stream"/> to another stream using the specified compression level, with an option to leave the stream open after the operation.
         /// </summary>
         /// <param name="encodingName">The name of the encoding. e.g., "br", "deflate", "snappy", "zstd", "gzip" or "none" (used internally to indicate no compression; does not correspond to a real encoding header).</param>
         /// <param name="stream">The stream to compress.</param>
-        /// <param name="leaveOpen">Indicates whether the <paramref name="stream"/> should remain open after the operation.</param>
         /// <param name="level">The compression level to use.</param>
+        /// <param name="leaveOpen">Indicates whether the <paramref name="stream"/> should remain open after the operation.</param>
         /// <returns>A stream containing the compressed data.</returns>
         /// <remarks>
         /// The returned stream is positioned at the beginning. Caller is responsible for disposing the stream.
         /// </remarks>
         /// <exception cref="CompressionNotAvailableException">Thrown when no matching implementation is found or if no applicable service available for the specified type.</exception>
-        Stream CompressToStream(string encodingName, Stream stream, bool leaveOpen, CompressionLevel level);
+        Stream CompressToStream(string encodingName, Stream stream, CompressionLevel level, bool leaveOpen);
 
         /// <summary>
         /// Asynchronously decompresses the given <see cref="byte" /> array.

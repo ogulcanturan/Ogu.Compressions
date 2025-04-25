@@ -306,7 +306,7 @@ namespace Ogu.Compressions.Tests
         public async Task CompressAsync_StreamInput_ShouldCallAppropriateMethod()
         {
             // Arrange
-            Stream input = new MemoryStream([1]);
+            var input = new MemoryStream([1]);
             const string encodingName = EncodingNames.Brotli;
             const CompressionType type = CompressionType.Brotli;
             var cancellationToken = CancellationToken.None;
@@ -334,7 +334,7 @@ namespace Ogu.Compressions.Tests
         public async Task CompressAsync_StreamInput_WithLeaveOpenTrue_ShouldCallAppropriateMethod()
         {
             // Arrange
-            Stream input = new MemoryStream([1]);
+            var input = new MemoryStream([1]);
             const string encodingName = EncodingNames.Brotli;
             const CompressionType type = CompressionType.Brotli;
             const bool leaveOpen = true;
@@ -417,7 +417,7 @@ namespace Ogu.Compressions.Tests
         public async Task CompressAsync_StreamInput_WithLevel_ShouldCallAppropriateMethod()
         {
             // Arrange
-            Stream input = new MemoryStream([1]);
+            var input = new MemoryStream([1]);
             const string encodingName = EncodingNames.Brotli;
             const CompressionType type = CompressionType.Brotli;
             const CompressionLevel level = CompressionLevel.Optimal;
@@ -446,7 +446,7 @@ namespace Ogu.Compressions.Tests
         public async Task CompressAsync_StreamInput_WithLevelAndLeaveOpenTrue_ShouldCallAppropriateMethod()
         {
             // Arrange
-            Stream input = new MemoryStream([1]);
+            var input = new MemoryStream([1]);
             const string encodingName = EncodingNames.Brotli;
             const CompressionType type = CompressionType.Brotli;
             const CompressionLevel level = CompressionLevel.Optimal;
@@ -463,8 +463,8 @@ namespace Ogu.Compressions.Tests
             var compressionProvider = new CompressionProvider([compressionMock.Object]);
 
             // Act
-            await compressionProvider.CompressAsync(type, input, leaveOpen, level, cancellationToken);
-            await compressionProvider.CompressAsync(encodingName, input, leaveOpen, level, cancellationToken);
+            await compressionProvider.CompressAsync(type, input, level, leaveOpen, cancellationToken);
+            await compressionProvider.CompressAsync(encodingName, input, level, leaveOpen, cancellationToken);
 
             // Assert
             compressionMock.Verify(c => c.CompressAsync(input, leaveOpen, level, cancellationToken), Times.Exactly(2));
@@ -534,7 +534,7 @@ namespace Ogu.Compressions.Tests
         public async Task CompressToStreamAsync_StreamInput_ShouldCallAppropriateMethod()
         {
             // Arrange
-            Stream input = new MemoryStream([1]);
+            var input = new MemoryStream([1]);
             const string encodingName = EncodingNames.Brotli;
             const CompressionType type = CompressionType.Brotli;
             var cancellationToken = CancellationToken.None;
@@ -563,7 +563,7 @@ namespace Ogu.Compressions.Tests
         public async Task CompressToStreamAsync_StreamInput_WithLeaveOpenTrue_ShouldCallAppropriateMethod()
         {
             // Arrange
-            Stream input = new MemoryStream([1]);
+            var input = new MemoryStream([1]);
             const string encodingName = EncodingNames.Brotli;
             const CompressionType type = CompressionType.Brotli;
             const bool leaveOpen = true;
@@ -587,6 +587,346 @@ namespace Ogu.Compressions.Tests
             compressionMock.Verify(c => c.CompressToStreamAsync(input, leaveOpen, cancellationToken), Times.Exactly(2));
 
             await Task.WhenAll(input.DisposeAsync().AsTask(), stream.DisposeAsync().AsTask());
+        }
+
+        [Fact]
+        public async Task CompressToStreamAsync_StringInput_WithLevel_ShouldCallAppropriateMethod()
+        {
+            // Arrange
+            const string input = "Hello, World!";
+            const string encodingName = EncodingNames.Brotli;
+            const CompressionType type = CompressionType.Brotli;
+            const CompressionLevel level = CompressionLevel.Optimal;
+
+            var cancellationToken = CancellationToken.None;
+            var stream = new MemoryStream();
+
+            var compressionMock = new Mock<ICompression>();
+
+            compressionMock.SetupGet(x => x.EncodingName).Returns(encodingName);
+            compressionMock.SetupGet(x => x.Type).Returns(CompressionType.Brotli);
+
+            compressionMock.Setup(c => c.CompressToStreamAsync(input, level, cancellationToken)).ReturnsAsync(stream);
+
+            var compressionProvider = new CompressionProvider([compressionMock.Object]);
+
+            // Act
+            await compressionProvider.CompressToStreamAsync(type, input, level, cancellationToken);
+            await compressionProvider.CompressToStreamAsync(encodingName, input, level, cancellationToken);
+
+            // Assert
+            compressionMock.Verify(c => c.CompressToStreamAsync(input, level,cancellationToken), Times.Exactly(2));
+
+            await stream.DisposeAsync();
+        }
+
+        [Fact]
+        public async Task CompressToStreamAsync_BytesInput_WithLevel_ShouldCallAppropriateMethod()
+        {
+            // Arrange
+            byte[] input = [1];
+            const string encodingName = EncodingNames.Brotli;
+            const CompressionType type = CompressionType.Brotli;
+            const CompressionLevel level = CompressionLevel.Optimal;
+
+            var cancellationToken = CancellationToken.None;
+            var stream = new MemoryStream();
+
+            var compressionMock = new Mock<ICompression>();
+
+            compressionMock.SetupGet(x => x.EncodingName).Returns(encodingName);
+            compressionMock.SetupGet(x => x.Type).Returns(CompressionType.Brotli);
+
+            compressionMock.Setup(c => c.CompressToStreamAsync(input, level, cancellationToken)).ReturnsAsync(stream);
+
+            var compressionProvider = new CompressionProvider([compressionMock.Object]);
+
+            // Act
+            await compressionProvider.CompressToStreamAsync(type, input, level, cancellationToken);
+            await compressionProvider.CompressToStreamAsync(encodingName, input, level, cancellationToken);
+
+            // Assert
+            compressionMock.Verify(c => c.CompressToStreamAsync(input, level, cancellationToken), Times.Exactly(2));
+
+            await stream.DisposeAsync();
+        }
+
+        [Fact]
+        public async Task CompressToStreamAsync_StreamInput_WithLevel_ShouldCallAppropriateMethod()
+        {
+            // Arrange
+            var input = new MemoryStream([1]);
+            const string encodingName = EncodingNames.Brotli;
+            const CompressionType type = CompressionType.Brotli;
+            const CompressionLevel level = CompressionLevel.Optimal;
+
+            var cancellationToken = CancellationToken.None;
+            var stream = new MemoryStream();
+
+            var compressionMock = new Mock<ICompression>();
+
+            compressionMock.SetupGet(x => x.EncodingName).Returns(encodingName);
+            compressionMock.SetupGet(x => x.Type).Returns(CompressionType.Brotli);
+
+            compressionMock.Setup(c => c.CompressToStreamAsync(input, level, cancellationToken)).ReturnsAsync(stream);
+
+            var compressionProvider = new CompressionProvider([compressionMock.Object]);
+
+            // Act
+            await compressionProvider.CompressToStreamAsync(type, input, level, cancellationToken);
+            await compressionProvider.CompressToStreamAsync(encodingName, input, level, cancellationToken);
+
+            // Assert
+            compressionMock.Verify(c => c.CompressToStreamAsync(input, level, cancellationToken), Times.Exactly(2));
+
+            await Task.WhenAll(input.DisposeAsync().AsTask(), stream.DisposeAsync().AsTask());
+        }
+
+        [Fact]
+        public async Task CompressToStreamAsync_StreamInput_WithLevelAndLeaveOpenTrue_ShouldCallAppropriateMethod()
+        {
+            // Arrange
+            var input = new MemoryStream([1]);
+            const string encodingName = EncodingNames.Brotli;
+            const CompressionType type = CompressionType.Brotli;
+            const CompressionLevel level = CompressionLevel.Optimal;
+            const bool leaveOpen = true;
+
+            var cancellationToken = CancellationToken.None;
+            var stream = new MemoryStream();
+
+            var compressionMock = new Mock<ICompression>();
+
+            compressionMock.SetupGet(x => x.EncodingName).Returns(encodingName);
+            compressionMock.SetupGet(x => x.Type).Returns(CompressionType.Brotli);
+
+            compressionMock.Setup(c => c.CompressToStreamAsync(input, leaveOpen, level, cancellationToken)).ReturnsAsync(stream);
+
+            var compressionProvider = new CompressionProvider([compressionMock.Object]);
+
+            // Act
+            await compressionProvider.CompressToStreamAsync(type, input, level, leaveOpen, cancellationToken);
+            await compressionProvider.CompressToStreamAsync(encodingName, input, level, leaveOpen, cancellationToken);
+
+            // Assert
+            compressionMock.Verify(c => c.CompressToStreamAsync(input, leaveOpen, level, cancellationToken), Times.Exactly(2));
+
+            await Task.WhenAll(input.DisposeAsync().AsTask(), stream.DisposeAsync().AsTask());
+        }
+
+        [Fact]
+        public void Compress_StringInput_ShouldCallAppropriateMethod()
+        {
+            // Arrange
+            const string input = "Hello, World!";
+            const string encodingName = EncodingNames.Brotli;
+            const CompressionType type = CompressionType.Brotli;
+
+            var compressionMock = new Mock<ICompression>();
+
+            compressionMock.SetupGet(x => x.EncodingName).Returns(encodingName);
+            compressionMock.SetupGet(x => x.Type).Returns(CompressionType.Brotli);
+
+            compressionMock.Setup(c => c.Compress(input)).Returns([]);
+
+            var compressionProvider = new CompressionProvider([compressionMock.Object]);
+
+            // Act
+            compressionProvider.Compress(type, input);
+            compressionProvider.Compress(encodingName, input);
+
+            // Assert
+            compressionMock.Verify(c => c.Compress(input), Times.Exactly(2));
+        }
+
+        [Fact]
+        public void Compress_BytesInput_ShouldCallAppropriateMethod()
+        {
+            // Arrange
+            byte[] input = [1];
+            const string encodingName = EncodingNames.Brotli;
+            const CompressionType type = CompressionType.Brotli;
+
+            var compressionMock = new Mock<ICompression>();
+
+            compressionMock.SetupGet(x => x.EncodingName).Returns(encodingName);
+            compressionMock.SetupGet(x => x.Type).Returns(CompressionType.Brotli);
+
+            compressionMock.Setup(c => c.Compress(input)).Returns([]);
+
+            var compressionProvider = new CompressionProvider([compressionMock.Object]);
+
+            // Act
+            compressionProvider.Compress(type, input);
+            compressionProvider.Compress(encodingName, input);
+
+            // Assert
+            compressionMock.Verify(c => c.Compress(input), Times.Exactly(2));
+        }
+
+        [Fact]
+        public void Compress_StreamInput_ShouldCallAppropriateMethod()
+        {
+            // Arrange
+            var input = new MemoryStream([1]);
+            const string encodingName = EncodingNames.Brotli;
+            const CompressionType type = CompressionType.Brotli;
+
+            var compressionMock = new Mock<ICompression>();
+
+            compressionMock.SetupGet(x => x.EncodingName).Returns(encodingName);
+            compressionMock.SetupGet(x => x.Type).Returns(CompressionType.Brotli);
+
+            compressionMock.Setup(c => c.Compress(input)).Returns([]);
+
+            var compressionProvider = new CompressionProvider([compressionMock.Object]);
+
+            // Act
+            compressionProvider.Compress(type, input);
+            compressionProvider.Compress(encodingName, input);
+
+            // Assert
+            compressionMock.Verify(c => c.Compress(input), Times.Exactly(2));
+
+            input.Dispose();
+        }
+
+        [Fact]
+        public void Compress_StreamInput_WithLeaveOpenTrue_ShouldCallAppropriateMethod()
+        {
+            // Arrange
+            var input = new MemoryStream([1]);
+            const string encodingName = EncodingNames.Brotli;
+            const CompressionType type = CompressionType.Brotli;
+            const bool leaveOpen = true;
+            var cancellationToken = CancellationToken.None;
+
+            var compressionMock = new Mock<ICompression>();
+
+            compressionMock.SetupGet(x => x.EncodingName).Returns(encodingName);
+            compressionMock.SetupGet(x => x.Type).Returns(CompressionType.Brotli);
+
+            compressionMock.Setup(c => c.Compress(input, leaveOpen)).Returns([]);
+
+            var compressionProvider = new CompressionProvider([compressionMock.Object]);
+
+            // Act
+            compressionProvider.Compress(type, input, leaveOpen);
+            compressionProvider.Compress(encodingName, input, leaveOpen);
+
+            // Assert
+            compressionMock.Verify(c => c.Compress(input, leaveOpen), Times.Exactly(2));
+
+            input.Dispose();
+        }
+
+        [Fact]
+        public void Compress_StringInput_WithLevel_ShouldCallAppropriateMethod()
+        {
+            // Arrange
+            const string input = "Hello, World!";
+            const string encodingName = EncodingNames.Brotli;
+            const CompressionType type = CompressionType.Brotli;
+            const CompressionLevel level = CompressionLevel.Optimal;
+
+            var compressionMock = new Mock<ICompression>();
+
+            compressionMock.SetupGet(x => x.EncodingName).Returns(encodingName);
+            compressionMock.SetupGet(x => x.Type).Returns(CompressionType.Brotli);
+
+            compressionMock.Setup(c => c.Compress(input, level)).Returns([]);
+
+            var compressionProvider = new CompressionProvider([compressionMock.Object]);
+
+            // Act
+            compressionProvider.Compress(type, input, level);
+            compressionProvider.Compress(encodingName, input, level);
+
+            // Assert
+            compressionMock.Verify(c => c.Compress(input, level), Times.Exactly(2));
+        }
+
+        [Fact]
+        public void Compress_BytesInput_WithLevel_ShouldCallAppropriateMethod()
+        {
+            // Arrange
+            byte[] input = [1];
+            const string encodingName = EncodingNames.Brotli;
+            const CompressionType type = CompressionType.Brotli;
+            const CompressionLevel level = CompressionLevel.Optimal;
+
+            var compressionMock = new Mock<ICompression>();
+
+            compressionMock.SetupGet(x => x.EncodingName).Returns(encodingName);
+            compressionMock.SetupGet(x => x.Type).Returns(CompressionType.Brotli);
+
+            compressionMock.Setup(c => c.Compress(input, level)).Returns([]);
+
+            var compressionProvider = new CompressionProvider([compressionMock.Object]);
+
+            // Act
+            compressionProvider.Compress(type, input, level);
+            compressionProvider.Compress(encodingName, input, level);
+
+            // Assert
+            compressionMock.Verify(c => c.Compress(input, level), Times.Exactly(2));
+        }
+
+        [Fact]
+        public void Compress_StreamInput_WithLevel_ShouldCallAppropriateMethod()
+        {
+            // Arrange
+            var input = new MemoryStream([1]);
+            const string encodingName = EncodingNames.Brotli;
+            const CompressionType type = CompressionType.Brotli;
+            const CompressionLevel level = CompressionLevel.Optimal;
+
+            var compressionMock = new Mock<ICompression>();
+
+            compressionMock.SetupGet(x => x.EncodingName).Returns(encodingName);
+            compressionMock.SetupGet(x => x.Type).Returns(CompressionType.Brotli);
+
+            compressionMock.Setup(c => c.Compress(input, level)).Returns([]);
+
+            var compressionProvider = new CompressionProvider([compressionMock.Object]);
+
+            // Act
+            compressionProvider.Compress(type, input, level);
+            compressionProvider.Compress(encodingName, input, level);
+
+            // Assert
+            compressionMock.Verify(c => c.Compress(input, level), Times.Exactly(2));
+
+            input.Dispose();
+        }
+
+        [Fact]
+        public void Compress_StreamInput_WithLevelAndLeaveOpenTrue_ShouldCallAppropriateMethod()
+        {
+            // Arrange
+            var input = new MemoryStream([1]);
+            const string encodingName = EncodingNames.Brotli;
+            const CompressionType type = CompressionType.Brotli;
+            const CompressionLevel level = CompressionLevel.Optimal;
+            const bool leaveOpen = true;
+
+            var compressionMock = new Mock<ICompression>();
+
+            compressionMock.SetupGet(x => x.EncodingName).Returns(encodingName);
+            compressionMock.SetupGet(x => x.Type).Returns(CompressionType.Brotli);
+
+            compressionMock.Setup(c => c.Compress(input, leaveOpen, level)).Returns([]);
+
+            var compressionProvider = new CompressionProvider([compressionMock.Object]);
+
+            // Act
+            compressionProvider.Compress(type, input, level, leaveOpen);
+            compressionProvider.Compress(encodingName, input, level, leaveOpen);
+
+            // Assert
+            compressionMock.Verify(c => c.Compress(input, leaveOpen, level), Times.Exactly(2));
+
+            input.Dispose();
         }
     }
 }
