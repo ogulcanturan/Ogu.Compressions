@@ -5,7 +5,7 @@
 		<AssemblyName>Ogu.Compressions</AssemblyName>
 		<PackageId>Ogu.Compressions</PackageId>
 		<Product>Ogu.Compressions</Product>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<Authors>Oğulcan TURAN</Authors>
 		<Copyright>Copyright (c) Oğulcan TURAN 2024</Copyright>
 		<PackageProjectUrl>https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.Compressions</PackageProjectUrl>
@@ -23,24 +23,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Brotli.NET" Version="2.1.1" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="2.1.0" />
 		<PackageReference Include="Snappier" Version="1.2.0" />
 		<PackageReference Include="ZstdSharp.Port" Version="0.8.5" />
 	</ItemGroup>
 
-	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
-		<None Remove="runtimes\linux\native\brolib_x64.so" />
-		<None Remove="runtimes\linux\native\brolib_x86.so" />
-		<None Remove="runtimes\linux\native\brolib_x86.so" />
-		<None Remove="runtimes\osx\native\brolib_x64.dylib" />
-		<None Remove="runtimes\win\native\brolib_x64.dll" />
-		<None Remove="runtimes\win\native\brolib_x64.dll" />
-		<None Remove="runtimes\win\native\brolib_x86.dll" />
-	</ItemGroup>
-
 	<ItemGroup>
 		<ProjectReference Include="..\Ogu.Compressions.Abstractions\Ogu.Compressions.Abstractions.csproj" />
+		<ProjectReference Include="..\Ogu.Compressions.Brotli\Ogu.Compressions.Brotli.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

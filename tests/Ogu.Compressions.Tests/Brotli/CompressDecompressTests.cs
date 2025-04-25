@@ -1,7 +1,7 @@
 ﻿using System.IO.Compression;
 using System.Text;
 
-namespace Ogu.Compressions.Tests.BrotliCompression
+namespace Ogu.Compressions.Tests.Brotli
 {
     public partial class BrotliCompressionTests
     {
@@ -16,7 +16,7 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var decompressed = await _brotliCompression.DecompressAsync(compressed);
 
             // Assert
-            Assert.Equal(Encoding.UTF8.GetBytes(input), decompressed);
+            Assert.Equal<byte[]>(Encoding.UTF8.GetBytes(input), decompressed);
         }
 
         [Fact]
@@ -30,7 +30,7 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var decompressed = await _brotliCompression.DecompressAsync(compressed);
 
             // Assert
-            Assert.Equal(input, decompressed);
+            Assert.Equal<byte[]>(input, decompressed);
         }
 
         [Fact]
@@ -45,7 +45,7 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var decompressed = await _brotliCompression.DecompressAsync(compressed);
 
             // Assert
-            Assert.Equal(input, decompressed);
+            Assert.Equal<byte[]>(input, decompressed);
         }
 
         [Fact]
@@ -61,7 +61,7 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var decompressed = await _brotliCompression.DecompressAsync(compressed);
 
             // Assert
-            Assert.Equal(input, decompressed);
+            Assert.Equal<byte[]>(input, decompressed);
 
             await stream.DisposeAsync();
         }
@@ -85,10 +85,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var smallestSizeDecompressed = await _brotliCompression.DecompressAsync(smallestSizeCompressed);
 
             // Assert
-            Assert.Equal(inputBytes, optimalDecompressed);
-            Assert.Equal(inputBytes, fastestDecompressed);
-            Assert.Equal(inputBytes, noCompressionDecompressed);
-            Assert.Equal(inputBytes, smallestSizeDecompressed);
+            Assert.Equal<byte[]>(inputBytes, optimalDecompressed);
+            Assert.Equal<byte[]>(inputBytes, fastestDecompressed);
+            Assert.Equal<byte[]>(inputBytes, noCompressionDecompressed);
+            Assert.Equal<byte[]>(inputBytes, smallestSizeDecompressed);
         }
 
         [Fact]
@@ -109,10 +109,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var smallestSizeDecompressed = await _brotliCompression.DecompressAsync(smallestSizeCompressed);
 
             // Assert
-            Assert.Equal(input, optimalDecompressed);
-            Assert.Equal(input, fastestDecompressed);
-            Assert.Equal(input, noCompressionDecompressed);
-            Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Equal<byte[]>(input, optimalDecompressed);
+            Assert.Equal<byte[]>(input, fastestDecompressed);
+            Assert.Equal<byte[]>(input, noCompressionDecompressed);
+            Assert.Equal<byte[]>(input, smallestSizeDecompressed);
         }
 
         [Fact]
@@ -135,10 +135,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var smallestSizeDecompressed = await _brotliCompression.DecompressAsync(smallestSizeCompressed);
 
             // Assert
-            Assert.Equal(input, optimalDecompressed);
-            Assert.Equal(input, fastestDecompressed);
-            Assert.Equal(input, noCompressionDecompressed);
-            Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Equal<byte[]>(input, optimalDecompressed);
+            Assert.Equal<byte[]>(input, fastestDecompressed);
+            Assert.Equal<byte[]>(input, noCompressionDecompressed);
+            Assert.Equal<byte[]>(input, smallestSizeDecompressed);
             Assert.Throws<ObjectDisposedException>(() => stream.Length);
         }
 
@@ -162,10 +162,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var smallestSizeDecompressed = await _brotliCompression.DecompressAsync(smallestSizeCompressed);
 
             // Assert
-            Assert.Equal(input, optimalDecompressed);
-            Assert.Equal(input, fastestDecompressed);
-            Assert.Equal(input, noCompressionDecompressed);
-            Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Equal<byte[]>(input, optimalDecompressed);
+            Assert.Equal<byte[]>(input, fastestDecompressed);
+            Assert.Equal<byte[]>(input, noCompressionDecompressed);
+            Assert.Equal<byte[]>(input, smallestSizeDecompressed);
 
             await stream.DisposeAsync();
 
@@ -183,7 +183,7 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var decompressed = await _brotliCompression.DecompressAsync(compressed);
 
             // Assert
-            Assert.Equal(Encoding.UTF8.GetBytes(input), decompressed);
+            Assert.Equal<byte[]>(Encoding.UTF8.GetBytes(input), decompressed);
         }
 
         [Fact]
@@ -197,7 +197,7 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var decompressed = await _brotliCompression.DecompressAsync(compressed);
 
             // Assert
-            Assert.Equal(input, decompressed);
+            Assert.Equal<byte[]>(input, decompressed);
         }
 
         [Fact]
@@ -212,7 +212,7 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var decompressed = await _brotliCompression.DecompressAsync(compressed);
 
             // Assert
-            Assert.Equal(input, decompressed);
+            Assert.Equal<byte[]>(input, decompressed);
         }
 
         [Fact]
@@ -227,7 +227,7 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var decompressed = await _brotliCompression.DecompressAsync(compressed);
 
             // Assert
-            Assert.Equal(input, decompressed);
+            Assert.Equal<byte[]>(input, decompressed);
 
             await stream.DisposeAsync();
         }
@@ -251,10 +251,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var smallestSizeDecompressed = await _brotliCompression.DecompressAsync(smallestSizeCompressed);
 
             // Assert
-            Assert.Equal(inputBytes, optimalDecompressed);
-            Assert.Equal(inputBytes, fastestDecompressed);
-            Assert.Equal(inputBytes, noCompressionDecompressed);
-            Assert.Equal(inputBytes, smallestSizeDecompressed);
+            Assert.Equal<byte[]>(inputBytes, optimalDecompressed);
+            Assert.Equal<byte[]>(inputBytes, fastestDecompressed);
+            Assert.Equal<byte[]>(inputBytes, noCompressionDecompressed);
+            Assert.Equal<byte[]>(inputBytes, smallestSizeDecompressed);
         }
 
         [Fact]
@@ -275,10 +275,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var smallestSizeDecompressed = await _brotliCompression.DecompressAsync(smallestSizeCompressed);
 
             // Assert
-            Assert.Equal(input, optimalDecompressed);
-            Assert.Equal(input, fastestDecompressed);
-            Assert.Equal(input, noCompressionDecompressed);
-            Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Equal<byte[]>(input, optimalDecompressed);
+            Assert.Equal<byte[]>(input, fastestDecompressed);
+            Assert.Equal<byte[]>(input, noCompressionDecompressed);
+            Assert.Equal<byte[]>(input, smallestSizeDecompressed);
         }
 
         [Fact]
@@ -301,10 +301,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var smallestSizeDecompressed = await _brotliCompression.DecompressAsync(smallestSizeCompressed);
 
             // Assert
-            Assert.Equal(input, optimalDecompressed);
-            Assert.Equal(input, fastestDecompressed);
-            Assert.Equal(input, noCompressionDecompressed);
-            Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Equal<byte[]>(input, optimalDecompressed);
+            Assert.Equal<byte[]>(input, fastestDecompressed);
+            Assert.Equal<byte[]>(input, noCompressionDecompressed);
+            Assert.Equal<byte[]>(input, smallestSizeDecompressed);
             Assert.Throws<ObjectDisposedException>(() => stream.Length);
         }
 
@@ -328,10 +328,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var smallestSizeDecompressed = await _brotliCompression.DecompressAsync(smallestSizeCompressed);
 
             // Assert
-            Assert.Equal(input, optimalDecompressed);
-            Assert.Equal(input, fastestDecompressed);
-            Assert.Equal(input, noCompressionDecompressed);
-            Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Equal<byte[]>(input, optimalDecompressed);
+            Assert.Equal<byte[]>(input, fastestDecompressed);
+            Assert.Equal<byte[]>(input, noCompressionDecompressed);
+            Assert.Equal<byte[]>(input, smallestSizeDecompressed);
 
             await stream.DisposeAsync();
 
@@ -416,7 +416,7 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var decompressed = _brotliCompression.Decompress(compressed);
 
             // Assert
-            Assert.Equal(Encoding.UTF8.GetBytes(input), decompressed);
+            Assert.Equal<byte[]>(Encoding.UTF8.GetBytes(input), decompressed);
         }
 
         [Fact]
@@ -430,7 +430,7 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var decompressed = _brotliCompression.Decompress(compressed);
 
             // Assert
-            Assert.Equal(input, decompressed);
+            Assert.Equal<byte[]>(input, decompressed);
         }
 
         [Fact]
@@ -445,7 +445,7 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var decompressed = _brotliCompression.Decompress(compressed);
 
             // Assert
-            Assert.Equal(input, decompressed);
+            Assert.Equal<byte[]>(input, decompressed);
         }
 
         [Fact]
@@ -460,7 +460,7 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var decompressed = _brotliCompression.Decompress(compressed);
 
             // Assert
-            Assert.Equal(input, decompressed);
+            Assert.Equal<byte[]>(input, decompressed);
 
             stream.Dispose();
         }
@@ -484,10 +484,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var smallestSizeDecompressed = _brotliCompression.Decompress(smallestSizeCompressed);
 
             // Assert
-            Assert.Equal(inputBytes, optimalDecompressed);
-            Assert.Equal(inputBytes, fastestDecompressed);
-            Assert.Equal(inputBytes, noCompressionDecompressed);
-            Assert.Equal(inputBytes, smallestSizeDecompressed);
+            Assert.Equal<byte[]>(inputBytes, optimalDecompressed);
+            Assert.Equal<byte[]>(inputBytes, fastestDecompressed);
+            Assert.Equal<byte[]>(inputBytes, noCompressionDecompressed);
+            Assert.Equal<byte[]>(inputBytes, smallestSizeDecompressed);
         }
 
         [Fact]
@@ -508,10 +508,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var smallestSizeDecompressed = _brotliCompression.Decompress(smallestSizeCompressed);
 
             // Assert
-            Assert.Equal(input, optimalDecompressed);
-            Assert.Equal(input, fastestDecompressed);
-            Assert.Equal(input, noCompressionDecompressed);
-            Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Equal<byte[]>(input, optimalDecompressed);
+            Assert.Equal<byte[]>(input, fastestDecompressed);
+            Assert.Equal<byte[]>(input, noCompressionDecompressed);
+            Assert.Equal<byte[]>(input, smallestSizeDecompressed);
         }
 
         [Fact]
@@ -534,10 +534,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var smallestSizeDecompressed = _brotliCompression.Decompress(smallestSizeCompressed);
 
             // Assert
-            Assert.Equal(input, optimalDecompressed);
-            Assert.Equal(input, fastestDecompressed);
-            Assert.Equal(input, noCompressionDecompressed);
-            Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Equal<byte[]>(input, optimalDecompressed);
+            Assert.Equal<byte[]>(input, fastestDecompressed);
+            Assert.Equal<byte[]>(input, noCompressionDecompressed);
+            Assert.Equal<byte[]>(input, smallestSizeDecompressed);
             Assert.Throws<ObjectDisposedException>(() => stream.Length);
         }
 
@@ -561,10 +561,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var smallestSizeDecompressed = _brotliCompression.Decompress(smallestSizeCompressed);
 
             // Assert
-            Assert.Equal(input, optimalDecompressed);
-            Assert.Equal(input, fastestDecompressed);
-            Assert.Equal(input, noCompressionDecompressed);
-            Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Equal<byte[]>(input, optimalDecompressed);
+            Assert.Equal<byte[]>(input, fastestDecompressed);
+            Assert.Equal<byte[]>(input, noCompressionDecompressed);
+            Assert.Equal<byte[]>(input, smallestSizeDecompressed);
 
             stream.Dispose();
 
@@ -582,7 +582,7 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var decompressed = _brotliCompression.Decompress(compressed);
 
             // Assert
-            Assert.Equal(Encoding.UTF8.GetBytes(input), decompressed);
+            Assert.Equal<byte[]>(Encoding.UTF8.GetBytes(input), decompressed);
         }
 
         [Fact]
@@ -596,7 +596,7 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var decompressed =  _brotliCompression.Decompress(compressed);
 
             // Assert
-            Assert.Equal(input, decompressed);
+            Assert.Equal<byte[]>(input, decompressed);
         }
 
         [Fact]
@@ -611,7 +611,7 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var decompressed = _brotliCompression.Decompress(compressed);
 
             // Assert
-            Assert.Equal(input, decompressed);
+            Assert.Equal<byte[]>(input, decompressed);
         }
 
         [Fact]
@@ -626,7 +626,7 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var decompressed = _brotliCompression.Decompress(compressed);
 
             // Assert
-            Assert.Equal(input, decompressed);
+            Assert.Equal<byte[]>(input, decompressed);
 
             stream.Dispose();
         }
@@ -650,10 +650,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var smallestSizeDecompressed = _brotliCompression.Decompress(smallestSizeCompressed);
 
             // Assert
-            Assert.Equal(inputBytes, optimalDecompressed);
-            Assert.Equal(inputBytes, fastestDecompressed);
-            Assert.Equal(inputBytes, noCompressionDecompressed);
-            Assert.Equal(inputBytes, smallestSizeDecompressed);
+            Assert.Equal<byte[]>(inputBytes, optimalDecompressed);
+            Assert.Equal<byte[]>(inputBytes, fastestDecompressed);
+            Assert.Equal<byte[]>(inputBytes, noCompressionDecompressed);
+            Assert.Equal<byte[]>(inputBytes, smallestSizeDecompressed);
         }
 
         [Fact]
@@ -674,10 +674,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var smallestSizeDecompressed = _brotliCompression.Decompress(smallestSizeCompressed);
 
             // Assert
-            Assert.Equal(input, optimalDecompressed);
-            Assert.Equal(input, fastestDecompressed);
-            Assert.Equal(input, noCompressionDecompressed);
-            Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Equal<byte[]>(input, optimalDecompressed);
+            Assert.Equal<byte[]>(input, fastestDecompressed);
+            Assert.Equal<byte[]>(input, noCompressionDecompressed);
+            Assert.Equal<byte[]>(input, smallestSizeDecompressed);
         }
 
         [Fact]
@@ -700,10 +700,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var smallestSizeDecompressed = _brotliCompression.Decompress(smallestSizeCompressed);
 
             // Assert
-            Assert.Equal(input, optimalDecompressed);
-            Assert.Equal(input, fastestDecompressed);
-            Assert.Equal(input, noCompressionDecompressed);
-            Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Equal<byte[]>(input, optimalDecompressed);
+            Assert.Equal<byte[]>(input, fastestDecompressed);
+            Assert.Equal<byte[]>(input, noCompressionDecompressed);
+            Assert.Equal<byte[]>(input, smallestSizeDecompressed);
             Assert.Throws<ObjectDisposedException>(() => stream.Length);
 
         }
@@ -728,10 +728,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var smallestSizeDecompressed = _brotliCompression.Decompress(smallestSizeCompressed);
 
             // Assert
-            Assert.Equal(input, optimalDecompressed);
-            Assert.Equal(input, fastestDecompressed);
-            Assert.Equal(input, noCompressionDecompressed);
-            Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Equal<byte[]>(input, optimalDecompressed);
+            Assert.Equal<byte[]>(input, fastestDecompressed);
+            Assert.Equal<byte[]>(input, noCompressionDecompressed);
+            Assert.Equal<byte[]>(input, smallestSizeDecompressed);
 
             stream.Dispose();
 

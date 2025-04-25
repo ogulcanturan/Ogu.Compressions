@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ogu.Compressions
 {
-    /// <summary>
+    // <summary>
     /// Implements the <see cref="IBrotliCompression"/> interface for compressing and decompressing data 
     /// using the built-in 'System.IO.Compression.Brotli' assembly for target frameworks above .NET Standard 2.1+; 
     /// otherwise, it uses 'Brotli.NET' for .NET Standard 2.0.

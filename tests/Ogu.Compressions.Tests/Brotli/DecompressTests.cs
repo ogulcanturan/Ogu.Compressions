@@ -1,4 +1,4 @@
-﻿namespace Ogu.Compressions.Tests.BrotliCompression
+﻿namespace Ogu.Compressions.Tests.Brotli
 {
     public partial class BrotliCompressionTests
     {
