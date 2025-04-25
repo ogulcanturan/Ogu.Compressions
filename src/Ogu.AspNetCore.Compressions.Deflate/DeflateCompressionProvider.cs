@@ -13,7 +13,7 @@ namespace Ogu.AspNetCore.Compressions
             Level = opts.Value.Level;
         }
 
-        public string EncodingName => EncodingNames.Deflate;
+        public string EncodingName => CompressionDefaults.EncodingNames.Deflate;
 
         /// <summary>
         /// Gets the compression level to use for the underlying stream.

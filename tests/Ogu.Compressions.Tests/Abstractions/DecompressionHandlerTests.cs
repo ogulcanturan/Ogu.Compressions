@@ -11,7 +11,7 @@ namespace Ogu.Compressions.Tests.Abstractions
         {
             // Arrange
             var decompressedBytes = "Hello, World!"u8.ToArray();
-            const string encodingName = EncodingNames.Brotli;
+            const string encodingName = CompressionDefaults.EncodingNames.Brotli;
             var compressionMock = new Mock<ICompression>();
             var compressionProviderMock = new Mock<ICompressionProvider>();
 

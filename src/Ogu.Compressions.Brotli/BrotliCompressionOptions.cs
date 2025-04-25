@@ -28,7 +28,7 @@ namespace Ogu.Compressions
         {
         }
 
-        public override string EncodingName => EncodingNames.Brotli;
+        public override string EncodingName => CompressionDefaults.EncodingNames.Brotli;
 
         public override CompressionType Type => CompressionType.Brotli;
 

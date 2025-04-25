@@ -24,13 +24,13 @@ namespace Ogu.Compressions.Abstractions
             _encodingNameToCompressionType = new Dictionary<string, CompressionType>(StringComparer.OrdinalIgnoreCase)
             {
                 { "brotli", CompressionType.Brotli },
-                { EncodingNames.Brotli, CompressionType.Brotli },
-                { EncodingNames.Deflate, CompressionType.Deflate },
-                { EncodingNames.Snappy, CompressionType.Snappy },
+                { CompressionDefaults.EncodingNames.Brotli, CompressionType.Brotli },
+                { CompressionDefaults.EncodingNames.Deflate, CompressionType.Deflate },
+                { CompressionDefaults.EncodingNames.Snappy, CompressionType.Snappy },
                 { "zstandard", CompressionType.Zstd },
-                { EncodingNames.Zstd, CompressionType.Zstd },
-                { EncodingNames.Gzip, CompressionType.Gzip },
-                { EncodingNames.None, CompressionType.None }
+                { CompressionDefaults.EncodingNames.Zstd, CompressionType.Zstd },
+                { CompressionDefaults.EncodingNames.Gzip, CompressionType.Gzip },
+                { CompressionDefaults.EncodingNames.None, CompressionType.None }
             };
         }
 

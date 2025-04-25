@@ -6,7 +6,7 @@ namespace Ogu.Compressions.Tests.Gzip
 {
     public partial class GzipCompressionTests
     {
-        private readonly Compressions.GzipCompression _gzipCompression;
+        private readonly GzipCompression _gzipCompression;
 
         public GzipCompressionTests()
         {
@@ -20,7 +20,7 @@ namespace Ogu.Compressions.Tests.Gzip
         {
             // Assert
             Assert.NotNull(_gzipCompression);
-            Assert.Equal(EncodingNames.Gzip, _gzipCompression.EncodingName);
+            Assert.Equal(CompressionDefaults.EncodingNames.Gzip, _gzipCompression.EncodingName);
             Assert.Equal(CompressionLevel.Fastest, _gzipCompression.Level);
             Assert.Equal(CompressionDefaults.BufferSize, _gzipCompression.BufferSize);
         }

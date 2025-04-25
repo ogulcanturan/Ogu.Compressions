@@ -28,7 +28,7 @@ namespace Ogu.Compressions
         {
         }
 
-        public override string EncodingName => EncodingNames.Gzip;
+        public override string EncodingName => CompressionDefaults.EncodingNames.Gzip;
 
         public override CompressionType Type => CompressionType.Gzip;
 

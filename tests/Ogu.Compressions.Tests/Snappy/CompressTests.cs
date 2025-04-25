@@ -6,7 +6,7 @@ namespace Ogu.Compressions.Tests.Snappy
 {
     public partial class SnappyCompressionTests
     {
-        private readonly Compressions.SnappyCompression _snappyCompression;
+        private readonly SnappyCompression _snappyCompression;
 
         public SnappyCompressionTests()
         {
@@ -20,7 +20,7 @@ namespace Ogu.Compressions.Tests.Snappy
         {
             // Assert
             Assert.NotNull(_snappyCompression);
-            Assert.Equal(EncodingNames.Snappy, _snappyCompression.EncodingName);
+            Assert.Equal(CompressionDefaults.EncodingNames.Snappy, _snappyCompression.EncodingName);
             Assert.Equal(CompressionLevel.Fastest, _snappyCompression.Level);
             Assert.Equal(CompressionDefaults.BufferSize, _snappyCompression.BufferSize);
         }

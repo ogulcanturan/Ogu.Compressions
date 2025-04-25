@@ -1,17 +1,17 @@
 ﻿using Microsoft.Extensions.Options;
-using System.IO.Compression;
 using Ogu.Compressions.Abstractions;
+using System.IO.Compression;
 
 namespace Ogu.Compressions.Tests.Zstd
 {
     public partial class ZstdCompressionTests
     {
-        private readonly Compressions.ZstdCompression _zstdCompression;
+        private readonly ZstdCompression _zstdCompression;
 
         public ZstdCompressionTests()
         {
             _zstdCompression =
-                new Compressions.ZstdCompression(
+                new ZstdCompression(
                     Options.Create<ZstdCompressionOptions>(new ZstdCompressionOptions()));
         }
 
@@ -20,7 +20,7 @@ namespace Ogu.Compressions.Tests.Zstd
         {
             // Assert
             Assert.NotNull(_zstdCompression);
-            Assert.Equal(EncodingNames.Zstd, _zstdCompression.EncodingName);
+            Assert.Equal(CompressionDefaults.EncodingNames.Zstd, _zstdCompression.EncodingName);
             Assert.Equal(CompressionLevel.Fastest, _zstdCompression.Level);
             Assert.Equal(CompressionDefaults.BufferSize, _zstdCompression.BufferSize);
         }

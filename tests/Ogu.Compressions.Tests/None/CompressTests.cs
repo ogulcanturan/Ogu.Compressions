@@ -5,12 +5,12 @@ namespace Ogu.Compressions.Tests.None
 {
     public partial class NoneCompressionTests
     {
-        private readonly Compressions.NoneCompression _noneCompression;
+        private readonly NoneCompression _noneCompression;
 
         public NoneCompressionTests()
         {
             _noneCompression =
-                new Compressions.NoneCompression();
+                new NoneCompression();
         }
 
         [Fact]
@@ -18,7 +18,7 @@ namespace Ogu.Compressions.Tests.None
         {
             // Assert
             Assert.NotNull(_noneCompression);
-            Assert.Equal(EncodingNames.None, _noneCompression.EncodingName);
+            Assert.Equal(CompressionDefaults.EncodingNames.None, _noneCompression.EncodingName);
             Assert.Equal(CompressionLevel.Fastest, _noneCompression.Level);
             Assert.Equal(0, _noneCompression.BufferSize);
         }

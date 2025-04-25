@@ -16,7 +16,7 @@ namespace Ogu.Compressions
         /// <summary>
         /// Initializes a new instance of the <see cref="NoneCompression"/> class.
         /// </summary>
-        public NoneCompression() : base(EncodingNames.None, 0, CompressionType.None, CompressionLevel.Fastest) { }
+        public NoneCompression() : base(CompressionDefaults.EncodingNames.None, 0, CompressionType.None, CompressionLevel.Fastest) { }
 
         protected override byte[] InternalCompress(byte[] bytes, CompressionLevel level)
         {

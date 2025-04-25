@@ -28,7 +28,7 @@ namespace Ogu.Compressions
         {
         }
 
-        public override string EncodingName => EncodingNames.Deflate;
+        public override string EncodingName => CompressionDefaults.EncodingNames.Deflate;
 
         public override CompressionType Type => CompressionType.Deflate;
 

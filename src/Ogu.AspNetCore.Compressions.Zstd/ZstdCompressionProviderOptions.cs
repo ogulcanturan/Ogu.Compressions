@@ -31,7 +31,7 @@ namespace Ogu.AspNetCore.Compressions
         /// <summary>
         /// Gets the name of the encoding used for underlying compression.
         /// </summary>
-        public string EncodingName => EncodingNames.Zstd;
+        public string EncodingName => CompressionDefaults.EncodingNames.Zstd;
 
         /// <summary>
         /// Gets the compression level to use for the underlying stream.

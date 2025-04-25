@@ -15,7 +15,7 @@ namespace Ogu.AspNetCore.Compressions
             BufferSize = optionsValue.BufferSize;
         }
 
-        public string EncodingName => EncodingNames.Zstd;
+        public string EncodingName => CompressionDefaults.EncodingNames.Zstd;
 
         /// <summary>
         /// Gets the size, in bytes, of the buffer. The default size is 81920.

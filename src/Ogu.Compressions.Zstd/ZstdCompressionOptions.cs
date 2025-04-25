@@ -28,7 +28,7 @@ namespace Ogu.Compressions
         {
         }
 
-        public override string EncodingName => EncodingNames.Zstd;
+        public override string EncodingName => CompressionDefaults.EncodingNames.Zstd;
 
         public override CompressionType Type => CompressionType.Zstd;
 

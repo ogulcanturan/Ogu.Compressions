@@ -15,12 +15,12 @@ namespace Ogu.Compressions.Abstractions
         private static readonly Lazy<Dictionary<CompressionType, string>> LazyCompressionTypeToEncodingName =
             new Lazy<Dictionary<CompressionType, string>>(() => new Dictionary<CompressionType, string>
             {
-                { CompressionType.Brotli, EncodingNames.Brotli },
-                { CompressionType.Deflate, EncodingNames.Deflate },
-                { CompressionType.Snappy, EncodingNames.Snappy },
-                { CompressionType.Zstd, EncodingNames.Zstd },
-                { CompressionType.Gzip, EncodingNames.Gzip },
-                { CompressionType.None, EncodingNames.None }
+                { CompressionType.Brotli, CompressionDefaults.EncodingNames.Brotli },
+                { CompressionType.Deflate, CompressionDefaults.EncodingNames.Deflate },
+                { CompressionType.Snappy, CompressionDefaults.EncodingNames.Snappy },
+                { CompressionType.Zstd, CompressionDefaults.EncodingNames.Zstd },
+                { CompressionType.Gzip, CompressionDefaults.EncodingNames.Gzip },
+                { CompressionType.None, CompressionDefaults.EncodingNames.None }
             });
 
         /// <summary>
@@ -48,17 +48,14 @@ namespace Ogu.Compressions.Abstractions
         ///   <item>
         ///     <description><see cref="CompressionType.None"/> → <c>none</c> (used internally to indicate no compression; does not correspond to a real encoding header)</description>
         ///   </item>
+        ///   <item>
+        ///     <description>Returns <c>null</c> if no match is found.</description>
+        ///   </item>  
         /// </list>
         /// </remarks>
         public static string ToEncodingName(this CompressionType compressionType)
         {
-#if NETSTANDARD2_0
-            return LazyCompressionTypeToEncodingName.Value.TryGetValue(compressionType, out var encodingName) 
-                ? encodingName 
-                : EncodingNames.None;
-#else
-            return LazyCompressionTypeToEncodingName.Value.GetValueOrDefault(compressionType, EncodingNames.None);
-#endif
+            return LazyCompressionTypeToEncodingName.Value.GetValueOrDefault(compressionType);
         }
 
         /// <summary>
@@ -131,6 +128,11 @@ namespace Ogu.Compressions.Abstractions
             compressionType.AddToRequestHeaders(requestHeaders, quality);
         }
 
+        public static void AddCompressionTypes(this HttpRequestHeaders requestHeaders, IEnumerable<CompressionType> compressionTypes)
+        {
+            compressionTypes.AddToRequestHeaders(requestHeaders);
+        }
+
         /// <summary>
         /// Adds each specified <see cref="CompressionType"/> to the <c>Accept-Encoding</c> header of the request,
         /// with its corresponding quality value. Compression types with <see cref="CompressionType.None"/> are ignored.
@@ -195,14 +197,14 @@ namespace Ogu.Compressions.Abstractions
 
             var encodings =
 #if NETSTANDARD2_0
-                string.Join(",", compressionTypes.Where(c => c != CompressionType.None).Select(c => c.ToEncodingName()));
+                compressionTypes.Where(c => c != CompressionType.None).Select(c => c.ToEncodingName());
 #else
-                string.Join(',', compressionTypes.Where(c => c != CompressionType.None).Select(c => c.ToEncodingName()));
+                compressionTypes.Where(c => c != CompressionType.None).Select(c => c.ToEncodingName());
 #endif
 
-            if (encodings != string.Empty)
+            foreach (var encoding in encodings)
             {
-                requestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue(encodings));
+                requestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue(encoding));
             }
         }
 

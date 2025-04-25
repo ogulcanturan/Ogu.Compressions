@@ -28,7 +28,7 @@ namespace Ogu.Compressions
         {
         }
 
-        public override string EncodingName => EncodingNames.Snappy;
+        public override string EncodingName => CompressionDefaults.EncodingNames.Snappy;
 
         public override CompressionType Type => CompressionType.Snappy;
 

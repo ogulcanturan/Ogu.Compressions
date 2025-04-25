@@ -13,7 +13,7 @@ namespace Ogu.Compressions.Abstractions
     /// Implements the <see cref="ICompressionProvider"/> interface to retrieve the appropriate <see cref="ICompression"/> implementation 
     /// based on the specified compression type or encoding name. Also supports performing asynchronous compression and decompression operations.
     /// </summary>
-    public class CompressionProvider : ICompressionProvider
+    public sealed class CompressionProvider : ICompressionProvider
     {
         private readonly Dictionary<CompressionType, ICompression> _compressions;
         private readonly ICompressionTypeResolver _compressionTypeResolver;
