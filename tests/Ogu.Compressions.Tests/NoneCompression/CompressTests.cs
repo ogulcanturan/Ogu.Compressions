@@ -145,9 +145,10 @@ namespace Ogu.Compressions.Tests.NoneCompression
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
             var expected = new byte[] { 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33 };
+            const bool leaveOpen = true;
 
             // Act
-            var actual = await _noneCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.Fastest);
+            var actual = await _noneCompression.CompressAsync(stream, CompressionLevel.Fastest, leaveOpen);
 
             // Assert
             Assert.NotEmpty(actual);
@@ -337,9 +338,10 @@ namespace Ogu.Compressions.Tests.NoneCompression
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
             var expected = new byte[] { 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33 };
+            const bool leaveOpen = true;
 
             // Act
-            var stream = await _noneCompression.CompressToStreamAsync(rawStream, leaveOpen: true, CompressionLevel.Fastest);
+            var stream = await _noneCompression.CompressToStreamAsync(rawStream, CompressionLevel.Fastest, leaveOpen);
 
             // Assert
             Assert.NotNull(stream);
@@ -479,9 +481,10 @@ namespace Ogu.Compressions.Tests.NoneCompression
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
             var expected = new byte[] { 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33 };
+            const bool leaveOpen = true;
 
             // Act
-            var actual = _noneCompression.Compress(stream, leaveOpen: true, CompressionLevel.Fastest);
+            var actual = _noneCompression.Compress(stream, CompressionLevel.Fastest, leaveOpen);
 
             // Assert
             Assert.NotEmpty(actual);
@@ -671,9 +674,10 @@ namespace Ogu.Compressions.Tests.NoneCompression
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
             var expected = new byte[] { 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33 };
+            const bool leaveOpen = true;
 
             // Act
-            var stream = _noneCompression.CompressToStream(rawStream, leaveOpen: true, CompressionLevel.Fastest);
+            var stream = _noneCompression.CompressToStream(rawStream, CompressionLevel.Fastest, leaveOpen);
 
             // Assert
             Assert.NotNull(stream);

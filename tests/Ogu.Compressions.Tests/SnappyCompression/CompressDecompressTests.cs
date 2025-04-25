@@ -54,9 +54,10 @@ namespace Ogu.Compressions.Tests.SnappyCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var compressed = await _snappyCompression.CompressAsync(stream, leaveOpen: true);
+            var compressed = await _snappyCompression.CompressAsync(stream, leaveOpen);
             var decompressed = await _snappyCompression.DecompressAsync(compressed);
 
             // Assert
@@ -120,12 +121,13 @@ namespace Ogu.Compressions.Tests.SnappyCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = await _snappyCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = await _snappyCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = await _snappyCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = await _snappyCompression.CompressAsync(stream, leaveOpen: false, CompressionLevel.SmallestSize);
+            var optimalCompressed = await _snappyCompression.CompressAsync(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = await _snappyCompression.CompressAsync(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = await _snappyCompression.CompressAsync(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = await _snappyCompression.CompressAsync(stream, CompressionLevel.SmallestSize, leaveOpen: false);
 
             var optimalDecompressed = await _snappyCompression.DecompressAsync(optimalCompressed);
             var fastestDecompressed = await _snappyCompression.DecompressAsync(fastestCompressed);
@@ -137,6 +139,7 @@ namespace Ogu.Compressions.Tests.SnappyCompression
             Assert.Equal(input, fastestDecompressed);
             Assert.Equal(input, noCompressionDecompressed);
             Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Throws<ObjectDisposedException>(() => stream.Length);
         }
 
         [Fact]
@@ -145,12 +148,13 @@ namespace Ogu.Compressions.Tests.SnappyCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = await _snappyCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = await _snappyCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = await _snappyCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = await _snappyCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.SmallestSize);
+            var optimalCompressed = await _snappyCompression.CompressAsync(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = await _snappyCompression.CompressAsync(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = await _snappyCompression.CompressAsync(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = await _snappyCompression.CompressAsync(stream, CompressionLevel.SmallestSize, leaveOpen);
 
             var optimalDecompressed = await _snappyCompression.DecompressAsync(optimalCompressed);
             var fastestDecompressed = await _snappyCompression.DecompressAsync(fastestCompressed);
@@ -283,12 +287,13 @@ namespace Ogu.Compressions.Tests.SnappyCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = await _snappyCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = await _snappyCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = await _snappyCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = await _snappyCompression.CompressToStreamAsync(stream, leaveOpen: false, CompressionLevel.SmallestSize);
+            var optimalCompressed = await _snappyCompression.CompressToStreamAsync(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = await _snappyCompression.CompressToStreamAsync(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = await _snappyCompression.CompressToStreamAsync(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = await _snappyCompression.CompressToStreamAsync(stream, CompressionLevel.SmallestSize, leaveOpen: false);
 
             var optimalDecompressed = await _snappyCompression.DecompressAsync(optimalCompressed);
             var fastestDecompressed = await _snappyCompression.DecompressAsync(fastestCompressed);
@@ -300,6 +305,7 @@ namespace Ogu.Compressions.Tests.SnappyCompression
             Assert.Equal(input, fastestDecompressed);
             Assert.Equal(input, noCompressionDecompressed);
             Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Throws<ObjectDisposedException>(() => stream.Length);
         }
 
         [Fact]
@@ -308,12 +314,13 @@ namespace Ogu.Compressions.Tests.SnappyCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = await _snappyCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = await _snappyCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = await _snappyCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = await _snappyCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.SmallestSize);
+            var optimalCompressed = await _snappyCompression.CompressToStreamAsync(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = await _snappyCompression.CompressToStreamAsync(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = await _snappyCompression.CompressToStreamAsync(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = await _snappyCompression.CompressToStreamAsync(stream, CompressionLevel.SmallestSize, leaveOpen);
 
             var optimalDecompressed = await _snappyCompression.DecompressAsync(optimalCompressed);
             var fastestDecompressed = await _snappyCompression.DecompressAsync(fastestCompressed);
@@ -513,12 +520,13 @@ namespace Ogu.Compressions.Tests.SnappyCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = _snappyCompression.Compress(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = _snappyCompression.Compress(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = _snappyCompression.Compress(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = _snappyCompression.Compress(stream, leaveOpen: false, CompressionLevel.SmallestSize);
+            var optimalCompressed = _snappyCompression.Compress(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = _snappyCompression.Compress(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = _snappyCompression.Compress(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = _snappyCompression.Compress(stream, CompressionLevel.SmallestSize, leaveOpen: false);
 
             var optimalDecompressed = _snappyCompression.Decompress(optimalCompressed);
             var fastestDecompressed = _snappyCompression.Decompress(fastestCompressed);
@@ -530,6 +538,7 @@ namespace Ogu.Compressions.Tests.SnappyCompression
             Assert.Equal(input, fastestDecompressed);
             Assert.Equal(input, noCompressionDecompressed);
             Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Throws<ObjectDisposedException>(() => stream.Length);
         }
 
         [Fact]
@@ -538,12 +547,13 @@ namespace Ogu.Compressions.Tests.SnappyCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = _snappyCompression.Compress(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = _snappyCompression.Compress(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = _snappyCompression.Compress(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = _snappyCompression.Compress(stream, leaveOpen: true, CompressionLevel.SmallestSize);
+            var optimalCompressed = _snappyCompression.Compress(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = _snappyCompression.Compress(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = _snappyCompression.Compress(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = _snappyCompression.Compress(stream, CompressionLevel.SmallestSize, leaveOpen);
 
             var optimalDecompressed = _snappyCompression.Decompress(optimalCompressed);
             var fastestDecompressed = _snappyCompression.Decompress(fastestCompressed);
@@ -676,12 +686,13 @@ namespace Ogu.Compressions.Tests.SnappyCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = _snappyCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = _snappyCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = _snappyCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = _snappyCompression.CompressToStream(stream, leaveOpen: false, CompressionLevel.SmallestSize);
+            var optimalCompressed = _snappyCompression.CompressToStream(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = _snappyCompression.CompressToStream(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = _snappyCompression.CompressToStream(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = _snappyCompression.CompressToStream(stream, CompressionLevel.SmallestSize, leaveOpen: false);
 
             var optimalDecompressed = _snappyCompression.Decompress(optimalCompressed);
             var fastestDecompressed = _snappyCompression.Decompress(fastestCompressed);
@@ -693,6 +704,7 @@ namespace Ogu.Compressions.Tests.SnappyCompression
             Assert.Equal(input, fastestDecompressed);
             Assert.Equal(input, noCompressionDecompressed);
             Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Throws<ObjectDisposedException>(() => stream.Length);
         }
 
         [Fact]
@@ -701,12 +713,13 @@ namespace Ogu.Compressions.Tests.SnappyCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = _snappyCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = _snappyCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = _snappyCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = _snappyCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.SmallestSize);
+            var optimalCompressed = _snappyCompression.CompressToStream(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = _snappyCompression.CompressToStream(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = _snappyCompression.CompressToStream(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = _snappyCompression.CompressToStream(stream, CompressionLevel.SmallestSize, leaveOpen);
 
             var optimalDecompressed = _snappyCompression.Decompress(optimalCompressed);
             var fastestDecompressed = _snappyCompression.Decompress(fastestCompressed);

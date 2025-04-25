@@ -54,9 +54,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var compressed = await _brotliCompression.CompressAsync(stream, leaveOpen: true);
+            var compressed = await _brotliCompression.CompressAsync(stream, leaveOpen);
             var decompressed = await _brotliCompression.DecompressAsync(compressed);
 
             // Assert
@@ -120,12 +121,13 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = await _brotliCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = await _brotliCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = await _brotliCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = await _brotliCompression.CompressAsync(stream, leaveOpen: false, CompressionLevel.SmallestSize);
+            var optimalCompressed = await _brotliCompression.CompressAsync(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = await _brotliCompression.CompressAsync(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = await _brotliCompression.CompressAsync(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = await _brotliCompression.CompressAsync(stream, CompressionLevel.SmallestSize, leaveOpen: false);
 
             var optimalDecompressed = await _brotliCompression.DecompressAsync(optimalCompressed);
             var fastestDecompressed = await _brotliCompression.DecompressAsync(fastestCompressed);
@@ -137,6 +139,7 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             Assert.Equal(input, fastestDecompressed);
             Assert.Equal(input, noCompressionDecompressed);
             Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Throws<ObjectDisposedException>(() => stream.Length);
         }
 
         [Fact]
@@ -145,12 +148,13 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = await _brotliCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = await _brotliCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = await _brotliCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = await _brotliCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.SmallestSize);
+            var optimalCompressed = await _brotliCompression.CompressAsync(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = await _brotliCompression.CompressAsync(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = await _brotliCompression.CompressAsync(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = await _brotliCompression.CompressAsync(stream, CompressionLevel.SmallestSize, leaveOpen);
 
             var optimalDecompressed = await _brotliCompression.DecompressAsync(optimalCompressed);
             var fastestDecompressed = await _brotliCompression.DecompressAsync(fastestCompressed);
@@ -283,12 +287,13 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = await _brotliCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = await _brotliCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = await _brotliCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = await _brotliCompression.CompressToStreamAsync(stream, leaveOpen: false, CompressionLevel.SmallestSize);
+            var optimalCompressed = await _brotliCompression.CompressToStreamAsync(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = await _brotliCompression.CompressToStreamAsync(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = await _brotliCompression.CompressToStreamAsync(stream,CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = await _brotliCompression.CompressToStreamAsync(stream, CompressionLevel.SmallestSize, leaveOpen: false);
 
             var optimalDecompressed = await _brotliCompression.DecompressAsync(optimalCompressed);
             var fastestDecompressed = await _brotliCompression.DecompressAsync(fastestCompressed);
@@ -300,6 +305,7 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             Assert.Equal(input, fastestDecompressed);
             Assert.Equal(input, noCompressionDecompressed);
             Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Throws<ObjectDisposedException>(() => stream.Length);
         }
 
         [Fact]
@@ -308,12 +314,13 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = await _brotliCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = await _brotliCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = await _brotliCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = await _brotliCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.SmallestSize);
+            var optimalCompressed = await _brotliCompression.CompressToStreamAsync(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = await _brotliCompression.CompressToStreamAsync(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = await _brotliCompression.CompressToStreamAsync(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = await _brotliCompression.CompressToStreamAsync(stream, CompressionLevel.SmallestSize, leaveOpen);
 
             var optimalDecompressed = await _brotliCompression.DecompressAsync(optimalCompressed);
             var fastestDecompressed = await _brotliCompression.DecompressAsync(fastestCompressed);
@@ -513,12 +520,13 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = _brotliCompression.Compress(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = _brotliCompression.Compress(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = _brotliCompression.Compress(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = _brotliCompression.Compress(stream, leaveOpen: false, CompressionLevel.SmallestSize);
+            var optimalCompressed = _brotliCompression.Compress(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = _brotliCompression.Compress(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = _brotliCompression.Compress(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = _brotliCompression.Compress(stream, CompressionLevel.SmallestSize, leaveOpen: false);
 
             var optimalDecompressed = _brotliCompression.Decompress(optimalCompressed);
             var fastestDecompressed = _brotliCompression.Decompress(fastestCompressed);
@@ -530,6 +538,7 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             Assert.Equal(input, fastestDecompressed);
             Assert.Equal(input, noCompressionDecompressed);
             Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Throws<ObjectDisposedException>(() => stream.Length);
         }
 
         [Fact]
@@ -538,12 +547,13 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = _brotliCompression.Compress(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = _brotliCompression.Compress(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = _brotliCompression.Compress(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = _brotliCompression.Compress(stream, leaveOpen: true, CompressionLevel.SmallestSize);
+            var optimalCompressed = _brotliCompression.Compress(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = _brotliCompression.Compress(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = _brotliCompression.Compress(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = _brotliCompression.Compress(stream, CompressionLevel.SmallestSize, leaveOpen);
 
             var optimalDecompressed = _brotliCompression.Decompress(optimalCompressed);
             var fastestDecompressed = _brotliCompression.Decompress(fastestCompressed);
@@ -676,12 +686,13 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = _brotliCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = _brotliCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = _brotliCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = _brotliCompression.CompressToStream(stream, leaveOpen: false, CompressionLevel.SmallestSize);
+            var optimalCompressed = _brotliCompression.CompressToStream(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = _brotliCompression.CompressToStream(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = _brotliCompression.CompressToStream(stream,CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = _brotliCompression.CompressToStream(stream, CompressionLevel.SmallestSize, leaveOpen: false);
 
             var optimalDecompressed = _brotliCompression.Decompress(optimalCompressed);
             var fastestDecompressed = _brotliCompression.Decompress(fastestCompressed);
@@ -693,6 +704,8 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             Assert.Equal(input, fastestDecompressed);
             Assert.Equal(input, noCompressionDecompressed);
             Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Throws<ObjectDisposedException>(() => stream.Length);
+
         }
 
         [Fact]
@@ -701,12 +714,13 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = _brotliCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = _brotliCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = _brotliCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = _brotliCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.SmallestSize);
+            var optimalCompressed = _brotliCompression.CompressToStream(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = _brotliCompression.CompressToStream(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = _brotliCompression.CompressToStream(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = _brotliCompression.CompressToStream(stream, CompressionLevel.SmallestSize, leaveOpen);
 
             var optimalDecompressed = _brotliCompression.Decompress(optimalCompressed);
             var fastestDecompressed = _brotliCompression.Decompress(fastestCompressed);

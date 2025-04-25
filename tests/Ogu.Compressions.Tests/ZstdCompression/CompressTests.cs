@@ -147,9 +147,10 @@ namespace Ogu.Compressions.Tests.ZstdCompression
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
             var expected = new byte[] { 40, 181, 47, 253, 0, 72, 105, 0, 0, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33 };
+            const bool leaveOpen = true;
 
             // Act
-            var actual = await _zstdCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.Fastest);
+            var actual = await _zstdCompression.CompressAsync(stream, CompressionLevel.Fastest, leaveOpen);
 
             // Assert
             Assert.NotEmpty(actual);
@@ -337,9 +338,10 @@ namespace Ogu.Compressions.Tests.ZstdCompression
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
             var expected = new byte[] { 40, 181, 47, 253, 0, 72, 105, 0, 0, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33 };
+            const bool leaveOpen = true;
 
             // Act
-            var stream = await _zstdCompression.CompressToStreamAsync(rawStream, leaveOpen: true, CompressionLevel.Fastest);
+            var stream = await _zstdCompression.CompressToStreamAsync(rawStream, CompressionLevel.Fastest, leaveOpen);
 
             // Assert
             Assert.NotNull(stream);
@@ -479,9 +481,10 @@ namespace Ogu.Compressions.Tests.ZstdCompression
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
             var expected = new byte[] { 40, 181, 47, 253, 0, 72, 105, 0, 0, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33 };
+            const bool leaveOpen = true;
 
             // Act
-            var actual = _zstdCompression.Compress(stream, leaveOpen: true, CompressionLevel.Fastest);
+            var actual = _zstdCompression.Compress(stream, CompressionLevel.Fastest, leaveOpen);
 
             // Assert
             Assert.NotEmpty(actual);
@@ -669,9 +672,10 @@ namespace Ogu.Compressions.Tests.ZstdCompression
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
             var expected = new byte[] { 40, 181, 47, 253, 0, 72, 105, 0, 0, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33 };
+            const bool leaveOpen = true;
 
             // Act
-            var stream = _zstdCompression.CompressToStream(rawStream, leaveOpen: true, CompressionLevel.Fastest);
+            var stream = _zstdCompression.CompressToStream(rawStream, CompressionLevel.Fastest, leaveOpen);
 
             // Assert
             Assert.NotNull(stream);

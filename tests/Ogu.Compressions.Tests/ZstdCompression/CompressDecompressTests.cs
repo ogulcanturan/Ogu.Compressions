@@ -54,9 +54,10 @@ namespace Ogu.Compressions.Tests.ZstdCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var compressed = await _zstdCompression.CompressAsync(stream, leaveOpen: true);
+            var compressed = await _zstdCompression.CompressAsync(stream, leaveOpen);
             var decompressed = await _zstdCompression.DecompressAsync(compressed);
 
             // Assert
@@ -120,12 +121,13 @@ namespace Ogu.Compressions.Tests.ZstdCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = await _zstdCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = await _zstdCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = await _zstdCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = await _zstdCompression.CompressAsync(stream, leaveOpen: false, CompressionLevel.SmallestSize);
+            var optimalCompressed = await _zstdCompression.CompressAsync(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = await _zstdCompression.CompressAsync(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = await _zstdCompression.CompressAsync(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = await _zstdCompression.CompressAsync(stream, CompressionLevel.SmallestSize, leaveOpen: false);
 
             var optimalDecompressed = await _zstdCompression.DecompressAsync(optimalCompressed);
             var fastestDecompressed = await _zstdCompression.DecompressAsync(fastestCompressed);
@@ -137,6 +139,7 @@ namespace Ogu.Compressions.Tests.ZstdCompression
             Assert.Equal(input, fastestDecompressed);
             Assert.Equal(input, noCompressionDecompressed);
             Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Throws<ObjectDisposedException>(() => stream.Length);
         }
 
         [Fact]
@@ -145,12 +148,13 @@ namespace Ogu.Compressions.Tests.ZstdCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = await _zstdCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = await _zstdCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = await _zstdCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = await _zstdCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.SmallestSize);
+            var optimalCompressed = await _zstdCompression.CompressAsync(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = await _zstdCompression.CompressAsync(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = await _zstdCompression.CompressAsync(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = await _zstdCompression.CompressAsync(stream, CompressionLevel.SmallestSize, leaveOpen);
 
             var optimalDecompressed = await _zstdCompression.DecompressAsync(optimalCompressed);
             var fastestDecompressed = await _zstdCompression.DecompressAsync(fastestCompressed);
@@ -283,12 +287,13 @@ namespace Ogu.Compressions.Tests.ZstdCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = await _zstdCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = await _zstdCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = await _zstdCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = await _zstdCompression.CompressToStreamAsync(stream, leaveOpen: false, CompressionLevel.SmallestSize);
+            var optimalCompressed = await _zstdCompression.CompressToStreamAsync(stream,CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = await _zstdCompression.CompressToStreamAsync(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = await _zstdCompression.CompressToStreamAsync(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = await _zstdCompression.CompressToStreamAsync(stream, CompressionLevel.SmallestSize, leaveOpen: false);
 
             var optimalDecompressed = await _zstdCompression.DecompressAsync(optimalCompressed);
             var fastestDecompressed = await _zstdCompression.DecompressAsync(fastestCompressed);
@@ -300,6 +305,7 @@ namespace Ogu.Compressions.Tests.ZstdCompression
             Assert.Equal(input, fastestDecompressed);
             Assert.Equal(input, noCompressionDecompressed);
             Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Throws<ObjectDisposedException>(() => stream.Length);
         }
 
         [Fact]
@@ -308,12 +314,13 @@ namespace Ogu.Compressions.Tests.ZstdCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = await _zstdCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = await _zstdCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = await _zstdCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = await _zstdCompression.CompressToStreamAsync(stream, leaveOpen: true, CompressionLevel.SmallestSize);
+            var optimalCompressed = await _zstdCompression.CompressToStreamAsync(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = await _zstdCompression.CompressToStreamAsync(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = await _zstdCompression.CompressToStreamAsync(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = await _zstdCompression.CompressToStreamAsync(stream, CompressionLevel.SmallestSize, leaveOpen);
 
             var optimalDecompressed = await _zstdCompression.DecompressAsync(optimalCompressed);
             var fastestDecompressed = await _zstdCompression.DecompressAsync(fastestCompressed);
@@ -513,12 +520,13 @@ namespace Ogu.Compressions.Tests.ZstdCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = _zstdCompression.Compress(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = _zstdCompression.Compress(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = _zstdCompression.Compress(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = _zstdCompression.Compress(stream, leaveOpen: false, CompressionLevel.SmallestSize);
+            var optimalCompressed = _zstdCompression.Compress(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = _zstdCompression.Compress(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = _zstdCompression.Compress(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = _zstdCompression.Compress(stream, CompressionLevel.SmallestSize, leaveOpen: false);
 
             var optimalDecompressed = _zstdCompression.Decompress(optimalCompressed);
             var fastestDecompressed = _zstdCompression.Decompress(fastestCompressed);
@@ -530,6 +538,7 @@ namespace Ogu.Compressions.Tests.ZstdCompression
             Assert.Equal(input, fastestDecompressed);
             Assert.Equal(input, noCompressionDecompressed);
             Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Throws<ObjectDisposedException>(() => stream.Length);
         }
 
         [Fact]
@@ -538,12 +547,13 @@ namespace Ogu.Compressions.Tests.ZstdCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = _zstdCompression.Compress(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = _zstdCompression.Compress(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = _zstdCompression.Compress(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = _zstdCompression.Compress(stream, leaveOpen: true, CompressionLevel.SmallestSize);
+            var optimalCompressed = _zstdCompression.Compress(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = _zstdCompression.Compress(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = _zstdCompression.Compress(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = _zstdCompression.Compress(stream, CompressionLevel.SmallestSize, leaveOpen);
 
             var optimalDecompressed = _zstdCompression.Decompress(optimalCompressed);
             var fastestDecompressed = _zstdCompression.Decompress(fastestCompressed);
@@ -676,12 +686,13 @@ namespace Ogu.Compressions.Tests.ZstdCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = _zstdCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = _zstdCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = _zstdCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = _zstdCompression.CompressToStream(stream, leaveOpen: false, CompressionLevel.SmallestSize);
+            var optimalCompressed = _zstdCompression.CompressToStream(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = _zstdCompression.CompressToStream(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = _zstdCompression.CompressToStream(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = _zstdCompression.CompressToStream(stream, CompressionLevel.SmallestSize, leaveOpen: false);
 
             var optimalDecompressed = _zstdCompression.Decompress(optimalCompressed);
             var fastestDecompressed = _zstdCompression.Decompress(fastestCompressed);
@@ -693,6 +704,7 @@ namespace Ogu.Compressions.Tests.ZstdCompression
             Assert.Equal(input, fastestDecompressed);
             Assert.Equal(input, noCompressionDecompressed);
             Assert.Equal(input, smallestSizeDecompressed);
+            Assert.Throws<ObjectDisposedException>(() => stream.Length);
         }
 
         [Fact]
@@ -701,12 +713,13 @@ namespace Ogu.Compressions.Tests.ZstdCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var optimalCompressed = _zstdCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.Optimal);
-            var fastestCompressed = _zstdCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.Fastest);
-            var noCompressionCompressed = _zstdCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.NoCompression);
-            var smallestSizeCompressed = _zstdCompression.CompressToStream(stream, leaveOpen: true, CompressionLevel.SmallestSize);
+            var optimalCompressed = _zstdCompression.CompressToStream(stream, CompressionLevel.Optimal, leaveOpen);
+            var fastestCompressed = _zstdCompression.CompressToStream(stream, CompressionLevel.Fastest, leaveOpen);
+            var noCompressionCompressed = _zstdCompression.CompressToStream(stream, CompressionLevel.NoCompression, leaveOpen);
+            var smallestSizeCompressed = _zstdCompression.CompressToStream(stream, CompressionLevel.SmallestSize, leaveOpen);
 
             var optimalDecompressed = _zstdCompression.Decompress(optimalCompressed);
             var fastestDecompressed = _zstdCompression.Decompress(fastestCompressed);

@@ -4,12 +4,26 @@ using System.IO.Compression;
 
 namespace Ogu.Compressions
 {
+    /// <summary>
+    /// Provides configuration options for the Brotli (br) compression, 
+    /// including the compression level and buffer size.
+    /// </summary>
     public sealed class BrotliCompressionOptions : CompressionOptions, IOptions<BrotliCompressionOptions>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrotliCompressionOptions"/> class 
+        /// with default values for compression level (<see cref="CompressionLevel.Fastest"/>) and buffer size (81920).
+        /// </summary>
         public BrotliCompressionOptions()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrotliCompressionOptions"/> class
+        /// with the specified compression level and buffer size.
+        /// </summary>
+        /// <param name="level">The compression level to use.</param>
+        /// <param name="bufferSize">The size, in bytes, of the buffer to use.</param>
         public BrotliCompressionOptions(CompressionLevel level, int bufferSize) : base(level, bufferSize)
         {
         }

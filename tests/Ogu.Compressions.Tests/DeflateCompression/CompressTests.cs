@@ -147,9 +147,10 @@ namespace Ogu.Compressions.Tests.DeflateCompression
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
             var expected = new byte[] { 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0 };
+            const bool leaveOpen = true;
 
             // Act
-            var actual = await _deflateCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.Optimal);
+            var actual = await _deflateCompression.CompressAsync(stream, CompressionLevel.Optimal, leaveOpen);
 
             // Assert
             Assert.NotEmpty(actual);
@@ -239,9 +240,10 @@ namespace Ogu.Compressions.Tests.DeflateCompression
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
             var expected = new byte[] { 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0 };
+            const bool leaveOpen = true;
 
             // Act
-            var stream = await _deflateCompression.CompressToStreamAsync(rawStream, leaveOpen: true);
+            var stream = await _deflateCompression.CompressToStreamAsync(rawStream, leaveOpen);
 
             // Assert
             Assert.NotNull(stream);
@@ -337,9 +339,10 @@ namespace Ogu.Compressions.Tests.DeflateCompression
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
             var expected = new byte[] { 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0 };
+            const bool leaveOpen = true;
 
             // Act
-            var stream = await _deflateCompression.CompressToStreamAsync(rawStream, leaveOpen: true, CompressionLevel.Optimal);
+            var stream = await _deflateCompression.CompressToStreamAsync(rawStream, CompressionLevel.Optimal, leaveOpen);
 
             // Assert
             Assert.NotNull(stream);
@@ -479,9 +482,10 @@ namespace Ogu.Compressions.Tests.DeflateCompression
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
             var expected = new byte[] { 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0 };
+            const bool leaveOpen = true;
 
             // Act
-            var actual = _deflateCompression.Compress(stream, leaveOpen: true, CompressionLevel.Optimal);
+            var actual = _deflateCompression.Compress(stream, CompressionLevel.Optimal, leaveOpen);
 
             // Assert
             Assert.NotEmpty(actual);
@@ -669,9 +673,10 @@ namespace Ogu.Compressions.Tests.DeflateCompression
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
             var expected = new byte[] { 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0 };
+            const bool leaveOpen = true;
 
             // Act
-            var stream = _deflateCompression.CompressToStream(rawStream, leaveOpen: true, CompressionLevel.Optimal);
+            var stream = _deflateCompression.CompressToStream(rawStream, CompressionLevel.Optimal, leaveOpen);
 
             // Assert
             Assert.NotNull(stream);

@@ -116,7 +116,7 @@ namespace Ogu.Compressions.Abstractions
         /// <returns>
         /// A task that represents the asynchronous compression operation, which wraps the <see cref="byte" /> array containing the compressed data.
         /// </returns>
-        Task<byte[]> CompressAsync(Stream stream, bool leaveOpen, CompressionLevel level, CancellationToken cancellationToken = default);
+        Task<byte[]> CompressAsync(Stream stream, CompressionLevel level, bool leaveOpen, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Asynchronously compresses the given input string to a stream.
@@ -207,7 +207,7 @@ namespace Ogu.Compressions.Abstractions
         /// <remarks>
         /// The returned stream is positioned at the beginning. Caller is responsible for disposing the stream.
         /// </remarks>
-        Task<Stream> CompressToStreamAsync(Stream stream, bool leaveOpen, CompressionLevel level, CancellationToken cancellationToken = default);
+        Task<Stream> CompressToStreamAsync(Stream stream, CompressionLevel level, bool leaveOpen, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Compresses the given input string.
@@ -271,7 +271,7 @@ namespace Ogu.Compressions.Abstractions
         /// <param name="leaveOpen">Indicates whether the <paramref name="stream"/> should remain open after the operation.</param>
         /// <param name="level">The compression level to use.</param>
         /// <returns>A <see cref="byte" /> array containing the compressed data.</returns>
-        byte[] Compress(Stream stream, bool leaveOpen, CompressionLevel level);
+        byte[] Compress(Stream stream, CompressionLevel level, bool leaveOpen);
 
         /// <summary>
         /// Compresses the given input string to a stream.
@@ -363,7 +363,7 @@ namespace Ogu.Compressions.Abstractions
         /// <remarks>
         /// The returned stream is positioned at the beginning. Caller is responsible for disposing the stream.
         /// </remarks>
-        Stream CompressToStream(Stream stream, bool leaveOpen, CompressionLevel level);
+        Stream CompressToStream(Stream stream, CompressionLevel level, bool leaveOpen);
 
         /// <summary>
         /// Asynchronously decompresses the given <see cref="byte" /> array.

@@ -41,9 +41,10 @@
             var input = new byte[] { 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33};
             var stream = new MemoryStream(input);
             var expected = "Hello, World!"u8.ToArray();
+            const bool leaveOpen = true;
 
             // Act
-            var actual = await _noneCompression.DecompressAsync(stream, true);
+            var actual = await _noneCompression.DecompressAsync(stream, leaveOpen);
 
             // Assert
             Assert.NotEmpty(actual);
@@ -111,9 +112,10 @@
             var input = new byte[] { 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33};
             var rawStream = new MemoryStream(input);
             var expected = "Hello, World!"u8.ToArray();
+            const bool leaveOpen = true;
 
             // Act
-            var stream = await _noneCompression.DecompressToStreamAsync(rawStream, true);
+            var stream = await _noneCompression.DecompressToStreamAsync(rawStream, leaveOpen);
 
             // Assert
             Assert.NotNull(stream);
@@ -156,6 +158,7 @@
 
             Assert.Throws<ObjectDisposedException>(() => rawStream.Length);
             Assert.Throws<ObjectDisposedException>(() => stream.Length);
+            await Assert.ThrowsAsync<ObjectDisposedException>(async () => _ = (await httpContent.ReadAsStreamAsync()).Length);
         }
 
         [Fact]
@@ -165,9 +168,10 @@
             var input = new byte[] { 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33 };
             var rawStream = new MemoryStream(input);
             var httpContent = new StreamContent(rawStream);
+            const bool leaveOpen = true;
 
             // Act
-            var stream = await _noneCompression.DecompressToStreamAsync(httpContent);
+            var stream = await _noneCompression.DecompressToStreamAsync(httpContent, leaveOpen);
 
             // Assert
             Assert.NotNull(stream);
@@ -183,6 +187,7 @@
 
             Assert.Throws<ObjectDisposedException>(() => rawStream.Length);
             Assert.Throws<ObjectDisposedException>(() => stream.Length);
+            await Assert.ThrowsAsync<ObjectDisposedException>(async () => _ = (await httpContent.ReadAsStreamAsync()).Length);
         }
 
         [Fact]
@@ -224,9 +229,10 @@
             var input = new byte[] { 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33};
             var stream = new MemoryStream(input);
             var expected = "Hello, World!"u8.ToArray();
+            const bool leaveOpen = true;
 
             // Act
-            var actual = _noneCompression.Decompress(stream, true);
+            var actual = _noneCompression.Decompress(stream, leaveOpen);
 
             // Assert
             Assert.NotEmpty(actual);

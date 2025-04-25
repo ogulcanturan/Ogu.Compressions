@@ -131,9 +131,10 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var actual = await _gzipCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.Fastest);
+            var actual = await _gzipCompression.CompressAsync(stream, CompressionLevel.Fastest, leaveOpen);
 
             // Assert
             Assert.NotEmpty(actual);
@@ -284,9 +285,10 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var stream = await _gzipCompression.CompressToStreamAsync(rawStream, leaveOpen: true, CompressionLevel.Fastest);
+            var stream = await _gzipCompression.CompressToStreamAsync(rawStream, CompressionLevel.Fastest, leaveOpen);
 
             // Assert
             Assert.NotNull(stream);
@@ -405,9 +407,10 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var actual = _gzipCompression.Compress(stream, leaveOpen: true, CompressionLevel.Fastest);
+            var actual = _gzipCompression.Compress(stream, CompressionLevel.Fastest, leaveOpen);
 
             // Assert
             Assert.NotEmpty(actual);
@@ -556,9 +559,10 @@ namespace Ogu.Compressions.Tests.GzipCompression
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var stream = _gzipCompression.CompressToStream(rawStream, leaveOpen: true, CompressionLevel.Fastest);
+            var stream = _gzipCompression.CompressToStream(rawStream, CompressionLevel.Fastest, leaveOpen);
 
             // Assert
             Assert.NotNull(stream);

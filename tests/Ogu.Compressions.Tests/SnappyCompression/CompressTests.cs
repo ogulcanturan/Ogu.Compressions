@@ -147,9 +147,10 @@ namespace Ogu.Compressions.Tests.SnappyCompression
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
             var expected = new byte[] { 255, 6, 0, 0, 115, 78, 97, 80, 112, 89, 1, 17, 0, 0, 130, 133, 83, 195, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33 };
+            const bool leaveOpen = true;
 
             // Act
-            var actual = await _snappyCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.Fastest);
+            var actual = await _snappyCompression.CompressAsync(stream, CompressionLevel.Fastest, leaveOpen);
 
             // Assert
             Assert.NotEmpty(actual);
@@ -337,9 +338,10 @@ namespace Ogu.Compressions.Tests.SnappyCompression
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
             var expected = new byte[] { 255, 6, 0, 0, 115, 78, 97, 80, 112, 89, 1, 17, 0, 0, 130, 133, 83, 195, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33 };
+            const bool leaveOpen = true;
 
             // Act
-            var stream = await _snappyCompression.CompressToStreamAsync(rawStream, leaveOpen: true, CompressionLevel.Fastest);
+            var stream = await _snappyCompression.CompressToStreamAsync(rawStream, CompressionLevel.Fastest, leaveOpen);
 
             // Assert
             Assert.NotNull(stream);
@@ -479,9 +481,10 @@ namespace Ogu.Compressions.Tests.SnappyCompression
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
             var expected = new byte[] { 255, 6, 0, 0, 115, 78, 97, 80, 112, 89, 1, 17, 0, 0, 130, 133, 83, 195, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33 };
+            const bool leaveOpen = true;
 
             // Act
-            var actual = _snappyCompression.Compress(stream, leaveOpen: true, CompressionLevel.Fastest);
+            var actual = _snappyCompression.Compress(stream, CompressionLevel.Fastest, leaveOpen);
 
             // Assert
             Assert.NotEmpty(actual);
@@ -669,9 +672,10 @@ namespace Ogu.Compressions.Tests.SnappyCompression
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
             var expected = new byte[] { 255, 6, 0, 0, 115, 78, 97, 80, 112, 89, 1, 17, 0, 0, 130, 133, 83, 195, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33 };
+            const bool leaveOpen = true;
 
             // Act
-            var stream = _snappyCompression.CompressToStream(rawStream, leaveOpen: true, CompressionLevel.Fastest);
+            var stream = _snappyCompression.CompressToStream(rawStream, CompressionLevel.Fastest, leaveOpen);
 
             // Assert
             Assert.NotNull(stream);

@@ -41,9 +41,10 @@
             var input = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
             var stream = new MemoryStream(input);
             var expected = "Hello, World!"u8.ToArray();
+            const bool leaveOpen = true;
 
             // Act
-            var actual = await _brotliCompression.DecompressAsync(stream, true);
+            var actual = await _brotliCompression.DecompressAsync(stream, leaveOpen);
 
             // Assert
             Assert.NotEmpty(actual);
@@ -110,9 +111,10 @@
             var input = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
             var rawStream = new MemoryStream(input);
             var expected = "Hello, World!"u8.ToArray();
+            const bool leaveOpen = true;
 
             // Act
-            var stream = await _brotliCompression.DecompressToStreamAsync(rawStream, true);
+            var stream = await _brotliCompression.DecompressToStreamAsync(rawStream, leaveOpen);
 
             // Assert
             Assert.NotNull(stream);
@@ -145,10 +147,7 @@
             Assert.NotNull(stream);
             Assert.IsType<MemoryStream>(stream);
             Assert.Throws<ObjectDisposedException>(() => compressed.Length);
-            await Assert.ThrowsAsync<ObjectDisposedException>(async () =>
-            {
-                var streamLength = (await httpContent.ReadAsStreamAsync()).Length;
-            });
+            await Assert.ThrowsAsync<ObjectDisposedException>(async () => _ = (await httpContent.ReadAsStreamAsync()).Length);
 
             var actual = ((MemoryStream)stream).ToArray();
 
@@ -167,9 +166,10 @@
             var rawStream = new MemoryStream(input);
             var httpContent = new StreamContent(rawStream);
             var expected = "Hello, World!"u8.ToArray();
+            const bool leaveOpen = true;
 
             // Act
-            var stream = await _brotliCompression.DecompressToStreamAsync(httpContent, leaveOpen: true);
+            var stream = await _brotliCompression.DecompressToStreamAsync(httpContent, leaveOpen);
 
             // Assert
             Assert.NotNull(stream);
@@ -185,10 +185,7 @@
 
             Assert.Throws<ObjectDisposedException>(() => stream.Length);
             Assert.Throws<ObjectDisposedException>(() => rawStream.Length);
-            await Assert.ThrowsAsync<ObjectDisposedException>(async () =>
-            {
-                var streamLength = (await httpContent.ReadAsStreamAsync()).Length;
-            });
+            await Assert.ThrowsAsync<ObjectDisposedException>(async () => _ = (await httpContent.ReadAsStreamAsync()).Length);
         }
 
         [Fact]
@@ -230,9 +227,10 @@
             var input = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
             var stream = new MemoryStream(input);
             var expected = "Hello, World!"u8.ToArray();
+            const bool leaveOpen = true;
 
             // Act
-            var actual = _brotliCompression.Decompress(stream, true);
+            var actual = _brotliCompression.Decompress(stream, leaveOpen);
 
             // Assert
             Assert.NotEmpty(actual);

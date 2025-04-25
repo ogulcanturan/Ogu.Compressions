@@ -458,7 +458,7 @@ namespace Ogu.Compressions.Tests
             compressionMock.SetupGet(x => x.EncodingName).Returns(encodingName);
             compressionMock.SetupGet(x => x.Type).Returns(CompressionType.Brotli);
 
-            compressionMock.Setup(c => c.CompressAsync(input, leaveOpen, level, cancellationToken)).ReturnsAsync([]);
+            compressionMock.Setup(c => c.CompressAsync(input, level, leaveOpen, cancellationToken)).ReturnsAsync([]);
 
             var compressionProvider = new CompressionProvider([compressionMock.Object]);
 
@@ -467,7 +467,7 @@ namespace Ogu.Compressions.Tests
             await compressionProvider.CompressAsync(encodingName, input, level, leaveOpen, cancellationToken);
 
             // Assert
-            compressionMock.Verify(c => c.CompressAsync(input, leaveOpen, level, cancellationToken), Times.Exactly(2));
+            compressionMock.Verify(c => c.CompressAsync(input, level, leaveOpen, cancellationToken), Times.Exactly(2));
 
             await input.DisposeAsync();
         }
@@ -700,7 +700,7 @@ namespace Ogu.Compressions.Tests
             compressionMock.SetupGet(x => x.EncodingName).Returns(encodingName);
             compressionMock.SetupGet(x => x.Type).Returns(CompressionType.Brotli);
 
-            compressionMock.Setup(c => c.CompressToStreamAsync(input, leaveOpen, level, cancellationToken)).ReturnsAsync(stream);
+            compressionMock.Setup(c => c.CompressToStreamAsync(input, level, leaveOpen, cancellationToken)).ReturnsAsync(stream);
 
             var compressionProvider = new CompressionProvider([compressionMock.Object]);
 
@@ -709,7 +709,7 @@ namespace Ogu.Compressions.Tests
             await compressionProvider.CompressToStreamAsync(encodingName, input, level, leaveOpen, cancellationToken);
 
             // Assert
-            compressionMock.Verify(c => c.CompressToStreamAsync(input, leaveOpen, level, cancellationToken), Times.Exactly(2));
+            compressionMock.Verify(c => c.CompressToStreamAsync(input, level, leaveOpen, cancellationToken), Times.Exactly(2));
 
             await Task.WhenAll(input.DisposeAsync().AsTask(), stream.DisposeAsync().AsTask());
         }
@@ -915,7 +915,7 @@ namespace Ogu.Compressions.Tests
             compressionMock.SetupGet(x => x.EncodingName).Returns(encodingName);
             compressionMock.SetupGet(x => x.Type).Returns(CompressionType.Brotli);
 
-            compressionMock.Setup(c => c.Compress(input, leaveOpen, level)).Returns([]);
+            compressionMock.Setup(c => c.Compress(input, level, leaveOpen)).Returns([]);
 
             var compressionProvider = new CompressionProvider([compressionMock.Object]);
 
@@ -924,7 +924,7 @@ namespace Ogu.Compressions.Tests
             compressionProvider.Compress(encodingName, input, level, leaveOpen);
 
             // Assert
-            compressionMock.Verify(c => c.Compress(input, leaveOpen, level), Times.Exactly(2));
+            compressionMock.Verify(c => c.Compress(input, level, leaveOpen), Times.Exactly(2));
 
             input.Dispose();
         }

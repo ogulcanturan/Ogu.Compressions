@@ -1,24 +1,27 @@
 ﻿using Microsoft.Extensions.Options;
-using System.IO.Compression;
 using Ogu.Compressions.Abstractions;
+using System.IO.Compression;
 
 namespace Ogu.AspNetCore.Compressions
 {
     /// <summary>
-    /// 
+    /// Provides configuration options for the Zstandard (zstd) compression provider, 
+    /// including the compression level and buffer size.
     /// </summary>
     public sealed class ZstdCompressionProviderOptions : IOptions<ZstdCompressionProviderOptions>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ZstdCompressionProviderOptions"/> class with default values.
+        /// Initializes a new instance of the <see cref="ZstdCompressionProviderOptions"/> class 
+        /// with default values for compression level (<see cref="CompressionLevel.Fastest"/>) and buffer size (81920).
         /// </summary>
         public ZstdCompressionProviderOptions() : this(CompressionLevel.Fastest, CompressionDefaults.BufferSize) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ZstdCompressionProviderOptions"/> class with the specified compression level and buffer size.
+        /// Initializes a new instance of the <see cref="ZstdCompressionProviderOptions"/> class
+        /// with the specified compression level and buffer size.
         /// </summary>
-        /// <param name="level"></param>
-        /// <param name="bufferSize"></param>
+        /// <param name="level">The compression level to use.</param>
+        /// <param name="bufferSize">The size, in bytes, of the buffer to use.</param>
         public ZstdCompressionProviderOptions(CompressionLevel level, int bufferSize)
         {
             Level = level;

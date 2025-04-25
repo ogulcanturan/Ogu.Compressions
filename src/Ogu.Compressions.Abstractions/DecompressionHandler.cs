@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 namespace Ogu.Compressions.Abstractions
 {
     /// <summary>
-    /// A custom HTTP handler for decompressing response content based on the Content-Encoding header.
+    /// A custom HTTP handler for decompressing response content based on the 'Content-Encoding' header.
     /// </summary>
     /// <remarks>
-    /// This handler is responsible for checking the response's Content-Encoding header and decompressing the content
+    /// This handler is responsible for checking the response's 'Content-Encoding' header and decompressing the content
     /// if the appropriate encoding is detected. It uses the <see cref="ICompressionProvider"/> to get the necessary 
     /// compression implementation for decompressing the content.
     /// </remarks>

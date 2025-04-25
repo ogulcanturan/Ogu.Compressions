@@ -147,9 +147,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
             var expected = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
+            const bool leaveOpen = true;
 
             // Act
-            var actual = await _brotliCompression.CompressAsync(stream, leaveOpen: true, CompressionLevel.Optimal);
+            var actual = await _brotliCompression.CompressAsync(stream, CompressionLevel.Optimal, leaveOpen);
 
             // Assert
             Assert.NotEmpty(actual);
@@ -337,9 +338,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
             var expected = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
+            const bool leaveOpen = true;
 
             // Act
-            var stream = await _brotliCompression.CompressToStreamAsync(rawStream, leaveOpen: true, CompressionLevel.Optimal);
+            var stream = await _brotliCompression.CompressToStreamAsync(rawStream, CompressionLevel.Optimal, leaveOpen);
 
             // Assert
             Assert.NotNull(stream);
@@ -479,9 +481,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
             var expected = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
+            const bool leaveOpen = true;
 
             // Act
-            var actual = _brotliCompression.Compress(stream, leaveOpen: true, CompressionLevel.Optimal);
+            var actual = _brotliCompression.Compress(stream, CompressionLevel.Optimal, leaveOpen);
 
             // Assert
             Assert.NotEmpty(actual);
@@ -669,9 +672,10 @@ namespace Ogu.Compressions.Tests.BrotliCompression
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
             var expected = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
+            const bool leaveOpen = true;
 
             // Act
-            var stream = _brotliCompression.CompressToStream(rawStream, leaveOpen: true, CompressionLevel.Optimal);
+            var stream = _brotliCompression.CompressToStream(rawStream, CompressionLevel.Optimal, leaveOpen);
 
             // Assert
             Assert.NotNull(stream);

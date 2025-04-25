@@ -41,7 +41,7 @@ namespace Ogu.Compressions.Abstractions
         public int BufferSize { get; set; }
 
         /// <summary>
-        /// The encoding name used for the compression. e.g. "br", "deflate", "snappy", "zstd", "gzip" or "none" for NoneCompression.
+        /// The encoding name used for the compression. e.g., "br", "deflate", "snappy", "zstd", "gzip" or "none" (used internally to indicate no compression; does not correspond to a real encoding header).
         /// </summary>
         public abstract string EncodingName { get; }
 

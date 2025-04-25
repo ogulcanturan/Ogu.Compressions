@@ -36,9 +36,10 @@
             // Arrange
             var input = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var actual = await _gzipCompression.DecompressAsync(stream, true);
+            var actual = await _gzipCompression.DecompressAsync(stream, leaveOpen);
 
             // Assert
             Assert.NotEmpty(actual);
@@ -92,9 +93,10 @@
             // Arrange
             var input = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
             var rawStream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var stream = await _gzipCompression.DecompressToStreamAsync(rawStream, true);
+            var stream = await _gzipCompression.DecompressToStreamAsync(rawStream, leaveOpen);
 
             // Assert
             Assert.NotNull(stream);
@@ -123,10 +125,7 @@
             Assert.NotNull(stream);
             Assert.IsType<MemoryStream>(stream);
             Assert.Throws<ObjectDisposedException>(() => rawStream.Length);
-            await Assert.ThrowsAsync<ObjectDisposedException>(async () =>
-            {
-                var streamLength = (await httpContent.ReadAsStreamAsync()).Length;
-            });
+            await Assert.ThrowsAsync<ObjectDisposedException>(async () => _ = (await httpContent.ReadAsStreamAsync()).Length);
 
             await stream.DisposeAsync();
 
@@ -140,9 +139,10 @@
             var input = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
             var rawStream = new MemoryStream(input);
             var httpContent = new StreamContent(rawStream);
+            const bool leaveOpen = true;
 
             // Act
-            var stream = await _gzipCompression.DecompressToStreamAsync(httpContent, leaveOpen: true);
+            var stream = await _gzipCompression.DecompressToStreamAsync(httpContent, leaveOpen);
 
             // Assert
             Assert.NotNull(stream);
@@ -154,10 +154,7 @@
 
             Assert.Throws<ObjectDisposedException>(() => stream.Length);
             Assert.Throws<ObjectDisposedException>(() => rawStream.Length);
-            await Assert.ThrowsAsync<ObjectDisposedException>(async () =>
-            {
-                var streamLength = (await httpContent.ReadAsStreamAsync()).Length;
-            });
+            await Assert.ThrowsAsync<ObjectDisposedException>(async () => _ = (await httpContent.ReadAsStreamAsync()).Length);
         }
 
         [Fact]
@@ -199,9 +196,10 @@
             // Arrange
             var input = new byte[] { 31, 139, 8, 0, 0, 0, 0, 0, 4, 10, 243, 72, 205, 201, 201, 215, 81, 8, 207, 47, 202, 73, 81, 4, 0, 208, 195, 74, 236, 13, 0, 0, 0 };
             var stream = new MemoryStream(input);
+            const bool leaveOpen = true;
 
             // Act
-            var actual = _gzipCompression.Decompress(stream, true);
+            var actual = _gzipCompression.Decompress(stream, leaveOpen);
 
             // Assert
             Assert.NotEmpty(actual);
