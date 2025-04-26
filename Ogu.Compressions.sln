@@ -37,6 +37,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogu.AspNetCore.Compressions
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogu.AspNetCore.Compressions.Zstd", "src\Ogu.AspNetCore.Compressions.Zstd\Ogu.AspNetCore.Compressions.Zstd.csproj", "{91143921-748D-4689-91C7-639EF269E48E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", "{3ED2E76D-C44E-4780-A1AC-7048745AC1A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogu.Compressions.Benchmarks", "benchmarks\Ogu.Compressions.Benchmarks\Ogu.Compressions.Benchmarks.csproj", "{532F3878-3209-4FBE-AD72-3CAA8F68B97E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +107,10 @@ Global
 		{91143921-748D-4689-91C7-639EF269E48E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91143921-748D-4689-91C7-639EF269E48E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91143921-748D-4689-91C7-639EF269E48E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{532F3878-3209-4FBE-AD72-3CAA8F68B97E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{532F3878-3209-4FBE-AD72-3CAA8F68B97E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{532F3878-3209-4FBE-AD72-3CAA8F68B97E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{532F3878-3209-4FBE-AD72-3CAA8F68B97E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,6 +131,7 @@ Global
 		{447F09B2-2762-4AE4-B501-E831A2A68B9D} = {134EFB49-E96B-4A4C-9FE7-4999056EB2B7}
 		{CAE732E5-386C-4279-94B7-5EE315808576} = {134EFB49-E96B-4A4C-9FE7-4999056EB2B7}
 		{91143921-748D-4689-91C7-639EF269E48E} = {134EFB49-E96B-4A4C-9FE7-4999056EB2B7}
+		{532F3878-3209-4FBE-AD72-3CAA8F68B97E} = {3ED2E76D-C44E-4780-A1AC-7048745AC1A4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7FA9B782-BA60-4F49-B21F-6F607CBF8D47}

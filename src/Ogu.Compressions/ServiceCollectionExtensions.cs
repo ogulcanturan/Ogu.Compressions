@@ -24,6 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 services.Configure<SnappyCompressionOptions>(opts);
                 services.Configure<ZstdCompressionOptions>(opts);
                 services.Configure<GzipCompressionOptions>(opts);
+                services.Configure<NoneCompressionOptions>(opts);
             }
 
             services.AddSingleton<IBrotliCompression, BrotliCompression>();

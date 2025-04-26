@@ -9,7 +9,7 @@ namespace Ogu.Compressions.Tests.None
 
         public NoneCompressionTests()
         {
-            _noneCompression = new NoneCompression();
+            _noneCompression = new NoneCompression(new NoneCompressionOptions());
         }
 
         [Fact]
@@ -19,7 +19,7 @@ namespace Ogu.Compressions.Tests.None
             Assert.NotNull(_noneCompression);
             Assert.Equal(CompressionDefaults.EncodingNames.None, _noneCompression.EncodingName);
             Assert.Equal(CompressionLevel.Fastest, _noneCompression.Level);
-            Assert.Equal(0, _noneCompression.BufferSize);
+            Assert.Equal(CompressionDefaults.BufferSize, _noneCompression.BufferSize);
         }
 
         [Fact]

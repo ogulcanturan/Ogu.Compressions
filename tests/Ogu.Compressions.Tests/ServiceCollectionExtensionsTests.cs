@@ -86,7 +86,7 @@ namespace Ogu.Compressions.Tests
             Assert.Equal(noneCompression, noneCompressionFromAnotherScope);
             Assert.Equal(CompressionDefaults.EncodingNames.None, noneCompression.EncodingName);
             Assert.Equal(level, noneCompression.Level);
-            Assert.Equal(0, noneCompression.BufferSize);
+            Assert.Equal(CompressionDefaults.BufferSize, noneCompression.BufferSize);
             Assert.Equal(compressionProvider, compressionProviderFromAnotherScope);
             Assert.Equal(compressions, compressionsFromAnotherScope);
             Assert.Equal(6, compressions.Length);
@@ -177,8 +177,8 @@ namespace Ogu.Compressions.Tests
             Assert.Equal(noneCompression, noneCompressionFromProvider);
             Assert.Equal(noneCompression, noneCompressionFromAnotherScope);
             Assert.Equal(CompressionDefaults.EncodingNames.None, noneCompression.EncodingName);
-            Assert.Equal(CompressionLevel.Fastest, noneCompression.Level);
-            Assert.Equal(0, noneCompression.BufferSize);
+            Assert.Equal(level, noneCompression.Level);
+            Assert.Equal(bufferSize, noneCompression.BufferSize);
             Assert.Equal(compressionProvider, compressionProviderFromAnotherScope);
             Assert.Equal(compressions, compressionsFromAnotherScope);
             Assert.Equal(6, compressions.Length);

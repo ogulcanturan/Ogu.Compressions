@@ -11,7 +11,7 @@ namespace Ogu.Compressions.Tests.None
         {
             // Arrange
             const CompressionLevel level = CompressionLevel.Fastest;
-            const int bufferSize = 0;
+            const int bufferSize = CompressionDefaults.BufferSize;
             var services = new ServiceCollection();
 
             // Act

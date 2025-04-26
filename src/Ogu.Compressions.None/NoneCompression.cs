@@ -4,6 +4,7 @@ using System.IO.Compression;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 namespace Ogu.Compressions
 {
@@ -16,7 +17,7 @@ namespace Ogu.Compressions
         /// <summary>
         /// Initializes a new instance of the <see cref="NoneCompression"/> class.
         /// </summary>
-        public NoneCompression() : base(CompressionDefaults.EncodingNames.None, 0, CompressionType.None, CompressionLevel.Fastest) { }
+        public NoneCompression(IOptions<NoneCompressionOptions> opts) : base(opts.Value) { }
 
         protected override byte[] InternalCompress(byte[] bytes, CompressionLevel level)
         {

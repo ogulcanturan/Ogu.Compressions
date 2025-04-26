@@ -1,5 +1,6 @@
 ﻿using Ogu.Compressions;
 using Ogu.Compressions.Abstractions;
+using System;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -10,8 +11,15 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services">The service collection to register the compression service into.</param>
         /// <returns>The same <see cref="IServiceCollection"/> instance for chaining.</returns>
-        public static IServiceCollection AddNoneCompression(this IServiceCollection services)
+        public static IServiceCollection AddNoneCompression(this IServiceCollection services, Action<NoneCompressionOptions> opts = null)
         {
+            services.AddOptions();
+
+            if (opts != null)
+            {
+                services.Configure(opts);
+            }
+
             services.AddSingleton<INoneCompression, NoneCompression>();
             services.AddSingleton<ICompression>(sp => sp.GetRequiredService<INoneCompression>());
 
