@@ -1,10 +1,10 @@
-﻿using Ogu.Compressions.Abstractions;
+﻿using Microsoft.Extensions.Options;
+using Ogu.Compressions.Abstractions;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
 
 namespace Ogu.Compressions
 {
@@ -24,9 +24,9 @@ namespace Ogu.Compressions
             return bytes;
         }
 
-        protected override byte[] InternalCompress(Stream stream, CompressionLevel level, bool leaveOpen)
+        protected override byte[] InternalCompress(Stream stream, CompressionLevel level, bool leaveOpen, int bufferSize)
         {
-            return stream.ReadAllBytes(leaveOpen);
+            return stream.ReadAllBytes(leaveOpen, bufferSize);
         }
 
         protected override Task<byte[]> InternalCompressAsync(byte[] bytes, CompressionLevel level, CancellationToken cancellationToken = default)
@@ -34,9 +34,9 @@ namespace Ogu.Compressions
             return Task.FromResult(bytes);
         }
 
-        protected override Task<byte[]> InternalCompressAsync(Stream stream, CompressionLevel level, bool leaveOpen, CancellationToken cancellationToken = default)
+        protected override Task<byte[]> InternalCompressAsync(Stream stream, CompressionLevel level, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default)
         {
-            return stream.ReadAllBytesAsync(leaveOpen, cancellationToken);
+            return stream.ReadAllBytesAsync(leaveOpen, bufferSize, cancellationToken);
         }
 
         protected override async Task<Stream> InternalCompressToStreamAsync(byte[] bytes, CompressionLevel compressionLevel, CancellationToken cancellationToken = default)
@@ -44,7 +44,7 @@ namespace Ogu.Compressions
             return await Task.FromResult(new MemoryStream(bytes)).ConfigureAwait(false);
         }
 
-        protected override Task<Stream> InternalCompressToStreamAsync(Stream stream, CompressionLevel compressionLevel, bool leaveOpen, CancellationToken cancellationToken = default)
+        protected override Task<Stream> InternalCompressToStreamAsync(Stream stream, CompressionLevel compressionLevel, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default)
         {
             return Task.FromResult(stream);
         }
@@ -54,7 +54,7 @@ namespace Ogu.Compressions
             return new MemoryStream(bytes);
         }
 
-        protected override Stream InternalCompressToStream(Stream stream, CompressionLevel compressionLevel, bool leaveOpen)
+        protected override Stream InternalCompressToStream(Stream stream, CompressionLevel compressionLevel, bool leaveOpen, int bufferSize)
         {
             return stream;
         }
@@ -66,10 +66,10 @@ namespace Ogu.Compressions
 
         protected override Task<byte[]> InternalDecompressAsync(Stream stream, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default)
         {
-            return stream.ReadAllBytesAsync(leaveOpen, cancellationToken);
+            return stream.ReadAllBytesAsync(leaveOpen, bufferSize, cancellationToken);
         }
 
-        protected override async Task<Stream> InternalDecompressToStreamAsync(byte[] bytes, CancellationToken cancellationToken = default)
+        protected override async Task<Stream> InternalDecompressToStreamAsync(byte[] bytes, int bufferSize, CancellationToken cancellationToken = default)
         {
             return await Task.FromResult(new MemoryStream(bytes)).ConfigureAwait(false);
         }
@@ -89,14 +89,14 @@ namespace Ogu.Compressions
 #endif
         }
 
-        protected override byte[] InternalDecompress(byte[] bytes)
+        protected override byte[] InternalDecompress(byte[] bytes, int bufferSize)
         {
             return bytes;
         }
 
-        protected override byte[] InternalDecompress(Stream stream, bool leaveOpen)
+        protected override byte[] InternalDecompress(Stream stream, bool leaveOpen, int bufferSize)
         {
-            return stream.ReadAllBytes(leaveOpen);
+            return stream.ReadAllBytes(leaveOpen, bufferSize);
         }
     }
 }

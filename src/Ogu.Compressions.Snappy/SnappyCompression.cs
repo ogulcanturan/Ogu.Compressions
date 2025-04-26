@@ -37,13 +37,13 @@ namespace Ogu.Compressions
             }
         }
 
-        protected override byte[] InternalCompress(Stream stream, CompressionLevel level, bool leaveOpen)
+        protected override byte[] InternalCompress(Stream stream, CompressionLevel level, bool leaveOpen, int bufferSize)
         {
             using (var memoryStream = new MemoryStream())
             {
                 using (var snappyStream = new SnappyStream(memoryStream, CompressionMode.Compress, leaveOpen: false))
                 {
-                    stream.CopyTo(snappyStream);
+                    stream.CopyTo(snappyStream, bufferSize);
                 }
 
                 if (leaveOpen)
@@ -76,17 +76,13 @@ namespace Ogu.Compressions
             }
         }
 
-        protected override async Task<byte[]> InternalCompressAsync(Stream stream, CompressionLevel level, bool leaveOpen, CancellationToken cancellationToken = default)
+        protected override async Task<byte[]> InternalCompressAsync(Stream stream, CompressionLevel level, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default)
         {
             using (var memoryStream = new MemoryStream())
             {
                 using (var snappyStream = new SnappyStream(memoryStream, CompressionMode.Compress, leaveOpen: false))
                 {
-#if NETSTANDARD2_0
-                    await stream.CopyToAsync(snappyStream).ConfigureAwait(false);
-#else
-                    await stream.CopyToAsync(snappyStream, cancellationToken).ConfigureAwait(false);
-#endif
+                    await stream.CopyToAsync(snappyStream, bufferSize, cancellationToken).ConfigureAwait(false);
                 }
 
                 if (leaveOpen)
@@ -136,7 +132,7 @@ namespace Ogu.Compressions
             }
         }
 
-        protected override async Task<Stream> InternalCompressToStreamAsync(Stream stream, CompressionLevel level, bool leaveOpen, CancellationToken cancellationToken = default)
+        protected override async Task<Stream> InternalCompressToStreamAsync(Stream stream, CompressionLevel level, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default)
         {
             var memoryStream = new MemoryStream();
 
@@ -144,11 +140,7 @@ namespace Ogu.Compressions
             {
                 using (var snappyStream = new SnappyStream(memoryStream, CompressionMode.Compress, leaveOpen: true))
                 {
-#if NETSTANDARD2_0
-                    await stream.CopyToAsync(snappyStream).ConfigureAwait(false);
-#else
-                    await stream.CopyToAsync(snappyStream, cancellationToken).ConfigureAwait(false);
-#endif
+                    await stream.CopyToAsync(snappyStream, bufferSize, cancellationToken).ConfigureAwait(false);
                 }
 
                 if (leaveOpen)
@@ -206,7 +198,7 @@ namespace Ogu.Compressions
             }
         }
 
-        protected override Stream InternalCompressToStream(Stream stream, CompressionLevel level, bool leaveOpen)
+        protected override Stream InternalCompressToStream(Stream stream, CompressionLevel level, bool leaveOpen, int bufferSize)
         {
             var memoryStream = new MemoryStream();
 
@@ -214,7 +206,7 @@ namespace Ogu.Compressions
             {
                 using (var snappyStream = new SnappyStream(memoryStream, CompressionMode.Compress, leaveOpen: true))
                 {
-                    stream.CopyTo(snappyStream);
+                    stream.CopyTo(snappyStream, bufferSize);
                 }
 
                 if (leaveOpen)
@@ -272,7 +264,7 @@ namespace Ogu.Compressions
             }
         }
 
-        protected override async Task<Stream> InternalDecompressToStreamAsync(byte[] bytes, CancellationToken cancellationToken = default)
+        protected override async Task<Stream> InternalDecompressToStreamAsync(byte[] bytes, int bufferSize, CancellationToken cancellationToken = default)
         {
             var outputStream = new MemoryStream();
             try
@@ -282,7 +274,7 @@ namespace Ogu.Compressions
 
                     using (var snappyStream = new SnappyStream(memoryStream, CompressionMode.Decompress))
                     {
-                        await snappyStream.CopyToAsync(outputStream, BufferSize, cancellationToken).ConfigureAwait(false);
+                        await snappyStream.CopyToAsync(outputStream, bufferSize, cancellationToken).ConfigureAwait(false);
                     }
 
                     outputStream.Position = 0;
@@ -344,7 +336,7 @@ namespace Ogu.Compressions
             return await InternalDecompressToStreamAsync(streamContent, leaveOpen, bufferSize, cancellationToken).ConfigureAwait(false);
         }
 
-        protected override byte[] InternalDecompress(byte[] bytes)
+        protected override byte[] InternalDecompress(byte[] bytes, int bufferSize)
         {
             using (var memoryStream = new MemoryStream(bytes))
             {
@@ -352,7 +344,7 @@ namespace Ogu.Compressions
                 {
                     using (var snappyStream = new SnappyStream(memoryStream, CompressionMode.Decompress))
                     {
-                        snappyStream.CopyTo(outputStream);
+                        snappyStream.CopyTo(outputStream, bufferSize);
                     }
 
                     return outputStream.ToArray();
@@ -360,13 +352,13 @@ namespace Ogu.Compressions
             }
         }
 
-        protected override byte[] InternalDecompress(Stream stream, bool leaveOpen)
+        protected override byte[] InternalDecompress(Stream stream, bool leaveOpen, int bufferSize)
         {
             using (var outputStream = new MemoryStream())
             {
                 using (var snappyStream = new SnappyStream(stream, CompressionMode.Decompress, leaveOpen))
                 {
-                    snappyStream.CopyTo(outputStream);
+                    snappyStream.CopyTo(outputStream, bufferSize);
                 }
 
                 if (leaveOpen)

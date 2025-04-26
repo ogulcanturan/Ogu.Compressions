@@ -21,7 +21,7 @@ namespace Ogu.AspNetCore.Compressions
         /// with the specified compression level and buffer size.
         /// </summary>
         /// <param name="level">The compression level to use.</param>
-        /// <param name="bufferSize">The size, in bytes, of the buffer to use.</param>
+        /// <param name="bufferSize">The size, in bytes, of the buffer to use. The default value is 81920 bytes and must be greater than zero.</param>
         public ZstdCompressionProviderOptions(CompressionLevel level, int bufferSize)
         {
             Level = level;

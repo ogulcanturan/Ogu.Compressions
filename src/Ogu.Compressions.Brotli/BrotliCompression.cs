@@ -42,7 +42,7 @@ namespace Ogu.Compressions
             }
         }
 
-        protected override byte[] InternalCompress(Stream stream, CompressionLevel level, bool leaveOpen)
+        protected override byte[] InternalCompress(Stream stream, CompressionLevel level, bool leaveOpen, int bufferSize)
         {
             using (var memoryStream = new MemoryStream())
             {
@@ -52,7 +52,7 @@ namespace Ogu.Compressions
                 using (var brotliStream = new BrotliStream(memoryStream, level, leaveOpen: false))
 #endif
                 {
-                    stream.CopyTo(brotliStream);
+                    stream.CopyTo(brotliStream, bufferSize);
                 }
 
                 if (leaveOpen)
@@ -89,7 +89,7 @@ namespace Ogu.Compressions
             }
         }
 
-        protected override async Task<byte[]> InternalCompressAsync(Stream stream, CompressionLevel level, bool leaveOpen, CancellationToken cancellationToken = default)
+        protected override async Task<byte[]> InternalCompressAsync(Stream stream, CompressionLevel level, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default)
         {
             using (var memoryStream = new MemoryStream())
             {
@@ -99,11 +99,7 @@ namespace Ogu.Compressions
                 using (var brotliStream = new BrotliStream(memoryStream, level, leaveOpen: false))
 #endif
                 {
-#if NETSTANDARD2_0
-                    await stream.CopyToAsync(brotliStream).ConfigureAwait(false);
-#else
-                    await stream.CopyToAsync(brotliStream, cancellationToken).ConfigureAwait(false);
-#endif
+                    await stream.CopyToAsync(brotliStream, bufferSize, cancellationToken).ConfigureAwait(false);
                 }
 
                 if (leaveOpen)
@@ -157,7 +153,7 @@ namespace Ogu.Compressions
             }
         }
 
-        protected override async Task<Stream> InternalCompressToStreamAsync(Stream stream, CompressionLevel level, bool leaveOpen, CancellationToken cancellationToken = default)
+        protected override async Task<Stream> InternalCompressToStreamAsync(Stream stream, CompressionLevel level, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default)
         {
             var outputStream = new MemoryStream();
 
@@ -169,11 +165,7 @@ namespace Ogu.Compressions
                 using (var brotliStream = new BrotliStream(outputStream, level, leaveOpen: true))
 #endif
                 {
-#if NETSTANDARD2_0
-                    await stream.CopyToAsync(brotliStream).ConfigureAwait(false);
-#else
-                    await stream.CopyToAsync(brotliStream, cancellationToken).ConfigureAwait(false);
-#endif
+                    await stream.CopyToAsync(brotliStream, bufferSize, cancellationToken).ConfigureAwait(false);
                 }
 
                 if (leaveOpen)
@@ -235,7 +227,7 @@ namespace Ogu.Compressions
             }
         }
 
-        protected override Stream InternalCompressToStream(Stream stream, CompressionLevel level, bool leaveOpen)
+        protected override Stream InternalCompressToStream(Stream stream, CompressionLevel level, bool leaveOpen, int bufferSize)
         {
             var outputStream = new MemoryStream();
 
@@ -247,7 +239,7 @@ namespace Ogu.Compressions
                 using (var brotliStream = new BrotliStream(outputStream, level, leaveOpen: true))
 #endif
                 {
-                    stream.CopyTo(brotliStream);
+                    stream.CopyTo(brotliStream, bufferSize);
                 }
 
                 if (leaveOpen)
@@ -313,7 +305,7 @@ namespace Ogu.Compressions
             }
         }
 
-        protected override async Task<Stream> InternalDecompressToStreamAsync(byte[] bytes, CancellationToken cancellationToken = default)
+        protected override async Task<Stream> InternalDecompressToStreamAsync(byte[] bytes, int bufferSize, CancellationToken cancellationToken = default)
         {
             var outputStream = new MemoryStream();
 
@@ -327,7 +319,7 @@ namespace Ogu.Compressions
                     using (var brotliStream = new BrotliStream(memoryStream, CompressionMode.Decompress, leaveOpen: false))
 #endif
                     {
-                        await brotliStream.CopyToAsync(outputStream, BufferSize, cancellationToken).ConfigureAwait(false);
+                        await brotliStream.CopyToAsync(outputStream, bufferSize, cancellationToken).ConfigureAwait(false);
                     }
 
                     outputStream.Position = 0;
@@ -392,7 +384,7 @@ namespace Ogu.Compressions
             return await InternalDecompressToStreamAsync(streamContent, leaveOpen: leaveOpen, bufferSize, cancellationToken).ConfigureAwait(false);
         }
 
-        protected override byte[] InternalDecompress(byte[] bytes)
+        protected override byte[] InternalDecompress(byte[] bytes, int bufferSize)
         {
             using (var memoryStream = new MemoryStream(bytes))
             {
@@ -404,7 +396,7 @@ namespace Ogu.Compressions
                     using (var brotliStream = new BrotliStream(memoryStream, CompressionMode.Decompress, leaveOpen: false))
 #endif
                     {
-                        brotliStream.CopyTo(outputStream);
+                        brotliStream.CopyTo(outputStream, bufferSize);
                     }
 
                     return outputStream.ToArray();
@@ -412,7 +404,7 @@ namespace Ogu.Compressions
             }
         }
 
-        protected override byte[] InternalDecompress(Stream stream, bool leaveOpen)
+        protected override byte[] InternalDecompress(Stream stream, bool leaveOpen, int bufferSize)
         {
             using (var outputStream = new MemoryStream())
             {
@@ -422,7 +414,7 @@ namespace Ogu.Compressions
                 using (var brotliStream = new BrotliStream(stream, CompressionMode.Decompress, leaveOpen))
 #endif
                 {
-                    brotliStream.CopyTo(outputStream);
+                    brotliStream.CopyTo(outputStream, bufferSize);
                 }
 
                 if (leaveOpen)
