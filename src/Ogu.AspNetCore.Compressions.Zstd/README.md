@@ -52,4 +52,4 @@ Once added, the server will compress eligible responses based on the client’s 
 
 **Links:**
 - [GitHub](https://github.com/ogulcanturan/Ogu.Compressions)
-- [Documentation](https://github.com/ogulcanturan/Ogu.Compressions#readme)
+- [Documentation](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.AspNetCore.Compressions#readme)
