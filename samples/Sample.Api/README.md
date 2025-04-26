@@ -1,6 +1,6 @@
 # Sample.Api
 
-The Sample.Api project provides a practical example of how to use the Ogu.Compressions libraries in a real-world ASP.NET Core Web API.
+The Sample.Api project provides a practical example of how to use the Ogu.Compressions.* & Ogu.AspNetCore.Compressions.* libraries in a real-world ASP.NET Core Web API.
 It exposes multiple endpoints through Swagger UI, demonstrating how to compress and decompress data using different algorithms.
 
 ![Sample Api Swagger UI](../../docs/resources/sample-api-swagger-ui.png)
