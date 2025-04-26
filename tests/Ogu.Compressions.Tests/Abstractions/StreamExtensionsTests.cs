@@ -80,5 +80,44 @@ namespace Ogu.Compressions.Tests.Abstractions
             Assert.Throws<ObjectDisposedException>(() => input.Length);
         }
 
+        [Fact]
+        public void HasDisposed_DisposedStream_ReturnsTrue()
+        {
+            // Arrange
+            var stream = new MemoryStream();
+            stream.Dispose();
+
+            // Act
+            var hasDisposed = stream.HasDisposed();
+
+            // Assert
+            Assert.True(hasDisposed);
+        }
+
+        [Fact]
+        public void HasDisposed_GivenActiveStream_ReturnsFalse()
+        {
+            // Arrange
+            var stream = new MemoryStream();
+
+            // Act
+            var hasDisposed = stream.HasDisposed();
+
+            // Assert
+            Assert.False(hasDisposed);
+
+            stream.Dispose();
+        }
+
+        [Fact]
+        public void HasDisposed_NullStream_ThrowsArgumentNullException()
+        {
+            // Arrange
+            MemoryStream? stream = null;
+
+            // Act & Assert
+            var exception = Assert.Throws<ArgumentNullException>(() => stream.HasDisposed());
+            Assert.Equal(nameof(stream), exception.ParamName);
+        }
     }
 }

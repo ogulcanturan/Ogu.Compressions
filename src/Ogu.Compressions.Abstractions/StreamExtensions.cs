@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,6 +16,7 @@ namespace Ogu.Compressions.Abstractions
         /// <param name="stream">The stream to read from.</param>
         /// <param name="leaveOpen">If true, the stream will not be disposed after reading.</param>
         /// <returns>A <see cref="byte"/> array containing the bytes read from the stream.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if the <paramref name="stream"/> is <c>null</c>.</exception>
         public static byte[] ReadAllBytes(this Stream stream, bool leaveOpen)
         {
             return stream.ReadAllBytes(leaveOpen, CompressionDefaults.BufferSize);
@@ -27,6 +29,7 @@ namespace Ogu.Compressions.Abstractions
         /// <param name="leaveOpen">If true, the stream will not be disposed after reading.</param>
         /// <param name="bufferSize">The size, in bytes, of the buffer to use. The default value is 81920 bytes and must be greater than zero.</param>
         /// <returns>A <see cref="byte"/> array containing the bytes read from the stream.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if the <paramref name="stream"/> is <c>null</c>.</exception>
         public static byte[] ReadAllBytes(this Stream stream, bool leaveOpen, int bufferSize)
         {
             if (stream is MemoryStream memoryStream)
@@ -63,6 +66,7 @@ namespace Ogu.Compressions.Abstractions
         /// <param name="leaveOpen">If true, the stream will not be disposed after reading.</param>
         /// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
         /// <returns>A task that represents the asynchronous operation, which wraps the <see cref="byte"/> array containing the bytes read from the stream.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if the <paramref name="stream"/> is <c>null</c>.</exception>
         public static Task<byte[]> ReadAllBytesAsync(this Stream stream, bool leaveOpen, CancellationToken cancellationToken = default)
         {
             return stream.ReadAllBytesAsync(leaveOpen, CompressionDefaults.BufferSize, cancellationToken);
@@ -76,6 +80,7 @@ namespace Ogu.Compressions.Abstractions
         /// <param name="bufferSize">The size, in bytes, of the buffer to use. The default value is 81920 bytes and must be greater than zero.</param>
         /// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
         /// <returns>A task that represents the asynchronous operation, which wraps the <see cref="byte"/> array containing the bytes read from the stream.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if the <paramref name="stream"/> is <c>null</c>.</exception>
         public static async Task<byte[]> ReadAllBytesAsync(this Stream stream, bool leaveOpen, int bufferSize, CancellationToken cancellationToken)
         {
             if (stream is MemoryStream memoryStream)
@@ -110,6 +115,31 @@ namespace Ogu.Compressions.Abstractions
                 }
 
                 return bytes;
+            }
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="Stream"/> has been disposed.
+        /// </summary>
+        /// <param name="stream">The stream to check.</param>
+        /// <returns><c>true</c> if the stream is disposed; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if the <paramref name="stream"/> is <c>null</c>.</exception>
+        public static bool HasDisposed(this Stream stream)
+        {
+            if (stream == null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            try
+            {
+                _ = stream.Length;
+
+                return false;
+            }
+            catch(ObjectDisposedException)
+            {
+                return true;
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Ogu.Compressions.Abstractions;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
@@ -21,84 +22,88 @@ namespace Ogu.Compressions
 
         protected override byte[] InternalCompress(byte[] bytes, CompressionLevel level)
         {
-            using (var memoryStream = new MemoryStream())
-            {
-                using (var gZipStream = new GZipStream(memoryStream, level, leaveOpen: false))
-                {
-#if NETSTANDARD2_0
-                    gZipStream.Write(bytes, 0, bytes.Length);
-#else
-                    gZipStream.Write(bytes);
-#endif
-                }
+            var memoryStream = new MemoryStream();
 
-                return memoryStream.ToArray();
+            using (var gZipStream = new GZipStream(memoryStream, level, leaveOpen: false))
+            {
+#if NETSTANDARD2_0
+                gZipStream.Write(bytes, 0, bytes.Length);
+#else
+                gZipStream.Write(bytes);
+#endif
             }
+
+            Debug.Assert(memoryStream.HasDisposed());
+
+            return memoryStream.ToArray();
         }
 
         protected override byte[] InternalCompress(Stream stream, CompressionLevel level, bool leaveOpen, int bufferSize)
         {
-            using (var memoryStream = new MemoryStream())
+            var memoryStream = new MemoryStream();
+
+            using (var gZipStream = new GZipStream(memoryStream, level, leaveOpen: false))
             {
-                using (var gZipStream = new GZipStream(memoryStream, level, leaveOpen: false))
-                {
-                    stream.CopyTo(gZipStream, bufferSize);
-                }
-
-                if (leaveOpen)
-                {
-                    stream.Position = 0;
-                }
-                else
-                {
-                    stream.Dispose();
-                }
-
-                return memoryStream.ToArray();
+                stream.CopyTo(gZipStream, bufferSize);
             }
+
+            if (leaveOpen)
+            {
+                stream.Position = 0;
+            }
+            else
+            {
+                stream.Dispose();
+            }
+
+            Debug.Assert(memoryStream.HasDisposed());
+
+            return memoryStream.ToArray();
         }
 
         protected override async Task<byte[]> InternalCompressAsync(byte[] bytes, CompressionLevel level, CancellationToken cancellationToken = default)
         {
-            using (var memoryStream = new MemoryStream())
-            {
-                using (var gZipStream = new GZipStream(memoryStream, level, leaveOpen: false))
-                {
-#if NETSTANDARD2_0
-                    await gZipStream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
-#else
-                    await gZipStream.WriteAsync(bytes, cancellationToken).ConfigureAwait(false);
-#endif
-                }
+            var memoryStream = new MemoryStream();
 
-                return memoryStream.ToArray();
+            using (var gZipStream = new GZipStream(memoryStream, level, leaveOpen: false))
+            {
+#if NETSTANDARD2_0
+                await gZipStream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
+#else
+                await gZipStream.WriteAsync(bytes, cancellationToken).ConfigureAwait(false);
+#endif
             }
+
+            Debug.Assert(memoryStream.HasDisposed());
+
+            return memoryStream.ToArray();
         }
 
         protected override async Task<byte[]> InternalCompressAsync(Stream stream, CompressionLevel level, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default)
         {
-            using (var memoryStream = new MemoryStream())
+            var memoryStream = new MemoryStream();
+
+            using (var gZipStream = new GZipStream(memoryStream, level, leaveOpen: false))
             {
-                using (var gZipStream = new GZipStream(memoryStream, level, leaveOpen: false))
-                {
-                    await stream.CopyToAsync(gZipStream, bufferSize, cancellationToken).ConfigureAwait(false);
-                }
-
-                if (leaveOpen)
-                {
-                    stream.Position = 0;
-                }
-                else
-                {
-#if NETSTANDARD2_0
-                    stream.Dispose();
-#else
-                    await stream.DisposeAsync();
-#endif
-                }
-
-                return memoryStream.ToArray();
+                await stream.CopyToAsync(gZipStream, bufferSize, cancellationToken).ConfigureAwait(false);
             }
+
+            if (leaveOpen)
+            {
+                stream.Position = 0;
+            }
+            else
+            {
+#if NETSTANDARD2_0
+                stream.Dispose();
+#else
+                await stream.DisposeAsync();
+#endif
+            }
+
+            Debug.Assert(memoryStream.HasDisposed());
+
+            return memoryStream.ToArray();
         }
 
         protected override async Task<Stream> InternalCompressToStreamAsync(byte[] bytes, CompressionLevel level, CancellationToken cancellationToken = default)
@@ -209,7 +214,7 @@ namespace Ogu.Compressions
                     stream.CopyTo(gZipStream, bufferSize);
                 }
 
-                if(leaveOpen)
+                if (leaveOpen)
                 {
                     stream.Position = 0;
                 }
@@ -232,17 +237,18 @@ namespace Ogu.Compressions
 
         protected override async Task<byte[]> InternalDecompressAsync(byte[] bytes, int bufferSize, CancellationToken cancellationToken = default)
         {
-            using (var memoryStream = new MemoryStream(bytes))
-            {
-                using (var outputStream = new MemoryStream())
-                {
-                    using (var gZipStream = new GZipStream(memoryStream, CompressionMode.Decompress))
-                    {
-                        await gZipStream.CopyToAsync(outputStream, bufferSize, cancellationToken).ConfigureAwait(false);
-                    }
+            var memoryStream = new MemoryStream(bytes);
 
-                    return outputStream.ToArray();
+            using (var outputStream = new MemoryStream())
+            {
+                using (var gZipStream = new GZipStream(memoryStream, CompressionMode.Decompress, leaveOpen: false))
+                {
+                    await gZipStream.CopyToAsync(outputStream, bufferSize, cancellationToken).ConfigureAwait(false);
                 }
+
+                Debug.Assert(memoryStream.HasDisposed());
+
+                return outputStream.ToArray();
             }
         }
 
@@ -270,18 +276,18 @@ namespace Ogu.Compressions
 
             try
             {
-                using (var memoryStream = new MemoryStream(bytes))
+                var memoryStream = new MemoryStream(bytes);
+
+                using (var gZipStream = new GZipStream(memoryStream, CompressionMode.Decompress, leaveOpen: false))
                 {
-
-                    using (var gZipStream = new GZipStream(memoryStream, CompressionMode.Decompress, leaveOpen: true))
-                    {
-                        await gZipStream.CopyToAsync(outputStream, bufferSize, cancellationToken).ConfigureAwait(false);
-                    }
-
-                    outputStream.Position = 0;
-
-                    return outputStream;
+                    await gZipStream.CopyToAsync(outputStream, bufferSize, cancellationToken).ConfigureAwait(false);
                 }
+
+                Debug.Assert(memoryStream.HasDisposed());
+
+                outputStream.Position = 0;
+
+                return outputStream;
             }
             catch
             {
@@ -340,17 +346,18 @@ namespace Ogu.Compressions
 
         protected override byte[] InternalDecompress(byte[] bytes, int bufferSize)
         {
-            using (var memoryStream = new MemoryStream(bytes))
-            {
-                using (var outputStream = new MemoryStream())
-                {
-                    using (var gZipStream = new GZipStream(memoryStream, CompressionMode.Decompress, leaveOpen: true))
-                    {
-                        gZipStream.CopyTo(outputStream, bufferSize);
-                    }
+            var memoryStream = new MemoryStream(bytes);
 
-                    return outputStream.ToArray();
+            using (var outputStream = new MemoryStream())
+            {
+                using (var gZipStream = new GZipStream(memoryStream, CompressionMode.Decompress, leaveOpen: false))
+                {
+                    gZipStream.CopyTo(outputStream, bufferSize);
                 }
+
+                Debug.Assert(memoryStream.HasDisposed());
+
+                return outputStream.ToArray();
             }
         }
 

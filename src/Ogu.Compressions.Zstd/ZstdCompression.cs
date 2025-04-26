@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Ogu.Compressions.Abstractions;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
@@ -21,84 +22,88 @@ namespace Ogu.Compressions
 
         protected override byte[] InternalCompress(byte[] bytes, CompressionLevel level)
         {
-            using (var memoryStream = new MemoryStream())
-            {
-                using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstdLevel(), BufferSize, leaveOpen: false))
-                {
-#if NETSTANDARD2_0
-                    zStdStream.Write(bytes, 0, bytes.Length);
-#else
-                    zStdStream.Write(bytes);
-#endif
-                }
+            var memoryStream = new MemoryStream();
 
-                return memoryStream.ToArray();
+            using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstdLevel(), BufferSize, leaveOpen: false))
+            {
+#if NETSTANDARD2_0
+                zStdStream.Write(bytes, 0, bytes.Length);
+#else
+                zStdStream.Write(bytes);
+#endif
             }
+
+            Debug.Assert(memoryStream.HasDisposed());
+
+            return memoryStream.ToArray();
         }
 
         protected override byte[] InternalCompress(Stream stream, CompressionLevel level, bool leaveOpen, int bufferSize)
         {
-            using (var memoryStream = new MemoryStream())
+            var memoryStream = new MemoryStream();
+
+            using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstdLevel(), bufferSize, leaveOpen: false))
             {
-                using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstdLevel(), bufferSize, leaveOpen: false))
-                {
-                    stream.CopyTo(zStdStream, bufferSize);
-                }
-
-                if (leaveOpen)
-                {
-                    stream.Position = 0;
-                }
-                else
-                {
-                    stream.Dispose();
-                }
-
-                return memoryStream.ToArray();
+                stream.CopyTo(zStdStream, bufferSize);
             }
+
+            if (leaveOpen)
+            {
+                stream.Position = 0;
+            }
+            else
+            {
+                stream.Dispose();
+            }
+
+            Debug.Assert(memoryStream.HasDisposed());
+
+            return memoryStream.ToArray();
         }
 
         protected override async Task<byte[]> InternalCompressAsync(byte[] bytes, CompressionLevel level, CancellationToken cancellationToken = default)
         {
-            using (var memoryStream = new MemoryStream())
-            {
-                using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstdLevel(), BufferSize, leaveOpen: false))
-                {
-#if NETSTANDARD2_0
-                    await zStdStream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
-#else
-                    await zStdStream.WriteAsync(bytes, cancellationToken).ConfigureAwait(false);
-#endif
-                }
+            var memoryStream = new MemoryStream();
 
-                return memoryStream.ToArray();
+            using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstdLevel(), BufferSize, leaveOpen: false))
+            {
+#if NETSTANDARD2_0
+                await zStdStream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
+#else
+                await zStdStream.WriteAsync(bytes, cancellationToken).ConfigureAwait(false);
+#endif
             }
+
+            Debug.Assert(memoryStream.HasDisposed());
+
+            return memoryStream.ToArray();
         }
 
         protected override async Task<byte[]> InternalCompressAsync(Stream stream, CompressionLevel level, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default)
         {
-            using (var memoryStream = new MemoryStream())
+            var memoryStream = new MemoryStream();
+
+            using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstdLevel(), bufferSize, leaveOpen: false))
             {
-                using (var zStdStream = new ZstdSharp.CompressionStream(memoryStream, level.ToZstdLevel(), bufferSize, leaveOpen: false))
-                {
-                    await stream.CopyToAsync(zStdStream, bufferSize, cancellationToken).ConfigureAwait(false);
-                }
-
-                if (leaveOpen)
-                {
-                    stream.Position = 0;
-                }
-                else
-                {
-#if NETSTANDARD2_0
-                    stream.Dispose();
-#else
-                    await stream.DisposeAsync();
-#endif
-                }
-
-                return memoryStream.ToArray();
+                await stream.CopyToAsync(zStdStream, bufferSize, cancellationToken).ConfigureAwait(false);
             }
+
+            if (leaveOpen)
+            {
+                stream.Position = 0;
+            }
+            else
+            {
+#if NETSTANDARD2_0
+                stream.Dispose();
+#else
+                await stream.DisposeAsync();
+#endif
+            }
+
+            Debug.Assert(memoryStream.HasDisposed());
+
+            return memoryStream.ToArray();
         }
 
         protected override async Task<Stream> InternalCompressToStreamAsync(byte[] bytes, CompressionLevel level, CancellationToken cancellationToken = default)
@@ -231,17 +236,16 @@ namespace Ogu.Compressions
 
         protected override async Task<byte[]> InternalDecompressAsync(byte[] bytes, int bufferSize, CancellationToken cancellationToken = default)
         {
-            using (var memoryStream = new MemoryStream(bytes))
-            {
-                using (var outputStream = new MemoryStream())
-                {
-                    using (var zStdStream = new ZstdSharp.DecompressionStream(memoryStream, bufferSize, leaveOpen: true))
-                    {
-                        await zStdStream.CopyToAsync(outputStream, bufferSize, cancellationToken).ConfigureAwait(false);
-                    }
+            var memoryStream = new MemoryStream(bytes);
 
-                    return outputStream.ToArray();
+            using (var outputStream = new MemoryStream())
+            {
+                using (var zStdStream = new ZstdSharp.DecompressionStream(memoryStream, bufferSize, leaveOpen: false))
+                {
+                    await zStdStream.CopyToAsync(outputStream, bufferSize, cancellationToken).ConfigureAwait(false);
                 }
+
+                return outputStream.ToArray();
             }
         }
 
@@ -269,17 +273,18 @@ namespace Ogu.Compressions
 
             try
             {
-                using (var memoryStream = new MemoryStream(bytes))
+                var memoryStream = new MemoryStream(bytes);
+
+                using (var zStdStream = new ZstdSharp.DecompressionStream(memoryStream, bufferSize, leaveOpen: false))
                 {
-                    using (var zStdStream = new ZstdSharp.DecompressionStream(memoryStream, leaveOpen: true))
-                    {
-                        await zStdStream.CopyToAsync(outputStream, bufferSize, cancellationToken).ConfigureAwait(false);
-                    }
-
-                    outputStream.Position = 0;
-
-                    return outputStream;
+                    await zStdStream.CopyToAsync(outputStream, bufferSize, cancellationToken).ConfigureAwait(false);
                 }
+
+                Debug.Assert(memoryStream.HasDisposed());
+
+                outputStream.Position = 0;
+
+                return outputStream;
             }
             catch
             {
@@ -337,17 +342,18 @@ namespace Ogu.Compressions
 
         protected override byte[] InternalDecompress(byte[] bytes, int bufferSize)
         {
-            using (var memoryStream = new MemoryStream(bytes))
-            {
-                using (var outputStream = new MemoryStream())
-                {
-                    using (var zStdStream = new ZstdSharp.DecompressionStream(memoryStream, bufferSize, leaveOpen: true))
-                    {
-                        zStdStream.CopyTo(outputStream, bufferSize);
-                    }
+            var memoryStream = new MemoryStream(bytes);
 
-                    return outputStream.ToArray();
+            using (var outputStream = new MemoryStream())
+            {
+                using (var zStdStream = new ZstdSharp.DecompressionStream(memoryStream, bufferSize, leaveOpen: false))
+                {
+                    zStdStream.CopyTo(outputStream, bufferSize);
                 }
+
+                Debug.Assert(memoryStream.HasDisposed());
+
+                return outputStream.ToArray();
             }
         }
 
