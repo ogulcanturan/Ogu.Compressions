@@ -72,8 +72,6 @@ Other compression types and their interfaces:
 - **Gzip:** `IGzipCompression`
 - **None:** `INoneCompression`
 
----
-
 ### Adding Decompression Handler to HttpClient
 
 Register `DecompressionHandler`:
@@ -141,9 +139,7 @@ services.AddSingleton<ICompressionTypeResolver>(sp =>
 
 This lets you recognize specified aliases (like "custom-brotli" -> CompressionType.Brotli) returned by the server. When you register your custom implementation, default encoding mappings won't be recognized.
 
----
-
-## Using Only Specific Algorithms
+### Using Only Specific Algorithms
 
 If you only need **Brotli**, install and register:
 
@@ -171,8 +167,6 @@ Or configure via `IOptions<BrotliCompressionOptions>`:
 ```csharp
 services.Configure<BrotliCompressionOptions>(options => { /* configure here */ });
 ```
-
----
 
 ## Documentation and Comments
 
