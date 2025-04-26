@@ -1,4 +1,4 @@
-# Ogu.AspNetCore.Compressions
+# Ogu.AspNetCore.Compressions.Snappy
 
 This library extends ASP.NET Core’s native compression capabilities with snappy compression provider which not included in the core framework
 
