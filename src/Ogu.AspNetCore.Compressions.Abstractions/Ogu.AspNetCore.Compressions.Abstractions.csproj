@@ -10,7 +10,7 @@
 		<Copyright>Copyright (c) Oğulcan TURAN 2024</Copyright>
 		<PackageProjectUrl>https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.AspNetCore.Compressions.Abstractions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/ogulcanturan/Ogu.Compressions</RepositoryUrl>
-		<PackageTags>aspnetcore;compression;Abstractions;netstandard;netcore;extensions</PackageTags>
+		<PackageTags>aspnetcore;compression;abstractions;netstandard;netcore;extensions</PackageTags>
 		<RepositoryType>git</RepositoryType>
 		<Description>This library defines unified interfaces for the Ogu.AspNetCore.Compressions.* libraries</Description>
 		<PackageIcon>ogu-logo.png</PackageIcon>
