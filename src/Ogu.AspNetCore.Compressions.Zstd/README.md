@@ -13,24 +13,28 @@ services.Configure<ZstdCompressionProviderOptions>(opts =>
 });
 ```
 
-**Registering providers:**
+**Registering provider:**
+
+The server decides which compression provider to use based on the client's `Accept-Encoding` header. For example, if a client sends `Accept-Encoding: gzip, br, zstd`, the server will select the first supported encoding in the list.
+
+In the example below, since only the `ZstdCompressionProvider` is registered, the server will respond using Zstandard (`zstd`) compression.
+
+It is the caller’s responsibility to handle the response correctly.
+The server includes the actual encoding used in the `Content-Encoding` header — in this case, it will be `zstd`.
+
 ```csharp
 services.AddResponseCompression(opts =>
 {
-    // Server decides which provider to use - (e.g. If client requests gzip, br - server will use available first encoding in this case it would be zstd )
     opts.Providers.Add<ZstdCompressionProvider>();
-
     opts.MimeTypes = ResponseCompressionDefaults.MimeTypes;
-
     opts.EnableForHttps = true;
 });
 ```
 
-**Adding response compression [middleware](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-8.0):**
-```csharp
-app.UseResponseCompression();
-```
+If the client requests encodings that the server does not support (e.g., `Accept-Encoding: gzip, br`), **compression will not occur**, and the response will be sent uncompressed.
 
+> [!NOTE]  
+> `opts.MimeTypes` defines which response `Content-Type`s are eligible for compression. In this example, it uses the defaults provided by `ResponseCompressionDefaults.MimeTypes` (e.g., `text/plain`, `application/json`, etc.).
 
 **Links:**
 - [GitHub](https://github.com/ogulcanturan/Ogu.Compressions)
