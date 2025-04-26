@@ -10,8 +10,6 @@
 
 ## Packages Overview
 
-## Packages Overview
-
 | Package | Description |
 |:--------|:------------|
 | **Ogu.Compressions.Abstractions** | Core interfaces like `ICompression`, `ICompressionProvider`, `IBrotliCompression`, and a default `CompressionProvider` implementation. |
@@ -30,7 +28,7 @@
 
 ---
 
-## Getting Started With Ogu.Compressions.*
+## Usage
 
 If you need **all compression algorithms**, install the main package:
 
