@@ -10,6 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Registers the <see cref="INoneCompression"/> implementation and related dependencies into the <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services">The service collection to register the compression service into.</param>
+        /// <param name="opts">An optional delegate to configure compression options (e.g., level, buffer size).</param>
         /// <returns>The same <see cref="IServiceCollection"/> instance for chaining.</returns>
         public static IServiceCollection AddNoneCompression(this IServiceCollection services, Action<NoneCompressionOptions> opts = null)
         {
