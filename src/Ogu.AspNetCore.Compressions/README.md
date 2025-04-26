@@ -2,6 +2,16 @@
 
 This library extends ASP.NET Core’s native compression capabilities with additional options not included in the core framework.
 
+## Packages Overview
+
+| Package | Description |
+|:--------|:------------|
+| **Ogu.AspNetCore.Compressions** | Aggregates the ASP.NET Core-specific compression providers for Deflate, Snappy, and Zstd. |
+| **[Ogu.AspNetCore.Compressions.Deflate](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.AspNetCore.Compressions.Deflate)** | Provides a `DeflateCompressionProvider` for ASP.NET Core middleware with "deflate" encoding support. |
+| **[Ogu.AspNetCore.Compressions.Snappy](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.AspNetCore.Compressions.Snappy)** | Provides a `SnappyCompressionProvider` for ASP.NET Core middleware with "snappy" encoding support. |
+| **[Ogu.AspNetCore.Compressions.Zstd](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.AspNetCore.Compressions.Zstd)** | Provides a `ZstdCompressionProvider` for ASP.NET Core middleware with "zstd" encoding support. |
+| **Ogu.AspNetCore.Compression.Abstractions** | Defines unified interfaces for the `Ogu.AspNetCore.Compressions.*` libraries. |
+
 ## Usage
 
 **Changing provider options compression level:**
