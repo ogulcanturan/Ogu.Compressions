@@ -3,6 +3,10 @@ using System.IO.Compression;
 
 namespace Ogu.AspNetCore.Compressions
 {
+    /// <summary>
+    /// Provides configuration options for the Deflate (deflate) compression, 
+    /// including the compression level.
+    /// </summary>
     public class DeflateCompressionProviderOptions : IOptions<DeflateCompressionProviderOptions>
     {
         /// <summary>

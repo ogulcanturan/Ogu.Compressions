@@ -6,6 +6,9 @@ using ICompressionProvider = Microsoft.AspNetCore.ResponseCompression.ICompressi
 
 namespace Ogu.AspNetCore.Compressions
 {
+    /// <summary>
+    /// Provides compression provider for the Snappy (snappy) compression, 
+    /// </summary>
     public class SnappyCompressionProvider : ICompressionProvider
     {
         public string EncodingName => CompressionDefaults.EncodingNames.Snappy;

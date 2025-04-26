@@ -6,8 +6,15 @@ using ICompressionProvider = Microsoft.AspNetCore.ResponseCompression.ICompressi
 
 namespace Ogu.AspNetCore.Compressions
 {
+    /// <summary>
+    /// Provides compression provider for the Deflate (deflate) compression. 
+    /// </summary>
     public class DeflateCompressionProvider : ICompressionProvider
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DeflateCompressionProvider"/> class.
+        /// </summary>
+        /// <param name="opts">The options for configuring the <see cref="DeflateCompressionProvider"/>.</param>
         public DeflateCompressionProvider(IOptions<DeflateCompressionProviderOptions> opts)
         {
             Level = opts.Value.Level;

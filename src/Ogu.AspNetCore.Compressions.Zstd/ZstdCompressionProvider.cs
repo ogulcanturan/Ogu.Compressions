@@ -5,11 +5,18 @@ using ICompressionProvider = Microsoft.AspNetCore.ResponseCompression.ICompressi
 
 namespace Ogu.AspNetCore.Compressions
 {
+    /// <summary>
+    /// Provides compression provider for the Zstandard (zstd) compression. 
+    /// </summary>
     public class ZstdCompressionProvider : ICompressionProvider
     {
-        public ZstdCompressionProvider(IOptions<ZstdCompressionProviderOptions> options)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ZstdCompressionProvider"/> class.
+        /// </summary>
+        /// <param name="opts">The options for configuring the <see cref="ZstdCompressionProvider"/>.</param>
+        public ZstdCompressionProvider(IOptions<ZstdCompressionProviderOptions> opts)
         {
-            var optionsValue = options.Value;
+            var optionsValue = opts.Value;
 
             Level = optionsValue.Level.ToZstdLevel();
             BufferSize = optionsValue.BufferSize;
