@@ -22,4 +22,4 @@ app.UseResponseCompression();
 
 **Links:**
 - [GitHub](https://github.com/ogulcanturan/Ogu.Compressions)
-- [Documentation](https://github.com/ogulcanturan/Ogu.Compressions#readme)
+- [Documentation](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.AspNetCore.Compressions#readme)
