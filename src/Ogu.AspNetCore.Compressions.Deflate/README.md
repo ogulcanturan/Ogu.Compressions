@@ -16,11 +16,8 @@ services.Configure<DeflateCompressionOptions>(opts =>
 ```csharp
 services.AddResponseCompression(opts =>
 {
-    // Server decides which provider to use - (e.g. If client requests gzip, br - server will use available first encoding in this case it would be deflate )
     opts.Providers.Add<DeflateCompressionProvider>();
-
     opts.MimeTypes = ResponseCompressionDefaults.MimeTypes;
-
     opts.EnableForHttps = true;
 });
 ```
@@ -30,7 +27,6 @@ services.AddResponseCompression(opts =>
 app.UseResponseCompression();
 ```
 
-
 **Links:**
 - [GitHub](https://github.com/ogulcanturan/Ogu.Compressions)
-- [Documentation](https://github.com/ogulcanturan/Ogu.Compressions#readme)
+- [Documentation](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.AspNetCore.Compressions#readme)
