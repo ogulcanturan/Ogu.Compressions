@@ -152,7 +152,7 @@ services.AddBrotliCompression();
 services.AddCompressionProvider();
 ```
 
-You can customize settings:
+You can customize configuration by passing action delegate:
 
 ```csharp
 services.AddBrotliCompression(options =>
