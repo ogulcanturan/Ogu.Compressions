@@ -20,13 +20,6 @@
 | **Ogu.Compressions.Deflate** | Deflate compression, also using the built-in `System.IO.Compression` APIs. |
 | **Ogu.Compressions.None** | A no-operation compression implementation that simply returns the input unmodified. |
 | **Ogu.Compressions** | Aggregates all compression libraries and exposes the `AddCompressions` method to register everything at once. |
-| **Ogu.AspNetCore.Compressions** | Aggregates the ASP.NET Core-specific compression providers for Deflate, Snappy, and Zstd. |
-| **Ogu.AspNetCore.Compressions.Deflate** | Provides a `DeflateCompressionProvider` for ASP.NET Core middleware with "deflate" encoding support. |
-| **Ogu.AspNetCore.Compressions.Snappy** | Provides a `SnappyCompressionProvider` for ASP.NET Core middleware with "snappy" encoding support. |
-| **Ogu.AspNetCore.Compressions.Zstd** | Provides a `ZstdCompressionProvider` for ASP.NET Core middleware with "zstd" encoding support. |
-| **Ogu.AspNetCore.Compression.Abstractions** | Defines unified interfaces for the `Ogu.AspNetCore.Compressions.*` libraries. |
-
----
 
 ## Usage
 
@@ -103,7 +96,6 @@ Register `ICompressionProvider` for the handler:
 services.AddCompressions();
 ```
 
-
 Example usage:
 
 ```csharp
@@ -125,8 +117,6 @@ public class MySampleApiClient : IMySampleApiClient
 ```
 
 The `DecompressionHandler` will automatically decompress the response if it recognizes the content encoding (like `br`, `gzip`, etc.). Unknown encodings will be skipped safely and you need to handle it.
-
----
 
 ### Known Encoding Mappings
 
