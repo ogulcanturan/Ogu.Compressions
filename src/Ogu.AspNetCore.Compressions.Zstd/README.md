@@ -36,6 +36,20 @@ If the client requests encodings that the server does not support (e.g., `Accept
 > [!NOTE]  
 > `opts.MimeTypes` defines which response `Content-Type`s are eligible for compression. In this example, it uses the defaults provided by `ResponseCompressionDefaults.MimeTypes` (e.g., `text/plain`, `application/json`, etc.).
 
+**Adding the Middleware**
+
+The last step is to add the response compression middleware to the pipeline, so it can automatically handle compression for outgoing responses.
+
+```csharp
+app.UseResponseCompression();
+```
+
+Once added, the server will compress eligible responses based on the client’s `Accept-Encoding` header and the registered compression providers.
+
+> [!IMPORTANT]  
+> Middleware must be registered in the correct order.  
+> For more details, refer to the [official middleware documentation](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-9.0). 
+
 **Links:**
 - [GitHub](https://github.com/ogulcanturan/Ogu.Compressions)
 - [Documentation](https://github.com/ogulcanturan/Ogu.Compressions#readme)
