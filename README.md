@@ -18,7 +18,7 @@
 | **[Ogu.Compressions.Zstd](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.AspNetCore.Compressions.Zstd)** | Zstandard (Facebook) compression. Since .NET does not have native support for Zstandard, this package uses the  [ZstdSharp.Port](https://github.com/oleg-st/ZstdSharp) library internally. |
 | **[Ogu.Compressions.Gzip](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.AspNetCore.Compressions.Gzip)** | Gzip compression, using .NET’s built-in `System.IO.Compression` APIs. |
 | **[Ogu.Compressions.Deflate](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.AspNetCore.Compressions.Deflate)** | Deflate compression, also using the built-in `System.IO.Compression` APIs. |
-| **Ogu.Compressions.None** | A no-operation compression implementation that simply returns the input unmodified. |
+| **[Ogu.Compressions.None](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.AspNetCore.Compressions.None)** | A no-operation compression implementation that simply returns the input unmodified. |
 | **Ogu.Compressions** | Aggregates all compression libraries and exposes the `AddCompressions` method to register everything at once. |
 
 ## Usage
