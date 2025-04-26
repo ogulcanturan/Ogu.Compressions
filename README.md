@@ -6,7 +6,7 @@
 
 - **Unified Interface:** All compression algorithms implement a common `ICompression` interface, allowing consumers to interact with them in a consistent way.
 - **Pluggable Architecture:** Each compression algorithm is packaged as its own library. This keeps the project lightweight and you choose only what you need.
-- **Decompression Handler:** Includes a delegating handler for `HttpClient` that automatically decompresses responses using the `ICompressionProvider` interface.
+- **Decompression Handler:** Includes a delegating handler for `HttpClient` that automatically decompresses responses if known encoding detected using the `ICompressionProvider` interface.
 
 ## Packages Overview
 
