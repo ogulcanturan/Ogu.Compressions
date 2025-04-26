@@ -13,11 +13,11 @@
 | Package | Description |
 |:--------|:------------|
 | **Ogu.Compressions.Abstractions** | Core interfaces like `ICompression`, `ICompressionProvider`, `IBrotliCompression`, and a default `CompressionProvider` implementation. |
-| **Ogu.Compressions.Brotli** | Brotli (Google) compression. Uses the built-in API if the target is newer than .NET Standard 2.0, otherwise uses the Brotli.NET library. |
-| **Ogu.Compressions.Snappy** | Snappy (Google) compression optimized for fast real-time compression. Powered by the Snappier library. |
-| **Ogu.Compressions.Zstd** | Zstandard (Facebook) compression, implemented using the ZstdSharp.Port library. |
-| **Ogu.Compressions.Gzip** | Gzip compression, using .NET’s built-in `System.IO.Compression` APIs. |
-| **Ogu.Compressions.Deflate** | Deflate compression, also using the built-in `System.IO.Compression` APIs. |
+| **[Ogu.Compressions.Brotli](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.AspNetCore.Compressions.Brotli)** | Brotli (Google) compression. Uses the built-in API if the target is newer than .NET Standard 2.0, it falls back to the Brotli.NET third-party library. |
+| **[Ogu.Compressions.Snappy](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.AspNetCore.Compressions.Snappy)** | Snappy (Google) compression optimized for fast compression/decompression, mainly used in real-time messaging (e.g., RPC). Since .NET does not have native support for Snappy, this package uses the [Snappier](https://github.com/brantburnett/Snappier) library internally. |
+| **[Ogu.Compressions.Zstd](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.AspNetCore.Compressions.Zstd)** | Zstandard (Facebook) compression. Since .NET does not have native support for Zstandard, this package uses the  [ZstdSharp.Port](https://github.com/oleg-st/ZstdSharp) library internally. |
+| **[Ogu.Compressions.Gzip](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.AspNetCore.Compressions.Gzip)** | Gzip compression, using .NET’s built-in `System.IO.Compression` APIs. |
+| **[Ogu.Compressions.Deflate](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.AspNetCore.Compressions.Deflate)** | Deflate compression, also using the built-in `System.IO.Compression` APIs. |
 | **Ogu.Compressions.None** | A no-operation compression implementation that simply returns the input unmodified. |
 | **Ogu.Compressions** | Aggregates all compression libraries and exposes the `AddCompressions` method to register everything at once. |
 
