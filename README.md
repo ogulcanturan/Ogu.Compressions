@@ -65,7 +65,7 @@ public BrotliController(IBrotliCompression compression)
 }
 ```
 
-Methods:
+[Methods](https://github.com/ogulcanturan/Ogu.Compressions/blob/master/src/Ogu.Compressions.Abstractions/ICompression.cs):
 - Compress(..)
 - CompressAsync(..)
 - Decompress(..)
