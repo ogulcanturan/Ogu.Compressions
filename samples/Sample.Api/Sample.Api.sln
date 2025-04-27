@@ -13,6 +13,26 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ogu.AspNetCore.Compressions
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "compressions", "compressions", "{DAF9BAE7-B5AC-43B5-9FF6-5B4848D4BB14}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogu.AspNetCore.Compressions.Abstractions", "..\..\src\Ogu.AspNetCore.Compressions.Abstractions\Ogu.AspNetCore.Compressions.Abstractions.csproj", "{432EB15D-BBAE-437D-B877-625880181912}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogu.AspNetCore.Compressions.Deflate", "..\..\src\Ogu.AspNetCore.Compressions.Deflate\Ogu.AspNetCore.Compressions.Deflate.csproj", "{DF1A567E-E4FA-4805-9CB4-B28E0FC1754D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogu.AspNetCore.Compressions.Snappy", "..\..\src\Ogu.AspNetCore.Compressions.Snappy\Ogu.AspNetCore.Compressions.Snappy.csproj", "{4214EC64-2A13-4DC9-A279-78AE72DD0CCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogu.AspNetCore.Compressions.Zstd", "..\..\src\Ogu.AspNetCore.Compressions.Zstd\Ogu.AspNetCore.Compressions.Zstd.csproj", "{B8CBE93E-36A4-4D0B-B40A-4DF70287FC77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogu.Compressions.Brotli", "..\..\src\Ogu.Compressions.Brotli\Ogu.Compressions.Brotli.csproj", "{625F561E-4313-4591-BAB4-BACD207F3EBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogu.Compressions.Deflate", "..\..\src\Ogu.Compressions.Deflate\Ogu.Compressions.Deflate.csproj", "{C1A60A1D-202A-426F-BDB7-8232FF3CA62C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogu.Compressions.Gzip", "..\..\src\Ogu.Compressions.Gzip\Ogu.Compressions.Gzip.csproj", "{1672D150-BB75-462E-83EE-4D5A3DA3169F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogu.Compressions.None", "..\..\src\Ogu.Compressions.None\Ogu.Compressions.None.csproj", "{FFAA1C02-0389-42C3-BC8C-43DB909A6111}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogu.Compressions.Snappy", "..\..\src\Ogu.Compressions.Snappy\Ogu.Compressions.Snappy.csproj", "{1E86C153-D636-4E96-8D81-2ECCE0BDF16E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogu.Compressions.Zstd", "..\..\src\Ogu.Compressions.Zstd\Ogu.Compressions.Zstd.csproj", "{8DE95FBE-3CC0-4504-9456-70E5027563AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +55,46 @@ Global
 		{AED149E8-6035-48E2-BD16-A4AC4377F8FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AED149E8-6035-48E2-BD16-A4AC4377F8FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AED149E8-6035-48E2-BD16-A4AC4377F8FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{432EB15D-BBAE-437D-B877-625880181912}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{432EB15D-BBAE-437D-B877-625880181912}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{432EB15D-BBAE-437D-B877-625880181912}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{432EB15D-BBAE-437D-B877-625880181912}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF1A567E-E4FA-4805-9CB4-B28E0FC1754D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF1A567E-E4FA-4805-9CB4-B28E0FC1754D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF1A567E-E4FA-4805-9CB4-B28E0FC1754D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF1A567E-E4FA-4805-9CB4-B28E0FC1754D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4214EC64-2A13-4DC9-A279-78AE72DD0CCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4214EC64-2A13-4DC9-A279-78AE72DD0CCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4214EC64-2A13-4DC9-A279-78AE72DD0CCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4214EC64-2A13-4DC9-A279-78AE72DD0CCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8CBE93E-36A4-4D0B-B40A-4DF70287FC77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8CBE93E-36A4-4D0B-B40A-4DF70287FC77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8CBE93E-36A4-4D0B-B40A-4DF70287FC77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8CBE93E-36A4-4D0B-B40A-4DF70287FC77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{625F561E-4313-4591-BAB4-BACD207F3EBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{625F561E-4313-4591-BAB4-BACD207F3EBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{625F561E-4313-4591-BAB4-BACD207F3EBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{625F561E-4313-4591-BAB4-BACD207F3EBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1A60A1D-202A-426F-BDB7-8232FF3CA62C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1A60A1D-202A-426F-BDB7-8232FF3CA62C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1A60A1D-202A-426F-BDB7-8232FF3CA62C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1A60A1D-202A-426F-BDB7-8232FF3CA62C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1672D150-BB75-462E-83EE-4D5A3DA3169F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1672D150-BB75-462E-83EE-4D5A3DA3169F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1672D150-BB75-462E-83EE-4D5A3DA3169F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1672D150-BB75-462E-83EE-4D5A3DA3169F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFAA1C02-0389-42C3-BC8C-43DB909A6111}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFAA1C02-0389-42C3-BC8C-43DB909A6111}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFAA1C02-0389-42C3-BC8C-43DB909A6111}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFAA1C02-0389-42C3-BC8C-43DB909A6111}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E86C153-D636-4E96-8D81-2ECCE0BDF16E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E86C153-D636-4E96-8D81-2ECCE0BDF16E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E86C153-D636-4E96-8D81-2ECCE0BDF16E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E86C153-D636-4E96-8D81-2ECCE0BDF16E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DE95FBE-3CC0-4504-9456-70E5027563AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DE95FBE-3CC0-4504-9456-70E5027563AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DE95FBE-3CC0-4504-9456-70E5027563AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DE95FBE-3CC0-4504-9456-70E5027563AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +103,15 @@ Global
 		{D52D5E1D-74E0-49D5-96E9-700891FAFAC4} = {DAF9BAE7-B5AC-43B5-9FF6-5B4848D4BB14}
 		{70C090A1-6B4E-4495-9B03-8FAC32718E73} = {DAF9BAE7-B5AC-43B5-9FF6-5B4848D4BB14}
 		{AED149E8-6035-48E2-BD16-A4AC4377F8FE} = {DAF9BAE7-B5AC-43B5-9FF6-5B4848D4BB14}
+		{432EB15D-BBAE-437D-B877-625880181912} = {DAF9BAE7-B5AC-43B5-9FF6-5B4848D4BB14}
+		{DF1A567E-E4FA-4805-9CB4-B28E0FC1754D} = {DAF9BAE7-B5AC-43B5-9FF6-5B4848D4BB14}
+		{4214EC64-2A13-4DC9-A279-78AE72DD0CCE} = {DAF9BAE7-B5AC-43B5-9FF6-5B4848D4BB14}
+		{B8CBE93E-36A4-4D0B-B40A-4DF70287FC77} = {DAF9BAE7-B5AC-43B5-9FF6-5B4848D4BB14}
+		{625F561E-4313-4591-BAB4-BACD207F3EBE} = {DAF9BAE7-B5AC-43B5-9FF6-5B4848D4BB14}
+		{C1A60A1D-202A-426F-BDB7-8232FF3CA62C} = {DAF9BAE7-B5AC-43B5-9FF6-5B4848D4BB14}
+		{1672D150-BB75-462E-83EE-4D5A3DA3169F} = {DAF9BAE7-B5AC-43B5-9FF6-5B4848D4BB14}
+		{FFAA1C02-0389-42C3-BC8C-43DB909A6111} = {DAF9BAE7-B5AC-43B5-9FF6-5B4848D4BB14}
+		{8DE95FBE-3CC0-4504-9456-70E5027563AF} = {DAF9BAE7-B5AC-43B5-9FF6-5B4848D4BB14}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6E8AADCE-EB35-4FEA-9928-E9A06B82FB5F}

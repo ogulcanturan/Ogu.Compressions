@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ogu.Compressions.Abstractions;
 using System;
+using System.IO.Compression;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,9 +19,9 @@ namespace Sample.Api.Controllers
         }
 
         [HttpPost("compress")]
-        public async Task<IActionResult> Compress([FromBody] string rawInput, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Compress([FromBody] string rawInput, [FromQuery] CompressionLevel? level, CancellationToken cancellationToken = default)
         {
-            var result = await _compression.CompressAsync(rawInput, cancellationToken);
+            var result = await _compression.CompressAsync(rawInput, level ?? _compression.Level, cancellationToken);
 
             return Ok(Convert.ToBase64String(result));
         }

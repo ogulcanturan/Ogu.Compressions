@@ -19,15 +19,15 @@ namespace Sample.Api.Controllers
         }
 
         [HttpGet("with-compression-handler")]
-        public async Task<IActionResult> WithCompressionHandler([FromQuery] CompressionType compressionType, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> WithCompressionHandler([FromQuery] CompressionType type, CancellationToken cancellationToken = default)
         {
-            // named HttpClient is registered in the Program.cs - builder.Services.AddHttpClient("DecompressionHandler").AddHttpMessageHandler<DecompressionHandler>();
-            var client = _httpClientFactory.CreateClient("DecompressionHandler");
+            // named HttpClient is registered in the Program.cs - builder.Services.AddHttpClient(nameof(DecompressionHandler)).AddHttpMessageHandler<DecompressionHandler>();
+            var client = _httpClientFactory.CreateClient(nameof(DecompressionHandler));
 
-            if (compressionType != CompressionType.None)
+            if (type != CompressionType.None)
             {
                 // Requesting encoding if possible - the ResponseCompression middleware will compress the response
-                client.DefaultRequestHeaders.AddCompressionType(compressionType);
+                client.DefaultRequestHeaders.AddCompressionType(type);
             }
 
             // DecompressionHandler will decompress automatically - response should be understandable!
@@ -42,15 +42,15 @@ namespace Sample.Api.Controllers
         }
 
         [HttpGet("without-compression-handler")]
-        public async Task<IActionResult> WithoutCompressionHandler([FromQuery] CompressionType compressionType, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> WithoutCompressionHandler([FromQuery] CompressionType type, CancellationToken cancellationToken = default)
         {
             // HttpClient is registered in the Program.cs - builder.Services.AddHttpClient();
             var client = _httpClientFactory.CreateClient();
 
-            if (compressionType != CompressionType.None)
+            if (type != CompressionType.None)
             {
                 // Requesting encoding if possible - then the ResponseCompression middleware will compress the response
-                client.DefaultRequestHeaders.AddCompressionType(compressionType);
+                client.DefaultRequestHeaders.AddCompressionType(type);
             }
 
             // decompress automatically - response shouldn't be understandable if compression type selected other than none!
@@ -65,7 +65,7 @@ namespace Sample.Api.Controllers
                 {
                     StringData = Encoding.UTF8.GetString(result),
                     Base64String = Convert.ToBase64String(result),
-                    CompressionType = $"{compressionType} ({(int)compressionType})"
+                    CompressionType = $"{type} ({(int)type})"
                 });
             }
         }

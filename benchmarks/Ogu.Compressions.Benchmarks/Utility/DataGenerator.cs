@@ -13,7 +13,7 @@ namespace Ogu.Compressions.Benchmarks.Utility
         private static readonly string DataDirectory = Path.Combine(AppContext.BaseDirectory, GeneratedDataFolderName);
 
         public static string GetGeneratedFilePath(string dataType, int size) => Path.Combine(DataDirectory, string.Format(GeneratedDataFileNameFormat, dataType, size));
-        public static string GetGeneratedCompressedFilePath(CompressionType type, CompressionLevel level, string dataType, int size) => Path.Combine(DataDirectory, string.Format(GeneratedCompressedDataFileNameFormat, type, dataType, size));
+        public static string GetGeneratedCompressedFilePath(CompressionType type, CompressionLevel level, string dataType, int size) => Path.Combine(DataDirectory, string.Format(GeneratedCompressedDataFileNameFormat, type, level, dataType, size));
 
         public static void EnsureDataGenerated(ICompression[] compressions, int size)
         {

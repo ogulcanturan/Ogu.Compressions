@@ -5,12 +5,13 @@ using Microsoft.Extensions.Hosting;
 using Ogu.AspNetCore.Compressions;
 using Ogu.Compressions.Abstractions;
 using System.IO.Compression;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(opts => opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -36,7 +37,7 @@ builder.Services.AddResponseCompression(opts =>
 
 builder.Services.AddSingleton<DecompressionHandler>();
 builder.Services.AddHttpClient();
-builder.Services.AddHttpClient("DecompressionHandler").AddHttpMessageHandler<DecompressionHandler>();
+builder.Services.AddHttpClient(nameof(DecompressionHandler)).AddHttpMessageHandler<DecompressionHandler>();
 
 var app = builder.Build();
 
