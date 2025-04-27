@@ -106,9 +106,8 @@ services.AddHttpClient("MySampleApiClient", httpClient =>
 {
     httpClient.BaseAddress = new Uri("http://....com");
 
-    // Add request headers to ask for compressed responses
+    // Inform the service that Brotli decompression is supported
     CompressionType.Brotli.AddToRequestHeaders(httpClient.DefaultRequestHeaders);
-    CompressionType.Gzip.AddToRequestHeaders(httpClient.DefaultRequestHeaders);
 }).AddHttpMessageHandler<DecompressionHandler>();
 ```
 
