@@ -65,6 +65,16 @@ public BrotliController(IBrotliCompression compression)
 }
 ```
 
+Methods:
+- Compress(..)
+- CompressAsync(..)
+- Decompress(..)
+- DecompressAsync(..)
+- CompressToStream(..)
+- CompressToStreamAsync(..)
+- DecompressToStream(..)
+- DecompressToStreamAsync(..)
+
 Other compression types and their interfaces:
 - **Deflate:** `IDeflateCompression`
 - **Snappy:** `ISnappyCompression`
