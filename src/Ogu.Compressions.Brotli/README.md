@@ -56,8 +56,8 @@ public BrotliController(IBrotliCompression compression)
 string data = "Hello, World!";
 bytes[] compressedData = await _compression.CompressAsync(data);
 ```
-**
-Decompress:**
+
+**Decompress:**
 
 ```csharp
 bytes[] decompressedData = await _compression.DecompressAsync(compressedData);
