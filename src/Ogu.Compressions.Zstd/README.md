@@ -50,6 +50,20 @@ public ZstdController(IZstdCompression compression)
 }
 ```
 
+**Compress:**
+
+```csharp
+string data = "Hello, World!";
+bytes[] compressedData = await _compression.CompressAsync(data);
+```
+
+**Decompress:**
+
+```csharp
+bytes[] decompressedData = await _compression.DecompressAsync(compressedData);
+string data = System.Text.Encoding.UTF8.GetString(decompressedData);
+```
+
 **Links:**
 - [GitHub](https://github.com/ogulcanturan/Ogu.Compressions)
 - [Documentation](https://github.com/ogulcanturan/Ogu.Compressions#readme)
