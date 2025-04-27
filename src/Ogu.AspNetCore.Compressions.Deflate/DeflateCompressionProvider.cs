@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-using Ogu.Compressions.Abstractions;
 using System.IO;
 using System.IO.Compression;
 using ICompressionProvider = Microsoft.AspNetCore.ResponseCompression.ICompressionProvider;
@@ -18,9 +17,10 @@ namespace Ogu.AspNetCore.Compressions
         public DeflateCompressionProvider(IOptions<DeflateCompressionProviderOptions> opts)
         {
             Level = opts.Value.Level;
+            EncodingName = opts.Value.EncodingName;
         }
 
-        public string EncodingName => CompressionDefaults.EncodingNames.Deflate;
+        public string EncodingName { get; }
 
         /// <summary>
         /// Gets the compression level to use for the underlying stream.

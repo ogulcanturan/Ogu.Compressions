@@ -16,13 +16,12 @@ namespace Ogu.AspNetCore.Compressions
         /// <param name="opts">The options for configuring the <see cref="ZstdCompressionProvider"/>.</param>
         public ZstdCompressionProvider(IOptions<ZstdCompressionProviderOptions> opts)
         {
-            var optionsValue = opts.Value;
-
-            Level = optionsValue.Level.ToZstdLevel();
-            BufferSize = optionsValue.BufferSize;
+            Level = opts.Value.Level.ToZstdLevel();
+            BufferSize = opts.Value.BufferSize;
+            EncodingName = opts.Value.EncodingName;
         }
 
-        public string EncodingName => CompressionDefaults.EncodingNames.Zstd;
+        public string EncodingName { get; }
 
         /// <summary>
         /// Gets the size, in bytes, of the buffer. The default size is 81920.

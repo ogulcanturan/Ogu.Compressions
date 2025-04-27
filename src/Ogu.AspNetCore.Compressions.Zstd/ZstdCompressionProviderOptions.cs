@@ -14,7 +14,16 @@ namespace Ogu.AspNetCore.Compressions
         /// Initializes a new instance of the <see cref="ZstdCompressionProviderOptions"/> class 
         /// with default values for compression level (<see cref="CompressionLevel.Fastest"/>) and buffer size (81920).
         /// </summary>
-        public ZstdCompressionProviderOptions() : this(CompressionLevel.Fastest, CompressionDefaults.BufferSize) { }
+        public ZstdCompressionProviderOptions() : this(CompressionLevel.Fastest) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ZstdCompressionProviderOptions"/> class 
+        /// with compression level and default buffer size (81920).
+        /// </summary>
+        /// <param name="level">The compression level to use.</param>
+        public ZstdCompressionProviderOptions(CompressionLevel level) : this(level, CompressionDefaults.BufferSize)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ZstdCompressionProviderOptions"/> class

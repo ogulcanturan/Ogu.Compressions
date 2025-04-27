@@ -19,6 +19,14 @@ namespace Ogu.Compressions
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="DeflateCompressionOptions"/> class 
+        /// with compression level and default buffer size (81920).
+        /// </summary>
+        public DeflateCompressionOptions(CompressionLevel level) : base(level)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="DeflateCompressionOptions"/> class
         /// with the specified compression level and buffer size.
         /// </summary>

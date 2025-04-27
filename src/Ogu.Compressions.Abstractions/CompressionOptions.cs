@@ -16,6 +16,14 @@ namespace Ogu.Compressions.Abstractions
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="CompressionOptions"/> class with compression level and default buffer size (81920).
+        /// </summary>
+        /// <param name="level">The compression level to use.</param>
+        protected CompressionOptions(CompressionLevel level) : this(level, CompressionDefaults.BufferSize)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="CompressionOptions"/> class with specified values for compression level and buffer size.
         /// </summary>
         /// <param name="level">The compression level to use.</param>
