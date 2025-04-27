@@ -19,7 +19,23 @@ namespace Ogu.Compressions.Tests.Zstd
         }
 
         [Fact]
-        public void Constructor_WhenCalled_WithParams_InitializesCorrectly()
+        public void Constructor_WhenCalled_WithLevel_InitializesCorrectly()
+        {
+            // Arrange
+            const CompressionLevel level = CompressionLevel.NoCompression;
+
+            // Act
+            var options = new ZstdCompressionOptions(level);
+
+            // Assert
+            Assert.Equal(level, options.Level);
+            Assert.Equal(CompressionDefaults.BufferSize, options.BufferSize);
+            Assert.Equal(CompressionDefaults.EncodingNames.Zstd, options.EncodingName);
+            Assert.Equal(CompressionType.Zstd, options.Type);
+        }
+
+        [Fact]
+        public void Constructor_WhenCalled_WithLevelAndBufferSize_InitializesCorrectly()
         {
             // Arrange
             const CompressionLevel level = CompressionLevel.Optimal;

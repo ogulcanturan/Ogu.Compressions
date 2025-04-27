@@ -19,7 +19,23 @@ namespace Ogu.Compressions.Tests.Brotli
         }
 
         [Fact]
-        public void Constructor_WhenCalled_WithParams_InitializesCorrectly()
+        public void Constructor_WhenCalled_WithLevel_InitializesCorrectly()
+        {
+            // Arrange
+            const CompressionLevel level = CompressionLevel.NoCompression;
+
+            // Act
+            var options = new BrotliCompressionOptions(level);
+
+            // Assert
+            Assert.Equal(level, options.Level);
+            Assert.Equal(CompressionDefaults.BufferSize, options.BufferSize);
+            Assert.Equal(CompressionDefaults.EncodingNames.Brotli, options.EncodingName);
+            Assert.Equal(CompressionType.Brotli, options.Type);
+        }
+
+        [Fact]
+        public void Constructor_WhenCalled_WithLevelAndBufferSize_InitializesCorrectly()
         {
             // Arrange
             const CompressionLevel level = CompressionLevel.Optimal;

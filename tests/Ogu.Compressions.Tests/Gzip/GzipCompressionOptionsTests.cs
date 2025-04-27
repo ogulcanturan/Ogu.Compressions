@@ -19,7 +19,23 @@ namespace Ogu.Compressions.Tests.Gzip
         }
 
         [Fact]
-        public void Constructor_WhenCalled_WithParams_InitializesCorrectly()
+        public void Constructor_WhenCalled_WithLevel_InitializesCorrectly()
+        {
+            // Arrange
+            const CompressionLevel level = CompressionLevel.NoCompression;
+
+            // Act
+            var options = new GzipCompressionOptions(level);
+
+            // Assert
+            Assert.Equal(level, options.Level);
+            Assert.Equal(CompressionDefaults.BufferSize, options.BufferSize);
+            Assert.Equal(CompressionDefaults.EncodingNames.Gzip, options.EncodingName);
+            Assert.Equal(CompressionType.Gzip, options.Type);
+        }
+
+        [Fact]
+        public void Constructor_WhenCalled_WithLevelAndBufferSize_InitializesCorrectly()
         {
             // Arrange
             const CompressionLevel level = CompressionLevel.Optimal;
