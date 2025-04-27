@@ -4,7 +4,7 @@ This library provides concrete implementations of most popular compression algor
 
 ## Usage
 
-**Registering all compressions including CompressionFactory ( Brotli, Deflate, Snappy, Zstd, Gzip, None ):**
+**Registering all compressions including ICompressionProvider ( Brotli, Deflate, Snappy, Zstd, Gzip, None ):**
 ```csharp
 services.AddCompressions(opts =>
 {
@@ -29,13 +29,13 @@ To resolve other compression types;
 - **Gzip:** IGzipCompression
 - **None:** INoneCompression
 
-**To resolve compression using ICompressionFactory:**
+**To resolve compression using ICompressionProvider:**
 ```csharp
-private readonly ICompressionFactory _compressionFactory;
+private readonly ICompressionProvider _compressionProvider;
 
-public DecompressionHandler(ICompressionFactory compressionFactory)
+public DecompressionHandler(ICompressionProvider compressionProvider)
 {
-    _compressionFactory = compressionFactory;
+    _compressionProvider = compressionProvider;
 }
 ```
 
@@ -47,7 +47,7 @@ var brotliCompression = _compressionFactory.Get(CompressionType.Brotli);
 **Adding decompression handler to HttpClient**
 ```csharp
 // registration
-services.AddTransient<DecompressionHandler>();
+services.AddSingleton<DecompressionHandler>();
 services.AddHttpClient("MySampleApiClient", httpClient =>
 {
     httpClient.BaseAddress = new Uri("http://...com")    
@@ -57,13 +57,15 @@ services.AddHttpClient("MySampleApiClient", httpClient =>
     CompressionType.Gzip.AddToRequestHeaders(httpClient.DefaultRequestHeaders);
 }).AddHttpMessageHandler<DecompressionHandler>();
 
-// Register ICompressionFactory for DecompressionHandler to support all compressions including ICompressionFactory
+// Register ICompressionProvider for DecompressionHandler to support all compressions
 services.AddCompressions(opts =>
 {
     opts.Level = CompressionLevel.Optimal;
 });
 ```
+
 To use
+
 ```csharp
 public class MySampleApiClient : IMySampleApiClient
 {
@@ -82,7 +84,7 @@ public class MySampleApiClient : IMySampleApiClient
 }
 ```
 
-When making requests through _httpClient, the DecompressionHandler will decompress if the content is encoded.
+When making requests through httpClient, the DecompressionHandler will decompress if the content is encoded.
 
 **Links:**
 - [GitHub](https://github.com/ogulcanturan/Ogu.Compressions)
