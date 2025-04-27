@@ -65,6 +65,20 @@ public BrotliController(IBrotliCompression compression)
 }
 ```
 
+Compress
+
+```csharp
+string data = "Hello, World!";
+bytes[] compressedData = await _compression.CompressAsync(data);
+```
+
+Decompress
+
+```csharp
+bytes[] decompressedData = await _compression.DecompressAsync(compressedData);
+string data = System.Text.Encoding.UTF8.GetString(decompressedData);
+```
+
 [Methods](https://github.com/ogulcanturan/Ogu.Compressions/blob/master/src/Ogu.Compressions.Abstractions/ICompression.cs):
 - Compress(..)
 - CompressAsync(..)
