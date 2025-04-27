@@ -46,7 +46,21 @@ public BrotliController(IBrotliCompression compression)
 }
 ```
 
-Methods:
+Compress
+
+```csharp
+string data = "Hello, World!";
+bytes[] compressedData = await _compression.CompressAsync(data);
+```
+
+Decompress
+
+```csharp
+bytes[] decompressedData = await _compression.DecompressAsync(compressedData);
+string data = System.Text.Encoding.UTF8.GetString(decompressedData);
+```
+
+[Methods](https://github.com/ogulcanturan/Ogu.Compressions/blob/master/src/Ogu.Compressions.Abstractions/ICompression.cs):
 - Compress(..)
 - CompressAsync(..)
 - Decompress(..)
@@ -73,9 +87,8 @@ services.AddHttpClient("MySampleApiClient", httpClient =>
 {
     httpClient.BaseAddress = new Uri("http://....com");
 
-    // Add request headers to ask for compressed responses
+    // Inform the service that Brotli decompression is supported
     CompressionType.Brotli.AddToRequestHeaders(httpClient.DefaultRequestHeaders);
-    CompressionType.Gzip.AddToRequestHeaders(httpClient.DefaultRequestHeaders);
 }).AddHttpMessageHandler<DecompressionHandler>();
 ```
 
