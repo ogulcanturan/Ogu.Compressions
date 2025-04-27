@@ -1,16 +1,16 @@
 # Ogu.Compressions
 
-This library provides concrete implementations of most popular compression algorithms using third-party libraries and also some utilities
+This library aggregates other Ogu.Compressions.* libraries and provides `AddCompressions()` extension method to register all compressions.
 
-## Usage
-
-If you need **all compression algorithms**, install the main package:
+## Adding Package
 
 ```bash
 dotnet add package Ogu.Compressions
 ```
 
-### Registration
+## Usage
+
+**Registering provider:**
 
 ```csharp
 services.AddCompressions();
