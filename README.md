@@ -151,7 +151,7 @@ The `DecompressionHandler` will automatically decompress the response if it reco
 | zstd | `CompressionType.Zstd` |
 | gzip | `CompressionType.Gzip` |
 
-To customize mappings:
+**To customize mappings:**
 
 ```csharp
 services.AddSingleton<ICompressionTypeResolver>(sp =>
