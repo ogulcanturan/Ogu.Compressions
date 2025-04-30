@@ -41,16 +41,48 @@ namespace Ogu.Compressions.Tests.Abstractions
             var noCompressionResult = CompressionLevel.NoCompression.ToZstdLevel();
             var someResult = ((CompressionLevel)555).ToZstdLevel();
             var someResult2 = ((CompressionLevel)18).ToZstdLevel();
+            var someResult3 = ((CompressionLevel)24).ToZstdLevel();
+            var someResult4 = ((CompressionLevel)(-131075)).ToZstdLevel();
 
             // Assert
             Assert.Equal(Compressor.DefaultCompressionLevel, optimalResult);
 #if NET6_0_OR_GREATER
             Assert.Equal(Compressor.MaxCompressionLevel, smallestSizeResult);
 #endif
-            Assert.Equal(Compressor.MinCompressionLevel, fastestResult);
+            Assert.Equal(1, fastestResult);
             Assert.Equal(Compressor.MinCompressionLevel, noCompressionResult);
             Assert.Equal(Compressor.MaxCompressionLevel, someResult);
             Assert.Equal(18, someResult2);
+            Assert.Equal(Compressor.MaxCompressionLevel, someResult3);
+            Assert.Equal(Compressor.MinCompressionLevel, someResult4);
+        }
+
+        [Fact]
+        public void ToBrotliLevel_ReturnsCorrectCompressionLevel()
+        {
+            // Arrange & Act
+            var optimalResult = CompressionLevel.Optimal.ToBrotliLevel();
+#if NET6_0_OR_GREATER
+            var smallestSizeResult = CompressionLevel.SmallestSize.ToBrotliLevel();
+#endif
+            var fastestResult = CompressionLevel.Fastest.ToBrotliLevel();
+            var noCompressionResult = CompressionLevel.NoCompression.ToBrotliLevel();
+            var someResult = ((CompressionLevel)555).ToBrotliLevel();
+            var someResult2 = ((CompressionLevel)18).ToBrotliLevel();
+            var someResult3 = ((CompressionLevel)24).ToBrotliLevel();
+            var someResult4 = ((CompressionLevel)(-33)).ToBrotliLevel();
+
+            // Assert
+            Assert.Equal(4u, optimalResult);
+#if NET6_0_OR_GREATER
+            Assert.Equal(11u, smallestSizeResult);
+#endif
+            Assert.Equal(1u, fastestResult);
+            Assert.Equal(0u, noCompressionResult);
+            Assert.Equal(11u, someResult);
+            Assert.Equal(11u, someResult2);
+            Assert.Equal(11u, someResult3);
+            Assert.Equal(0u, someResult4);
         }
 
         [Fact]

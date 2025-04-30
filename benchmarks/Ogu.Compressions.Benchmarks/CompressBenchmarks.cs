@@ -2,6 +2,7 @@
 using BenchmarkDotNet.Configs;
 using Ogu.Compressions.Abstractions;
 using Ogu.Compressions.Benchmarks.Utility;
+using Ogu.Compressions.Brotli.Native;
 using System.IO.Compression;
 
 namespace Ogu.Compressions.Benchmarks
@@ -24,21 +25,33 @@ namespace Ogu.Compressions.Benchmarks
         public string DataType;
 
         private byte[] _data;
-        private ICompressionProvider _provider;
+        private ICompression _brotliCompression;
+        private ICompression _nativeBrotliCompression;
+        private ICompression _deflateCompression;
+        private ICompression _gzipCompression;
+        private ICompression _snappyCompression;
+        private ICompression _zstdCompression;
+
 
         [GlobalSetup]
         public void Setup()
         {
+            _brotliCompression = new BrotliCompression(new BrotliCompressionOptions(Level, BufferSize));
+            _nativeBrotliCompression = new NativeBrotliCompression(new NativeBrotliCompressionOptions(Level, BufferSize));
+            _deflateCompression = new DeflateCompression(new DeflateCompressionOptions(Level, BufferSize));
+            _gzipCompression = new GzipCompression(new GzipCompressionOptions(Level, BufferSize));
+            _snappyCompression = new SnappyCompression(new SnappyCompressionOptions(Level, BufferSize));
+            _zstdCompression = new ZstdCompression(new ZstdCompressionOptions(Level, BufferSize));
+
             var compressions = new ICompression[]
             {
-                new BrotliCompression(new BrotliCompressionOptions(Level, BufferSize)),
-                new DeflateCompression(new DeflateCompressionOptions(Level, BufferSize)),
-                new GzipCompression(new GzipCompressionOptions(Level, BufferSize)),
-                new SnappyCompression(new SnappyCompressionOptions(Level, BufferSize)),
-                new ZstdCompression(new ZstdCompressionOptions(Level, BufferSize)),
+                _brotliCompression,
+                _nativeBrotliCompression,
+                _deflateCompression,
+                _gzipCompression,
+                _snappyCompression,
+                _zstdCompression
             };
-
-            _provider = new CompressionProvider(compressions, new CompressionTypeResolver());
 
             DataGenerator.EnsureDataGenerated(compressions, Size);
 
@@ -47,22 +60,26 @@ namespace Ogu.Compressions.Benchmarks
 
         [BenchmarkCategory(Constants.Categories.Compress)]
         [Benchmark]
-        public async Task<byte[]> Brotli() => await _provider.GetRequiredCompression(CompressionType.Brotli).CompressAsync(_data);
+        public async Task<byte[]> Brotli() => await _brotliCompression.CompressAsync(_data);
 
         [BenchmarkCategory(Constants.Categories.Compress)]
         [Benchmark]
-        public async Task<byte[]> Deflate() => await _provider.GetRequiredCompression(CompressionType.Deflate).CompressAsync(_data);
+        public async Task<byte[]> NativeBrotli() => await _nativeBrotliCompression.CompressAsync(_data);
 
         [BenchmarkCategory(Constants.Categories.Compress)]
         [Benchmark]
-        public async Task<byte[]> Gzip() => await _provider.GetRequiredCompression(CompressionType.Gzip).CompressAsync(_data);
+        public async Task<byte[]> Deflate() => await _deflateCompression.CompressAsync(_data);
 
         [BenchmarkCategory(Constants.Categories.Compress)]
         [Benchmark]
-        public async Task<byte[]> Snappy() => await _provider.GetRequiredCompression(CompressionType.Snappy).CompressAsync(_data);
+        public async Task<byte[]> Gzip() => await _gzipCompression.CompressAsync(_data);
 
         [BenchmarkCategory(Constants.Categories.Compress)]
         [Benchmark]
-        public async Task<byte[]> Zstd() => await _provider.GetRequiredCompression(CompressionType.Zstd).CompressAsync(_data);
+        public async Task<byte[]> Snappy() => await _snappyCompression.CompressAsync(_data);
+
+        [BenchmarkCategory(Constants.Categories.Compress)]
+        [Benchmark]
+        public async Task<byte[]> Zstd() => await _zstdCompression.CompressAsync(_data);
     }
 }

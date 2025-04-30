@@ -42,7 +42,6 @@ namespace Ogu.Compressions.Tests.Abstractions
             Assert.Throws<ObjectDisposedException>(() => input.Length);
         }
 
-
         [Fact]
         public async Task ReadAllBytesAsync_MemoryStreamInput_ReturnsBytes()
         {

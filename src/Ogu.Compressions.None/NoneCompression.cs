@@ -12,7 +12,7 @@ namespace Ogu.Compressions
     /// Represents a placeholder compression implementation that performs no compression.
     /// This class implements the <see cref="INoneCompression"/> interface and is used internally to indicate no compression.
     /// </summary>
-    public class NoneCompression : CompressionBase, INoneCompression
+    public class NoneCompression : Compression, INoneCompression
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NoneCompression"/> class.

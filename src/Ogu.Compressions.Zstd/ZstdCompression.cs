@@ -12,7 +12,7 @@ namespace Ogu.Compressions
     /// <summary>
     /// Implements the <see cref="IZstdCompression"/> interface for compressing and decompressing data using the 'ZstdSharp.Port' library.
     /// </summary>
-    public class ZstdCompression : CompressionBase, IZstdCompression
+    public class ZstdCompression : Compression, IZstdCompression
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ZstdCompression"/> class using the specified options.

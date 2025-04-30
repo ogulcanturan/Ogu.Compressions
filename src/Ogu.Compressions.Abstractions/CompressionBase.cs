@@ -10,24 +10,24 @@ namespace Ogu.Compressions.Abstractions
     /// <summary>
     /// Represents the base class for compression algorithms.
     /// </summary>
-    public abstract class CompressionBase : ICompression
+    public abstract class Compression : ICompression
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CompressionBase"/> class using the specified compression options.
+        /// Initializes a new instance of the <see cref="Compression"/> class using the specified compression options.
         /// </summary>
         /// <param name="options">The <see cref="CompressionOptions"/> that contains the encoding name, buffer size, compression type, and compression level.</param>
-        protected CompressionBase(CompressionOptions options) : this(options.EncodingName, options.BufferSize, options.Type, options.Level)
+        protected Compression(CompressionOptions options) : this(options.EncodingName, options.BufferSize, options.Type, options.Level)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CompressionBase"/> class with the specified encoding name, buffer size, compression type, and compression level.
+        /// Initializes a new instance of the <see cref="Compression"/> class with the specified encoding name, buffer size, compression type, and compression level.
         /// </summary>
         /// <param name="encodingName">The name of the compression encoding (e.g., "gzip", "deflate", etc.).</param>
         /// <param name="bufferSize">The size of the buffer used for compression operations.</param>
         /// <param name="type">The type of compression algorithm to be used.</param>
         /// <param name="level">The compression level to be applied during compression.</param>
-        protected CompressionBase(string encodingName, int bufferSize, CompressionType type, CompressionLevel level)
+        protected Compression(string encodingName, int bufferSize, CompressionType type, CompressionLevel level)
         {
             EncodingName = encodingName;
             BufferSize = bufferSize;

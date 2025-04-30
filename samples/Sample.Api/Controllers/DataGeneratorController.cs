@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ogu.Compressions.Abstractions;
 using Sample.Api.Models;
+using Sample.Api.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
-using Sample.Api.Utility;
 using DataType = Sample.Api.Models.DataType;
 
 namespace Sample.Api.Controllers
@@ -70,7 +70,7 @@ namespace Sample.Api.Controllers
                                     compressionLevelGroup => compressionLevelGroup.Key,
                                     compressionLevelGroup => compressionLevelGroup
                                         .ToDictionary(
-                                            g => g.CompressionType,
+                                            g => g.CompressionName,
                                             g => g.CompressedPayloadSize
                                         )
                                 )

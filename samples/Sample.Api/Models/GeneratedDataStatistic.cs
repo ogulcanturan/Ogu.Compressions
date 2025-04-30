@@ -6,6 +6,8 @@ namespace Sample.Api.Models
 {
     public class DataGeneratorStatistic
     {
+        public string CompressionName { get; set; }
+
         public DataType DataType { get; set; }
 
         public CompressionType CompressionType { get; set; }

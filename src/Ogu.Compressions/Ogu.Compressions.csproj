@@ -27,6 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Ogu.Compressions.Brotli.Native\Ogu.Compressions.Brotli.Native.csproj" />
 		<ProjectReference Include="..\Ogu.Compressions.Brotli\Ogu.Compressions.Brotli.csproj" />
 		<ProjectReference Include="..\Ogu.Compressions.Deflate\Ogu.Compressions.Deflate.csproj" />
 		<ProjectReference Include="..\Ogu.Compressions.Gzip\Ogu.Compressions.Gzip.csproj" />

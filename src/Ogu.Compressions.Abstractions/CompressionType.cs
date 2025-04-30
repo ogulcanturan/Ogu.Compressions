@@ -11,17 +11,17 @@
         None = 0,
 
         /// <summary>
-        /// The compression type used for <c>snappy</c> encoding.
+        /// The compression type used for <c>snappy</c> (Snappy) encoding.
         /// </summary>
         Snappy = 1,
 
         /// <summary>
-        /// The compression type used for <c>deflate</c> encoding.
+        /// The compression type used for <c>deflate</c> (Deflate) encoding.
         /// </summary>
         Deflate = 2,
 
         /// <summary>
-        /// The compression type used for <c>gzip</c> encoding.
+        /// The compression type used for <c>gzip</c> (Gzip) encoding.
         /// </summary>
         Gzip = 3,
 

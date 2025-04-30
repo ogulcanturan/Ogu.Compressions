@@ -12,7 +12,7 @@ namespace Ogu.Compressions
     /// <summary>
     /// Implements the <see cref="IGzipCompression"/> interface for compressing and decompressing data using the built-in 'System.IO.Compression' assembly.
     /// </summary>
-    public class GzipCompression : CompressionBase, IGzipCompression
+    public class GzipCompression : Compression, IGzipCompression
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GzipCompression"/> class using the specified options.

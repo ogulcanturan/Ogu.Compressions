@@ -46,5 +46,13 @@
             /// </summary>
             public const string None = "none";
         }
+
+        public static class NativeBrotli
+        {
+            /// <summary>
+            /// The default size of the sliding window used in the native brotli compression algorithm.
+            /// </summary>
+            public const uint WindowSize = 22;
+        }
     }
 }

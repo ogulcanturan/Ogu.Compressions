@@ -93,17 +93,21 @@ namespace Ogu.Compressions.Tests
         }
 
         [Fact]
-        public void AddCompressions_WithCompressionOptions_CorrectlyRegisters()
+        public void AddCompressions_WithCompressionRegistrationOptions_CorrectlyRegisters()
         {
             // Arrange
             const CompressionLevel level = CompressionLevel.Optimal;
             const int bufferSize = 4096;
             var services = new ServiceCollection();
 
-            Action<CompressionOptions> options = opts =>
+            Action<CompressionRegistrationOptions> options = registrationOpts =>
             {
-                opts.Level = level;
-                opts.BufferSize = bufferSize;
+                registrationOpts.UseNativeBrotli = false;
+                registrationOpts.CompressionOptions = compressionOpts =>
+                {
+                    compressionOpts.Level = level;
+                    compressionOpts.BufferSize = bufferSize;
+                };
             };
 
             // Act
@@ -148,6 +152,12 @@ namespace Ogu.Compressions.Tests
             Assert.NotNull(gzipCompression);
             Assert.NotNull(noneCompression);
             Assert.NotNull(compressions);
+            Assert.IsType<BrotliCompression>(brotliCompression);
+            Assert.IsType<DeflateCompression>(deflateCompression);
+            Assert.IsType<SnappyCompression>(snappyCompression);
+            Assert.IsType<ZstdCompression>(zstdCompression);
+            Assert.IsType<GzipCompression>(gzipCompression);
+            Assert.IsType<NoneCompression>(noneCompression);
             Assert.Null(compressionProvider.GetCompression(string.Empty));
             Assert.Equal(brotliCompression, brotliCompressionFromProvider);
             Assert.Equal(brotliCompression, brotliCompressionFromAnotherScope);
@@ -182,6 +192,42 @@ namespace Ogu.Compressions.Tests
             Assert.Equal(compressionProvider, compressionProviderFromAnotherScope);
             Assert.Equal(compressions, compressionsFromAnotherScope);
             Assert.Equal(6, compressions.Length);
+        }
+
+        [Fact]
+        public void AddCompressions_WithCompressionRegistrationOptions_UseNativeBrotli_CorrectlyRegisters()
+        {
+            // Arrange
+            const CompressionLevel level = CompressionLevel.SmallestSize;
+            const int bufferSize = 8192;
+            var services = new ServiceCollection();
+
+            Action<CompressionRegistrationOptions> options = registrationOpts =>
+            {
+                registrationOpts.UseNativeBrotli = true;
+                registrationOpts.CompressionOptions = compressionOpts =>
+                {
+                    compressionOpts.Level = level;
+                    compressionOpts.BufferSize = bufferSize;
+                };
+            };
+
+            // Act
+            services.AddCompressions(options);
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            var brotliCompression = serviceProvider.GetService<IBrotliCompression>();
+
+            var compressions = serviceProvider.GetService<IEnumerable<ICompression>>()?.ToArray();
+
+            // Assert
+            Assert.NotNull(compressions);
+            Assert.Equal(6, compressions.Length);
+            Assert.IsType<NativeBrotliCompression>(brotliCompression);
+            Assert.Equal(CompressionDefaults.EncodingNames.Brotli, brotliCompression.EncodingName);
+            Assert.Equal(level, brotliCompression.Level);
+            Assert.Equal(bufferSize, brotliCompression.BufferSize);
         }
     }
 }

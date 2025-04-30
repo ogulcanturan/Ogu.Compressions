@@ -17,7 +17,7 @@ namespace Sample.Api.Utility
         private static readonly string DataDirectory = Path.Combine(AppContext.BaseDirectory, GeneratedDataFolderName);
 
         public static string GetGeneratedFilePath(string dataType, long size) => Path.Combine(DataDirectory, string.Format(GeneratedDataFileNameFormat, dataType, size));
-        public static string GetGeneratedCompressedFilePath(CompressionType type, CompressionLevel level, string dataType, long size) => Path.Combine(DataDirectory, string.Format(GeneratedCompressedDataFileNameFormat, type, level, dataType, size));
+        public static string GetGeneratedCompressedFilePath(string compressionName, CompressionLevel level, string dataType, long size) => Path.Combine(DataDirectory, string.Format(GeneratedCompressedDataFileNameFormat, compressionName, level, dataType, size));
 
         public static DataGeneratorStatistic[] EnsureDataGenerated(ICompression[] compressions, long size, CompressionLevel? level = null, bool overwrite = false)
         {
@@ -44,7 +44,7 @@ namespace Sample.Api.Utility
                     {
                         var compressionLevel = level ?? compression.Level;
 
-                        var compressedFilePath = GetGeneratedCompressedFilePath(compression.Type, compressionLevel, dataTypeName, size) ?? throw new NullReferenceException("CompressedFilePath cannot be null!");
+                        var compressedFilePath = GetGeneratedCompressedFilePath(compression.GetType().Name, compressionLevel, dataTypeName, size) ?? throw new NullReferenceException("CompressedFilePath cannot be null!");
 
                         File.Delete(compressedFilePath);
                     }
@@ -65,14 +65,17 @@ namespace Sample.Api.Utility
 
                 foreach (var compression in compressions)
                 {
+                    var compressionName = compression.GetType().Name;
+
                     var compressionLevel = level ?? compression.Level;
 
-                    var compressedFilePath = GetGeneratedCompressedFilePath(compression.Type, compressionLevel, dataTypeName, size) ?? throw new NullReferenceException("CompressedFilePath cannot be null!");
+                    var compressedFilePath = GetGeneratedCompressedFilePath(compression.GetType().Name, compressionLevel, dataTypeName, size) ?? throw new NullReferenceException("CompressedFilePath cannot be null!");
 
                     if (File.Exists(compressedFilePath))
                     {
                         dataGeneratorStatistics.Add(new DataGeneratorStatistic
                         {
+                            CompressionName = compressionName,
                             CompressionType = compression.Type,
                             CompressionLevel = compressionLevel,
                             DataType = dataType,
@@ -91,6 +94,7 @@ namespace Sample.Api.Utility
 
                     dataGeneratorStatistics.Add(new DataGeneratorStatistic
                     {
+                        CompressionName = compressionName,
                         CompressionType = compression.Type,
                         CompressionLevel = compressionLevel,
                         DataType = dataType,

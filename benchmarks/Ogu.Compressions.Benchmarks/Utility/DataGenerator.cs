@@ -13,7 +13,7 @@ namespace Ogu.Compressions.Benchmarks.Utility
         private static readonly string DataDirectory = Path.Combine(AppContext.BaseDirectory, GeneratedDataFolderName);
 
         public static string GetGeneratedFilePath(string dataType, int size) => Path.Combine(DataDirectory, string.Format(GeneratedDataFileNameFormat, dataType, size));
-        public static string GetGeneratedCompressedFilePath(CompressionType type, CompressionLevel level, string dataType, int size) => Path.Combine(DataDirectory, string.Format(GeneratedCompressedDataFileNameFormat, type, level, dataType, size));
+        public static string GetGeneratedCompressedFilePath(string compressionName, CompressionLevel level, string dataType, int size) => Path.Combine(DataDirectory, string.Format(GeneratedCompressedDataFileNameFormat, compressionName, level, dataType, size));
 
         public static void EnsureDataGenerated(ICompression[] compressions, int size)
         {
@@ -44,9 +44,11 @@ namespace Ogu.Compressions.Benchmarks.Utility
 
                 foreach (var compression in compressions)
                 {
+                    var compressionName = compression.GetType().Name;
+
                     var compressedData = compression.Compress(data, compression.Level);
 
-                    File.WriteAllBytes(GetGeneratedCompressedFilePath(compression.Type, compression.Level, dataType, size), compressedData);
+                    File.WriteAllBytes(GetGeneratedCompressedFilePath(compressionName, compression.Level, dataType, size), compressedData);
                 }
             }
         }
@@ -74,16 +76,16 @@ namespace Ogu.Compressions.Benchmarks.Utility
             throw new FileNotFoundException($"Data file for dataType: {dataType} and size: {size} not found.");
         }
 
-        public static byte[] LoadGeneratedCompressedData(CompressionType type, CompressionLevel level, string dataType, int size)
+        public static byte[] LoadGeneratedCompressedData(string compressionName, CompressionLevel level, string dataType, int size)
         {
-            var filePath = GetGeneratedCompressedFilePath(type, level, dataType, size);
+            var filePath = GetGeneratedCompressedFilePath(compressionName, level, dataType, size);
 
             if (File.Exists(filePath))
             {
                 return File.ReadAllBytes(filePath);
             }
 
-            throw new FileNotFoundException($"Data file for compression type: {type}, level: {level}, dataType: {dataType} and size {size} not found.");
+            throw new FileNotFoundException($"Data file for compression name: {compressionName}, level: {level}, dataType: {dataType} and size {size} not found.");
         }
 
         public static byte[] GenerateRepetitive(int length, char character = 'A') => Encoding.UTF8.GetBytes(new string(character, length));

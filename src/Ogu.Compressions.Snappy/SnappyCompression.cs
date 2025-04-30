@@ -13,7 +13,7 @@ namespace Ogu.Compressions
     /// <summary>
     /// Implements the <see cref="ISnappyCompression"/> interface for compressing and decompressing data using the 'Snappier' library.
     /// </summary>
-    public class SnappyCompression : CompressionBase, ISnappyCompression
+    public class SnappyCompression : Compression, ISnappyCompression
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SnappyCompression"/> class using the specified options.

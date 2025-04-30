@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ogu.AspNetCore.Compressions;
+using Ogu.Compressions;
 using Ogu.Compressions.Abstractions;
+using Ogu.Compressions.Brotli.Native;
+using System;
 using System.IO.Compression;
 using System.Text.Json.Serialization;
 
@@ -16,10 +19,19 @@ builder.Services.AddControllers().AddJsonOptions(opts => opts.JsonSerializerOpti
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddCompressions(opts =>
+Action<CompressionOptions> compressionOptions = opts =>
 {
     opts.Level = CompressionLevel.Optimal;
+};
+
+builder.Services.AddCompressions(opts =>
+{
+    opts.UseNativeBrotli = false;
+    opts.CompressionOptions = compressionOptions;
 });
+
+builder.Services.Configure<NativeBrotliCompressionOptions>(compressionOptions);
+builder.Services.AddSingleton<ICompression, NativeBrotliCompression>();
 
 builder.Services.AddResponseCompression(opts =>
 {

@@ -12,7 +12,7 @@ namespace Ogu.Compressions
     /// <summary>
     /// Implements the <see cref="IDeflateCompression"/> interface for compressing and decompressing data using the built-in 'System.IO.Compression' assembly.
     /// </summary>
-    public class DeflateCompression : CompressionBase, IDeflateCompression
+    public class DeflateCompression : Compression, IDeflateCompression
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DeflateCompression"/> class using the specified options.

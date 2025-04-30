@@ -72,13 +72,13 @@ namespace Ogu.Compressions.Abstractions
         ///     <description><see cref="CompressionLevel.SmallestSize"/> → 22 (maximum compression, slowest)</description>
         ///   </item>
         ///   <item>
-        ///     <description><see cref="CompressionLevel.Fastest"/> → -131072 (fastest compression, minimal compression ratio)</description>
+        ///     <description><see cref="CompressionLevel.Fastest"/> → 1 (fastest compression, minimal compression ratio)</description>
         ///   </item>
         ///   <item>
         ///     <description><see cref="CompressionLevel.NoCompression"/> → -131072 (effectively disables compression)</description>
         ///   </item>
         /// </list>
-        /// Custom values can be provided by casting an integer to <see cref="CompressionLevel"/>, e.g.,
+        /// Custom values other than 0,1,2,3 can be provided by casting an integer to <see cref="CompressionLevel"/>, e.g.,
         /// <c>(CompressionLevel)5</c> will return 5, clamped between -131072 and 22.
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -86,13 +86,14 @@ namespace Ogu.Compressions.Abstractions
         {
             switch (level)
             {
-                case CompressionLevel.Optimal:
-                    return 3;
 #if NET6_0_OR_GREATER
                 case CompressionLevel.SmallestSize:
                     return 22;
 #endif
+                case CompressionLevel.Optimal:
+                    return 3;
                 case CompressionLevel.Fastest:
+                    return 1;
                 case CompressionLevel.NoCompression:
                     return -131072;
                 default:
@@ -100,8 +101,55 @@ namespace Ogu.Compressions.Abstractions
                     var value = (int)level;
 
                     return value < -131072 || value > 22
-                        ? Math.Max(22, Math.Min(-131072, value))
+                        ? Math.Min(22, Math.Max(-131072, value))
                         : value;
+            }
+        }
+
+        /// <summary>
+        /// Converts a <see cref="CompressionLevel" /> to the closest matching <see cref="CompressionType.Brotli" /> compression level.
+        /// </summary>
+        /// <param name="level">The .NET <see cref="CompressionLevel" /> to map from.</param>
+        /// <returns>The corresponding <see cref="CompressionType.Brotli" /> compression level.</returns>
+        /// <remarks>
+        /// <list type="bullet">
+        ///   <item>
+        ///     <description><see cref="CompressionLevel.Optimal"/> → 4 (balanced compression and speed)</description>
+        ///   </item>
+        ///   <item>
+        ///     <description><see cref="CompressionLevel.SmallestSize"/> → 11 (maximum compression, slowest)</description>
+        ///   </item>
+        ///   <item>
+        ///     <description><see cref="CompressionLevel.Fastest"/> → 1 (fastest compression, minimal compression ratio)</description>
+        ///   </item>
+        ///   <item>
+        ///     <description><see cref="CompressionLevel.NoCompression"/> → 0 (effectively disables compression)</description>
+        ///   </item>
+        /// </list>
+        /// Custom values other than 0,1,2,3 can be provided by casting an integer to <see cref="CompressionLevel"/>, e.g.,
+        /// <c>(CompressionLevel)5</c> will return 5, clamped between 0 and 11.
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint ToBrotliLevel(this CompressionLevel level)
+        {
+            switch (level)
+            {
+#if NET6_0_OR_GREATER
+                case CompressionLevel.SmallestSize:
+                    return 11;
+#endif
+                case CompressionLevel.Optimal:
+                    return 4;
+                case CompressionLevel.Fastest:
+                    return 1;
+                case CompressionLevel.NoCompression:
+                    return 0;
+                default:
+                    var value = (int)level;
+
+                    return value < 0 || value > 11
+                        ? (uint)Math.Min(11, Math.Max(0, value))
+                        : (uint)value;
             }
         }
 
