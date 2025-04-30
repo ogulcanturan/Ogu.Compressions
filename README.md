@@ -14,6 +14,7 @@
 |:--------|:------------|
 | **Ogu.Compressions.Abstractions** | Core interfaces like `ICompression`, `ICompressionProvider`, `IBrotliCompression`, and a default `CompressionProvider` implementation. |
 | **[Ogu.Compressions.Brotli](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.Compressions.Brotli)** | Brotli (Google) compression. Uses the built-in API if the target is newer than .NET Standard 2.0, otherwise it falls back to the [Brotli.NET](https://github.com/XieJJ99/brotli.net) third-party library. |
+| **[Ogu.Compressions.Brotli.Native](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.Compressions.Brotli.Native)** | Brotli (Google) compression. Uses the [Brotli.NET](https://github.com/XieJJ99/brotli.net) third-party library. |
 | **[Ogu.Compressions.Snappy](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.Compressions.Snappy)** | Snappy (Google) compression optimized for fast compression/decompression, mainly used in real-time messaging (e.g., RPC). Since .NET does not have native support for Snappy, this package uses the [Snappier](https://github.com/brantburnett/Snappier) library internally. |
 | **[Ogu.Compressions.Zstd](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.Compressions.Zstd)** | Zstandard (Facebook) compression. Since .NET does not have native support for Zstandard, this package uses the  [ZstdSharp.Port](https://github.com/oleg-st/ZstdSharp) library internally. |
 | **[Ogu.Compressions.Gzip](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.Compressions.Gzip)** | Gzip compression, using .NET’s built-in `System.IO.Compression` APIs. |
@@ -31,8 +32,33 @@ dotnet add package Ogu.Compressions
 
 ### Registration
 
+To register the compressions with default configuration, you can call:
+
 ```csharp
 services.AddCompressions();
+```
+
+You can also pass configuration options for the compression setup by providing a delegate:
+
+```csharp
+services.AddCompressions(opts =>
+{
+    opts.UseNativeBrotli = false;
+    opts.CompressionOptions = compressionOpts =>
+    {
+        compressionOpts.Level = CompressionLevel.Fastest;
+        compressionOpts.BufferSize = 81920;
+    }
+})
+```
+
+If you prefer to use the native brotli by setting `opts.UseNativeBrotli = true`, you may want to configure the window size. In that case, you will also need to add the following configuration:
+
+```csharp
+services.Configure<NativeBrotliCompressionOptions>(opts => 
+{
+    opts.WindowSize = 22;
+});
 ```
 
 You can inject `ICompressionProvider` to resolve compressions based on `CompressionType` (enum) or encoding names like `br`, `gzip`, `deflate`, `snappy`, `zstd`, `none`.
