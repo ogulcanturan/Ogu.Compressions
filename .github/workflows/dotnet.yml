@@ -20,8 +20,9 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
-    - name: Install Native Dependencies (libdl.so) - Brotli.NET
-      run: sudo apt-get update && sudo apt-get install -y libc6-dev
+    - name: Link libdl.so.2 to libdl.so - Brotli.NET
+      run: |
+        sudo ln -s /usr/lib/x86_64-linux-gnu/libdl.so.2 /usr/lib/x86_64-linux-gnu/libdl.so
     - name: Restore Dependencies
       run: dotnet restore
     - name: Build Project
