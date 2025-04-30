@@ -19,7 +19,7 @@ services.AddNativeBrotliCompression();
 You can customize configuration by passing action delegate:
 
 ```csharp
-services.AddBrotliCompression(options =>
+services.AddNativeBrotliCompression(options =>
 {
     options.Level = CompressionLevel.Optimal;
     options.BufferSize = 4096;
