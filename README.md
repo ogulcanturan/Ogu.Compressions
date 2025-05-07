@@ -20,7 +20,7 @@
 | **[Ogu.Compressions.Gzip](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.Compressions.Gzip)** | Gzip compression, using .NET’s built-in `System.IO.Compression` APIs. |
 | **[Ogu.Compressions.Deflate](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.Compressions.Deflate)** | Deflate compression, also using the built-in `System.IO.Compression` APIs. |
 | **[Ogu.Compressions.None](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.Compressions.None)** | A no-operation compression implementation that simply returns the input unmodified. |
-| **Ogu.Compressions** | Aggregates all compression libraries and exposes the `AddCompressions` method to register everything at once. |
+| **[Ogu.Compressions](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.Compressions)** | Aggregates all compression libraries and exposes the `AddCompressions` method to register everything at once. |
 
 ## Usage
 
