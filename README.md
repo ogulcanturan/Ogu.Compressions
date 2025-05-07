@@ -166,7 +166,7 @@ public class MySampleApiClient : IMySampleApiClient
 The `DecompressionHandler` will automatically decompress the response if it recognizes the content encoding (like `br`, `gzip`, etc.). Unknown encodings will be skipped safely and you need to handle it.
 
 > [!NOTE]  
-> When using multiple handlers, the order matters. To decompress the response body (including error responses), place the decompression handler before the resilience handler (e.g., StandardResilienceHandler).
+> When using multiple http delegating handlers, the order matters. To decompress the response body (including error responses), place the decompression handler before the resilience handler (e.g., StandardResilienceHandler).
 If you have custom handlers (like logging or authentication), they should go before the decompression handler so they can run first.  
 
 ### Known Encoding Mappings
