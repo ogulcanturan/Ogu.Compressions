@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -35,26 +36,10 @@ namespace Ogu.Compressions.Abstractions
         {
             var response = await base.SendAsync(request, cancellationToken);
 
-            if (IsContentEncodingHeaderAbsent(response))
+            if (!IsContentEncodingHeaderAbsent(response))
             {
-                return response;
+                await DecompressAsync(_compressionProvider, response, cancellationToken);
             }
-
-            var streamContent = await GetDecompressedStreamContentOrDefaultAsync(_compressionProvider, response, cancellationToken);
-
-            if (streamContent == null)
-            {
-                return response;
-            }
-
-            response.Content.Headers.ContentEncoding.Clear();
-
-            foreach (var header in response.Content.Headers)
-            {
-                streamContent.Headers.TryAddWithoutValidation(header.Key, header.Value);
-            }
-
-            response.Content = streamContent;
 
             return response;
         }
@@ -64,26 +49,67 @@ namespace Ogu.Compressions.Abstractions
             return (response?.Content.Headers.ContentEncoding.Count ?? 0) == 0;
         }
 
-        private static async Task<StreamContent> GetDecompressedStreamContentOrDefaultAsync(ICompressionProvider compressionProvider, HttpResponseMessage response, CancellationToken cancellationToken)
+        private static async Task DecompressAsync(ICompressionProvider compressionProvider, HttpResponseMessage response, CancellationToken cancellationToken)
         {
-            if (!TryGetCompressions(compressionProvider, response.Content.Headers.ContentEncoding, out var compressors))
+            if (!TryGetCompressions(compressionProvider, response.Content.Headers.ContentEncoding, out var compressorsWithEncodingNames))
             {
-                return null;
+                return;
             }
 
-            StreamContent streamContent = null;
+            Stream stream = null;
 
-            foreach (var compressor in compressors.Reverse())
+            try
             {
-                streamContent = await DecompressToStreamAsync(compressor, streamContent ?? response.Content, cancellationToken);
+                foreach (var compression in compressorsWithEncodingNames.Reverse())
+                {
+                    if (stream != null)
+                    {
+                        stream = await compression.DecompressToStreamAsync(stream, cancellationToken);
+
+                        continue;
+                    }
+
+                    stream = await compression.DecompressToStreamAsync(await response.Content.ReadAsStreamAsync(
+#if NET5_0_OR_GREATER
+                    cancellationToken
+#endif
+                    ), cancellationToken);
+                }
+            }
+            catch
+            {
+                if (stream != null)
+                {
+#if NETSTANDARD2_0
+                    stream.Dispose();
+#else
+                    await stream.DisposeAsync();
+#endif
+                }
+
+                throw;
             }
 
-            return streamContent;
+            response.Content.Headers.ContentEncoding.Clear();
+            response.Content.Headers.ContentLength = null;
+            response.Content.Dispose();
+
+            var streamContent = new StreamContent(stream);
+
+            streamContent.Headers.ContentLength = stream.Length;
+
+            foreach (var header in response.Content.Headers)
+            {
+                streamContent.Headers.TryAddWithoutValidation(header.Key, header.Value);
+            }
+
+            response.Content = streamContent;
         }
 
         private static bool TryGetCompressions(ICompressionProvider compressionProvider, IEnumerable<string> encodingNames, out IEnumerable<ICompression> compressions)
         {
             var compressionList = new List<ICompression>();
+
             compressions = compressionList;
 
             foreach (var encodingName in encodingNames)
@@ -99,13 +125,6 @@ namespace Ogu.Compressions.Abstractions
             }
 
             return true;
-        }
-
-        private static async Task<StreamContent> DecompressToStreamAsync(ICompression compression, HttpContent httpContent, CancellationToken cancellationToken = default)
-        {
-            var stream = await compression.DecompressToStreamAsync(httpContent, cancellationToken);
-
-            return new StreamContent(stream);
         }
     }
 }

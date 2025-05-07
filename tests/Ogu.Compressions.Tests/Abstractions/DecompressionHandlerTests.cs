@@ -20,7 +20,7 @@ namespace Ogu.Compressions.Tests.Abstractions
             compressionProviderMock.Setup(provider => provider.GetCompression(encodingName)).Returns(compressionMock.Object);
             compressionMock.Setup(compression => compression.Type).Returns(CompressionType.Brotli);
             compressionMock
-                .Setup(compression => compression.DecompressToStreamAsync(It.IsAny<HttpContent>(), It.IsAny<CancellationToken>()))
+                .Setup(compression => compression.DecompressToStreamAsync(It.IsAny<Stream>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(decompressedContent);
 
             var responseMessage = new HttpResponseMessage(HttpStatusCode.OK)
@@ -47,7 +47,7 @@ namespace Ogu.Compressions.Tests.Abstractions
             Assert.Empty(response.Content.Headers.ContentEncoding);
 
             compressionMock.Verify(factory =>
-                factory.DecompressToStreamAsync(It.IsAny<HttpContent>(), It.IsAny<CancellationToken>()), Times.Once);
+                factory.DecompressToStreamAsync(It.IsAny<Stream>(), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         private class TestHandler : DelegatingHandler

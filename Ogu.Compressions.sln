@@ -43,6 +43,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogu.Compressions.Benchmarks
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogu.Compressions.Brotli.Native", "src\Ogu.Compressions.Brotli.Native\Ogu.Compressions.Brotli.Native.csproj", "{97E2A5BF-CB33-4713-9E36-ECE432E96A60}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{49F4FF19-65CE-494E-A57F-8E6AC9780611}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Api", "samples\Sample.Api\Sample.Api.csproj", "{291060D1-1247-418E-BECA-7A6B744D1C17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +121,10 @@ Global
 		{97E2A5BF-CB33-4713-9E36-ECE432E96A60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97E2A5BF-CB33-4713-9E36-ECE432E96A60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97E2A5BF-CB33-4713-9E36-ECE432E96A60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{291060D1-1247-418E-BECA-7A6B744D1C17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{291060D1-1247-418E-BECA-7A6B744D1C17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{291060D1-1247-418E-BECA-7A6B744D1C17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{291060D1-1247-418E-BECA-7A6B744D1C17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -139,6 +147,7 @@ Global
 		{91143921-748D-4689-91C7-639EF269E48E} = {134EFB49-E96B-4A4C-9FE7-4999056EB2B7}
 		{532F3878-3209-4FBE-AD72-3CAA8F68B97E} = {3ED2E76D-C44E-4780-A1AC-7048745AC1A4}
 		{97E2A5BF-CB33-4713-9E36-ECE432E96A60} = {134EFB49-E96B-4A4C-9FE7-4999056EB2B7}
+		{291060D1-1247-418E-BECA-7A6B744D1C17} = {49F4FF19-65CE-494E-A57F-8E6AC9780611}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7FA9B782-BA60-4F49-B21F-6F607CBF8D47}
