@@ -167,7 +167,11 @@ The `DecompressionHandler` will automatically decompress the response if it reco
 
 > [!NOTE]  
 > When using multiple http delegating handlers, the order matters. To decompress the response body (including error responses), place the decompression handler before the resilience handler (e.g., StandardResilienceHandler).
-If you have custom handlers (like logging or authentication), they should go before the decompression handler so they can run first.  
+If you have custom handlers (like logging or authentication), they should go before the decompression handler so they can run first.
+
+> [!NOTE]  
+> Automatic decompression is built into HttpClientHandler. If the Api uses standard content encodings like gzip, deflate, or br, you can configure HttpClientHandler accordingly, and there's no need to use a decompression handler.
+> `services.AddHttpClient().ConfigureHttpClientDefaults(opts => opts.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }));`
 
 ### Known Encoding Mappings
 
