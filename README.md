@@ -127,7 +127,7 @@ Other compression types and their interfaces:
 Register `DecompressionHandler`:
 
 ```csharp
-services.AddSingleton<DecompressionHandler>();
+services.AddTransient<DecompressionHandler>();
 services.AddHttpClient("MySampleApiClient", httpClient =>
 {
     httpClient.BaseAddress = new Uri("http://....com");
