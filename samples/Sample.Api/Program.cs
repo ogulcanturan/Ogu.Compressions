@@ -30,6 +30,7 @@ builder.Services.AddCompressions(opts =>
     opts.CompressionOptions = compressionOptions;
 });
 
+builder.Services.AddMemoryCache();
 builder.Services.Configure<NativeBrotliCompressionOptions>(compressionOptions);
 builder.Services.AddSingleton<ICompression, NativeBrotliCompression>();
 
