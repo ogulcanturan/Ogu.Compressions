@@ -20,7 +20,7 @@
 | **[Ogu.Compressions.Gzip](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.Compressions.Gzip)** | Gzip compression, using .NET’s built-in `System.IO.Compression` APIs. |
 | **[Ogu.Compressions.Deflate](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.Compressions.Deflate)** | Deflate compression, also using the built-in `System.IO.Compression` APIs. |
 | **[Ogu.Compressions.None](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.Compressions.None)** | A no-operation compression implementation that simply returns the input unmodified. |
-| **Ogu.Compressions** | Aggregates all compression libraries and exposes the `AddCompressions` method to register everything at once. |
+| **[Ogu.Compressions](https://github.com/ogulcanturan/Ogu.Compressions/tree/master/src/Ogu.Compressions)** | Aggregates all compression libraries and exposes the `AddCompressions` method to register everything at once. |
 
 ## Usage
 
@@ -127,7 +127,7 @@ Other compression types and their interfaces:
 Register `DecompressionHandler`:
 
 ```csharp
-services.AddSingleton<DecompressionHandler>();
+services.AddTransient<DecompressionHandler>();
 services.AddHttpClient("MySampleApiClient", httpClient =>
 {
     httpClient.BaseAddress = new Uri("http://....com");
@@ -164,6 +164,14 @@ public class MySampleApiClient : IMySampleApiClient
 ```
 
 The `DecompressionHandler` will automatically decompress the response if it recognizes the content encoding (like `br`, `gzip`, etc.). Unknown encodings will be skipped safely and you need to handle it.
+
+> [!NOTE]  
+> When using multiple http delegating handlers, the order matters. To decompress the response body (including error responses), place the decompression handler before the resilience handler (e.g., StandardResilienceHandler).
+If you have custom handlers (like logging or authentication), they should go before the decompression handler so they can run first.
+
+> [!NOTE]  
+> Automatic decompression is built into HttpClientHandler. If the Api uses standard content encodings like gzip, deflate, or br, you can configure HttpClientHandler accordingly, and there's no need to use a decompression handler.
+> `services.AddHttpClient().ConfigureHttpClientDefaults(opts => opts.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }));`
 
 ### Known Encoding Mappings
 
