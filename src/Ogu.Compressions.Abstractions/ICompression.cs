@@ -65,7 +65,7 @@ namespace Ogu.Compressions.Abstractions
         /// <returns>
         /// A task that represents the asynchronous compression operation, which wraps the <see cref="byte" /> array containing the compressed data.
         /// </returns>
-        /// <remarks>Closes the underlying <paramref name="stream"/> after the operation is completed.</remarks>
+        /// <remarks>Sets the stream position at the beginning before the operation and closes the underlying <paramref name="stream"/> after the operation is completed.</remarks>
         /// <exception cref="ArgumentNullException">Thrown if the <paramref name="stream"/> is <c>null</c>.</exception>
         Task<byte[]> CompressAsync(Stream stream, CancellationToken cancellationToken = default);
 
@@ -131,7 +131,7 @@ namespace Ogu.Compressions.Abstractions
         /// <returns>
         /// A task that represents the asynchronous compression operation, which wraps the <see cref="byte" /> array containing the compressed data.
         /// </returns>
-        /// <remarks>Closes the underlying <paramref name="stream"/> after the operation is completed.</remarks>
+        /// <remarks>Sets the stream position at the beginning before the operation and closes the underlying <paramref name="stream"/> after the operation is completed.</remarks>
         /// <exception cref="ArgumentNullException">Thrown if the <paramref name="stream"/> is <c>null</c>.</exception>
         Task<byte[]> CompressAsync(Stream stream, CompressionLevel level, CancellationToken cancellationToken = default);
 
@@ -205,7 +205,7 @@ namespace Ogu.Compressions.Abstractions
         /// <returns>
         /// A task that represents the asynchronous compression operation, which wraps the stream containing the compressed data.
         /// </returns>
-        /// <remarks>Closes the underlying <paramref name="stream"/> after the operation is completed.</remarks>
+        /// <remarks>Sets the stream position at the beginning before the operation and closes the underlying <paramref name="stream"/> after the operation is completed.</remarks>
         /// <exception cref="ArgumentNullException">Thrown if the <paramref name="stream"/> is <c>null</c>.</exception>
         Task<Stream> CompressToStreamAsync(Stream stream, CancellationToken cancellationToken = default);
 
@@ -279,7 +279,7 @@ namespace Ogu.Compressions.Abstractions
         /// <returns>
         /// A task that represents the asynchronous compression operation, which wraps the stream containing the compressed data.
         /// </returns>
-        /// <remarks>Closes the underlying <paramref name="stream"/> after the operation is completed.</remarks>
+        /// <remarks>Sets the stream position at the beginning before the operation and closes the underlying <paramref name="stream"/> after the operation is completed.</remarks>
         /// <exception cref="ArgumentNullException">Thrown if the <paramref name="stream"/> is <c>null</c>.</exception>
         Task<Stream> CompressToStreamAsync(Stream stream, CompressionLevel level, CancellationToken cancellationToken = default);
 
@@ -409,7 +409,7 @@ namespace Ogu.Compressions.Abstractions
         /// <param name="stream">The stream to compress.</param>
         /// <param name="level">The compression level to use.</param>
         /// <returns>A <see cref="byte" /> array containing the compressed data.</returns>
-        /// <remarks>Closes the underlying <paramref name="stream"/> after the operation is completed.</remarks>
+        /// <remarks>Sets the stream position at the beginning before the operation and closes the underlying <paramref name="stream"/> after the operation is completed.</remarks>
         /// <exception cref="ArgumentNullException">Thrown if the <paramref name="stream"/> is <c>null</c>.</exception>
         byte[] Compress(Stream stream, CompressionLevel level);
 
@@ -472,7 +472,7 @@ namespace Ogu.Compressions.Abstractions
         /// <param name="stream">The stream to compress.</param>
         /// <returns>A stream containing the compressed data.</returns>
         /// <remarks>
-        /// Closes the underlying <paramref name="stream"/> after the operation is completed.
+        /// Sets the stream position at the beginning before the operation and closes the underlying <paramref name="stream"/> after the operation is completed.
         /// <para>
         /// The returned stream is positioned at the beginning. Caller is responsible for disposing the stream.
         /// </para>
@@ -549,7 +549,7 @@ namespace Ogu.Compressions.Abstractions
         /// <param name="level">The compression level to use.</param>
         /// <returns>A stream containing the compressed data.</returns>
         /// <remarks>
-        /// Closes the underlying <paramref name="stream"/> after the operation is completed.
+        /// Sets the stream position at the beginning before the operation and closes the underlying <paramref name="stream"/> after the operation is completed.
         /// <para>
         /// The returned stream is positioned at the beginning. Caller is responsible for disposing the stream.
         /// </para>
@@ -612,7 +612,7 @@ namespace Ogu.Compressions.Abstractions
         /// <param name="stream">The stream to decompress.</param>
         /// <param name="cancellationToken">A token to cancel the operation.</param>
         /// <returns>A task that represents the asynchronous decompression operation, which wraps the <see cref="byte" /> array containing the decompressed data.</returns>
-        /// <remarks>Closes the underlying <paramref name="stream"/> after the operation is completed.</remarks>
+        /// <remarks>Sets the stream position at the beginning before the operation and closes the underlying <paramref name="stream"/> after the operation is completed.</remarks>
         /// <exception cref="ArgumentNullException">Thrown if the <paramref name="stream"/> is <c>null</c>.</exception>
         Task<byte[]> DecompressAsync(Stream stream, CancellationToken cancellationToken = default);
 
@@ -666,7 +666,7 @@ namespace Ogu.Compressions.Abstractions
         /// <param name="cancellationToken">A token to cancel the operation.</param>
         /// <returns>A task that represents the asynchronous decompression operation, which wraps the stream containing the decompressed stream.</returns>
         /// <remarks>
-        /// Closes the underlying <paramref name="stream"/> after the operation is completed.
+        /// Sets the stream position at the beginning before the operation and closes the underlying <paramref name="stream"/> after the operation is completed.
         /// <para>
         /// The returned stream is positioned at the beginning. Caller is responsible for disposing the stream.
         /// </para>
@@ -755,7 +755,7 @@ namespace Ogu.Compressions.Abstractions
         /// </summary>
         /// <param name="stream">The stream to decompress.</param>
         /// <returns>A <see cref="byte" /> array containing the decompressed data.</returns>
-        /// <remarks>Closes the underlying <paramref name="stream"/> after the operation is completed.</remarks>
+        /// <remarks>Sets the stream position at the beginning before the operation and closes the underlying <paramref name="stream"/> after the operation is completed.</remarks>
         /// <exception cref="ArgumentNullException">Thrown if the <paramref name="stream"/> is <c>null</c>.</exception>
         byte[] Decompress(Stream stream);
 
