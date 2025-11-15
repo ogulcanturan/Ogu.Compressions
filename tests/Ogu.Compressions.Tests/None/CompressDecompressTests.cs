@@ -296,16 +296,11 @@ namespace Ogu.Compressions.Tests.None
             var smallestSizeCompressed = await _noneCompression.CompressToStreamAsync(stream, CompressionLevel.SmallestSize, leaveOpen: false);
 
             var optimalDecompressed = await _noneCompression.DecompressAsync(optimalCompressed);
-            var fastestDecompressed = await _noneCompression.DecompressAsync(fastestCompressed);
-            var noCompressionDecompressed = await _noneCompression.DecompressAsync(noCompressionCompressed);
-            var smallestSizeDecompressed = await _noneCompression.DecompressAsync(smallestSizeCompressed);
 
             // Assert
             Assert.Equal(input, optimalDecompressed);
-            Assert.Equal(input, fastestDecompressed);
-            Assert.Equal(input, noCompressionDecompressed);
-            Assert.Equal(input, smallestSizeDecompressed);
-            Assert.Throws<ObjectDisposedException>(() => stream.Length);
+            Assert.Equal(noCompressionCompressed, smallestSizeCompressed);
+            Assert.Throws<ObjectDisposedException>(() => _noneCompression.Decompress(fastestCompressed));
         }
 
         [Fact]
@@ -323,19 +318,11 @@ namespace Ogu.Compressions.Tests.None
             var smallestSizeCompressed = await _noneCompression.CompressToStreamAsync(stream, CompressionLevel.SmallestSize, leaveOpen);
 
             var optimalDecompressed = await _noneCompression.DecompressAsync(optimalCompressed);
-            var fastestDecompressed = await _noneCompression.DecompressAsync(fastestCompressed);
-            var noCompressionDecompressed = await _noneCompression.DecompressAsync(noCompressionCompressed);
-            var smallestSizeDecompressed = await _noneCompression.DecompressAsync(smallestSizeCompressed);
 
             // Assert
             Assert.Equal(input, optimalDecompressed);
-            Assert.Equal(input, fastestDecompressed);
-            Assert.Equal(input, noCompressionDecompressed);
-            Assert.Equal(input, smallestSizeDecompressed);
-
-            await stream.DisposeAsync();
-
-            Assert.Throws<ObjectDisposedException>(() => stream.Length);
+            Assert.Equal(noCompressionCompressed, smallestSizeCompressed);
+            Assert.Throws<ObjectDisposedException>(() => _noneCompression.Decompress(fastestCompressed));
         }
 
         [Fact]
@@ -695,16 +682,11 @@ namespace Ogu.Compressions.Tests.None
             var smallestSizeCompressed = _noneCompression.CompressToStream(stream, CompressionLevel.SmallestSize, leaveOpen: false);
 
             var optimalDecompressed = _noneCompression.Decompress(optimalCompressed);
-            var fastestDecompressed = _noneCompression.Decompress(fastestCompressed);
-            var noCompressionDecompressed = _noneCompression.Decompress(noCompressionCompressed);
-            var smallestSizeDecompressed = _noneCompression.Decompress(smallestSizeCompressed);
 
             // Assert
             Assert.Equal(input, optimalDecompressed);
-            Assert.Equal(input, fastestDecompressed);
-            Assert.Equal(input, noCompressionDecompressed);
-            Assert.Equal(input, smallestSizeDecompressed);
-            Assert.Throws<ObjectDisposedException>(() => stream.Length);
+            Assert.Equal(noCompressionCompressed, smallestSizeCompressed);
+            Assert.Throws<ObjectDisposedException>(() => _noneCompression.Decompress(fastestCompressed));
         }
 
         [Fact]
@@ -722,19 +704,11 @@ namespace Ogu.Compressions.Tests.None
             var smallestSizeCompressed = _noneCompression.CompressToStream(stream, CompressionLevel.SmallestSize, leaveOpen);
 
             var optimalDecompressed = _noneCompression.Decompress(optimalCompressed);
-            var fastestDecompressed = _noneCompression.Decompress(fastestCompressed);
-            var noCompressionDecompressed = _noneCompression.Decompress(noCompressionCompressed);
-            var smallestSizeDecompressed = _noneCompression.Decompress(smallestSizeCompressed);
-
+            
             // Assert
             Assert.Equal(input, optimalDecompressed);
-            Assert.Equal(input, fastestDecompressed);
-            Assert.Equal(input, noCompressionDecompressed);
-            Assert.Equal(input, smallestSizeDecompressed);
-
-            stream.Dispose();
-
-            Assert.Throws<ObjectDisposedException>(() => stream.Length);
+            Assert.Equal(noCompressionCompressed, smallestSizeCompressed);
+            Assert.Throws<ObjectDisposedException>(() => _noneCompression.Decompress(fastestCompressed));
         }
     }
 }

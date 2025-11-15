@@ -63,6 +63,16 @@ namespace Ogu.Compressions.Abstractions
             return CompressAsync(stream, Level, leaveOpen, cancellationToken);
         }
 
+        public Task<byte[]> CompressAsync(Stream stream, StreamPosition streamPosition, CancellationToken cancellationToken = default)
+        {
+            return CompressAsync(stream, streamPosition, leaveOpen: false, cancellationToken);
+        }
+
+        public Task<byte[]> CompressAsync(Stream stream, StreamPosition streamPosition, bool leaveOpen, CancellationToken cancellationToken = default)
+        {
+            return CompressAsync(stream, Level, streamPosition, leaveOpen, cancellationToken);
+        }
+
         public Task<byte[]> CompressAsync(string input, CompressionLevel level, CancellationToken cancellationToken = default)
         {
             return CompressAsync(Encoding.UTF8.GetBytes(input), level, cancellationToken);
@@ -75,12 +85,29 @@ namespace Ogu.Compressions.Abstractions
 
         public Task<byte[]> CompressAsync(Stream stream, CompressionLevel level, bool leaveOpen, CancellationToken cancellationToken = default)
         {
+            stream.Position = 0;
+
+            return InternalCompressAsync(stream, level, leaveOpen, BufferSize, cancellationToken);
+        }
+
+        public Task<byte[]> CompressAsync(Stream stream, CompressionLevel level, StreamPosition streamPosition, CancellationToken cancellationToken = default)
+        {
+            return CompressAsync(stream, level, streamPosition, leaveOpen: false, cancellationToken);
+        }
+
+        public Task<byte[]> CompressAsync(Stream stream, CompressionLevel level, StreamPosition streamPosition, bool leaveOpen, CancellationToken cancellationToken = default)
+        {
+            if (streamPosition == StreamPosition.Beginning)
+            {
+                stream.Position = 0;
+            }
+
             return InternalCompressAsync(stream, level, leaveOpen, BufferSize, cancellationToken);
         }
 
         public Task<byte[]> CompressAsync(Stream stream, CompressionLevel level, CancellationToken cancellationToken = default)
         {
-            return InternalCompressAsync(stream, level, leaveOpen: false, BufferSize, cancellationToken);
+            return CompressAsync(stream, level, leaveOpen: false, cancellationToken);
         }
 
         public Task<Stream> CompressToStreamAsync(string input, CancellationToken cancellationToken = default)
@@ -103,6 +130,16 @@ namespace Ogu.Compressions.Abstractions
             return CompressToStreamAsync(stream, Level, leaveOpen, cancellationToken);
         }
 
+        public Task<Stream> CompressToStreamAsync(Stream stream, StreamPosition streamPosition, CancellationToken cancellationToken = default)
+        {
+            return CompressToStreamAsync(stream, Level, streamPosition, leaveOpen: false, cancellationToken);
+        }
+
+        public Task<Stream> CompressToStreamAsync(Stream stream, StreamPosition streamPosition, bool leaveOpen, CancellationToken cancellationToken = default)
+        {
+            return CompressToStreamAsync(stream, Level, streamPosition, leaveOpen, cancellationToken);
+        }
+
         public Task<Stream> CompressToStreamAsync(string input, CompressionLevel level, CancellationToken cancellationToken = default)
         {
             return CompressToStreamAsync(Encoding.UTF8.GetBytes(input), Level, cancellationToken);
@@ -115,11 +152,28 @@ namespace Ogu.Compressions.Abstractions
 
         public Task<Stream> CompressToStreamAsync(Stream stream, CompressionLevel level, CancellationToken cancellationToken = default)
         {
-            return InternalCompressToStreamAsync(stream, level, leaveOpen: false, BufferSize, cancellationToken);
+            return CompressToStreamAsync(stream, level, leaveOpen: false, cancellationToken);
         }
 
         public Task<Stream> CompressToStreamAsync(Stream stream, CompressionLevel level, bool leaveOpen, CancellationToken cancellationToken = default)
         {
+            stream.Position = 0;
+
+            return InternalCompressToStreamAsync(stream, level, leaveOpen, BufferSize, cancellationToken);
+        }
+
+        public Task<Stream> CompressToStreamAsync(Stream stream, CompressionLevel level, StreamPosition streamPosition, CancellationToken cancellationToken = default)
+        {
+            return CompressToStreamAsync(stream, level, streamPosition, leaveOpen: false, cancellationToken);
+        }
+
+        public Task<Stream> CompressToStreamAsync(Stream stream, CompressionLevel level, StreamPosition streamPosition, bool leaveOpen, CancellationToken cancellationToken = default)
+        {
+            if (streamPosition == StreamPosition.Beginning)
+            {
+                stream.Position = 0;
+            }
+
             return InternalCompressToStreamAsync(stream, level, leaveOpen, BufferSize, cancellationToken);
         }
 
@@ -135,11 +189,28 @@ namespace Ogu.Compressions.Abstractions
 
         public byte[] Compress(Stream stream)
         {
-            return Compress(stream, Level);
+            return Compress(stream, leaveOpen: false);
         }
 
         public byte[] Compress(Stream stream, bool leaveOpen)
         {
+            stream.Position = 0;
+
+            return Compress(stream, Level, leaveOpen);
+        }
+
+        public byte[] Compress(Stream stream, StreamPosition streamPosition)
+        {
+            return Compress(stream, streamPosition, leaveOpen: false);
+        }
+
+        public byte[] Compress(Stream stream, StreamPosition streamPosition, bool leaveOpen)
+        {
+            if (streamPosition == StreamPosition.Beginning)
+            {
+                stream.Position = 0;
+            }
+
             return Compress(stream, Level, leaveOpen);
         }
 
@@ -155,11 +226,28 @@ namespace Ogu.Compressions.Abstractions
 
         public byte[] Compress(Stream stream, CompressionLevel level)
         {
-            return InternalCompress(stream, level, leaveOpen: false, BufferSize);
+            return Compress(stream, level, leaveOpen: false);
         }
 
         public byte[] Compress(Stream stream, CompressionLevel level, bool leaveOpen)
         {
+            stream.Position = 0;
+
+            return InternalCompress(stream, level, leaveOpen, BufferSize);
+        }
+
+        public byte[] Compress(Stream stream, CompressionLevel level, StreamPosition streamPosition)
+        {
+            return Compress(stream, level, leaveOpen: false);
+        }
+
+        public byte[] Compress(Stream stream, CompressionLevel level, StreamPosition streamPosition, bool leaveOpen)
+        {
+            if (streamPosition == StreamPosition.Beginning)
+            {
+                stream.Position = 0;
+            }
+
             return InternalCompress(stream, level, leaveOpen, BufferSize);
         }
 
@@ -175,12 +263,22 @@ namespace Ogu.Compressions.Abstractions
 
         public Stream CompressToStream(Stream stream)
         {
-            return CompressToStream(stream, Level);
+            return CompressToStream(stream, leaveOpen: false);
         }
 
         public Stream CompressToStream(Stream stream, bool leaveOpen)
         {
             return CompressToStream(stream, Level, leaveOpen);
+        }
+
+        public Stream CompressToStream(Stream stream, StreamPosition streamPosition)
+        {
+            return CompressToStream(stream, streamPosition, leaveOpen: false);
+        }
+
+        public Stream CompressToStream(Stream stream, StreamPosition streamPosition, bool leaveOpen)
+        {
+            return CompressToStream(stream, Level, streamPosition, leaveOpen);
         }
 
         public Stream CompressToStream(string input, CompressionLevel level)
@@ -195,11 +293,28 @@ namespace Ogu.Compressions.Abstractions
 
         public Stream CompressToStream(Stream stream, CompressionLevel level)
         {
-            return InternalCompressToStream(stream, level, leaveOpen: false, BufferSize);
+            return CompressToStream(stream, level, leaveOpen: false);
         }
 
         public Stream CompressToStream(Stream stream, CompressionLevel level, bool leaveOpen)
         {
+            stream.Position = 0;
+
+            return InternalCompressToStream(stream, level, leaveOpen, BufferSize);
+        }
+
+        public Stream CompressToStream(Stream stream, CompressionLevel level, StreamPosition streamPosition)
+        {
+            return CompressToStream(stream, level, streamPosition, leaveOpen: false);
+        }
+
+        public Stream CompressToStream(Stream stream, CompressionLevel level, StreamPosition streamPosition, bool leaveOpen)
+        {
+            if (streamPosition == StreamPosition.Beginning)
+            {
+                stream.Position = 0;
+            }
+
             return InternalCompressToStream(stream, level, leaveOpen, BufferSize);
         }
 
@@ -226,11 +341,28 @@ namespace Ogu.Compressions.Abstractions
 
         public Task<byte[]> DecompressAsync(Stream stream, CancellationToken cancellationToken = default)
         {
-            return InternalDecompressAsync(stream, leaveOpen: false, BufferSize, cancellationToken);
+            return DecompressAsync(stream, leaveOpen: false, cancellationToken);
         }
 
         public Task<byte[]> DecompressAsync(Stream stream, bool leaveOpen, CancellationToken cancellationToken = default)
         {
+            stream.Position = 0;
+
+            return InternalDecompressAsync(stream, leaveOpen, BufferSize, cancellationToken);
+        }
+
+        public Task<byte[]> DecompressAsync(Stream stream, StreamPosition streamPosition, CancellationToken cancellationToken = default)
+        {
+            return DecompressAsync(stream, streamPosition, leaveOpen: false, cancellationToken);
+        }
+
+        public Task<byte[]> DecompressAsync(Stream stream, StreamPosition streamPosition, bool leaveOpen, CancellationToken cancellationToken = default)
+        {
+            if (streamPosition == StreamPosition.Beginning)
+            {
+                stream.Position = 0;
+            }
+
             return InternalDecompressAsync(stream, leaveOpen, BufferSize, cancellationToken);
         }
 
@@ -241,11 +373,28 @@ namespace Ogu.Compressions.Abstractions
 
         public Task<Stream> DecompressToStreamAsync(Stream stream, CancellationToken cancellationToken = default)
         {
-            return InternalDecompressToStreamAsync(stream, leaveOpen: false, BufferSize, cancellationToken);
+            return DecompressToStreamAsync(stream, leaveOpen: false, cancellationToken);
         }
 
         public Task<Stream> DecompressToStreamAsync(Stream stream, bool leaveOpen, CancellationToken cancellationToken = default)
         {
+            stream.Position = 0;
+
+            return InternalDecompressToStreamAsync(stream, leaveOpen, BufferSize, cancellationToken);
+        }
+
+        public Task<Stream> DecompressToStreamAsync(Stream stream, StreamPosition streamPosition, CancellationToken cancellationToken = default)
+        {
+            return DecompressToStreamAsync(stream, streamPosition, leaveOpen: false, cancellationToken);
+        }
+
+        public Task<Stream> DecompressToStreamAsync(Stream stream, StreamPosition streamPosition, bool leaveOpen, CancellationToken cancellationToken = default)
+        {
+            if (streamPosition == StreamPosition.Beginning)
+            {
+                stream.Position = 0;
+            }
+
             return InternalDecompressToStreamAsync(stream, leaveOpen, BufferSize, cancellationToken);
         }
 
@@ -266,11 +415,28 @@ namespace Ogu.Compressions.Abstractions
 
         public byte[] Decompress(Stream stream)
         {
-            return InternalDecompress(stream, leaveOpen: false, BufferSize);
+            return Decompress(stream, leaveOpen: false);
         }
 
         public byte[] Decompress(Stream stream, bool leaveOpen)
         {
+            stream.Position = 0;
+
+            return InternalDecompress(stream, leaveOpen, BufferSize);
+        }
+
+        public byte[] Decompress(Stream stream, StreamPosition streamPosition)
+        {
+            return Decompress(stream, streamPosition, leaveOpen: false);
+        }
+
+        public byte[] Decompress(Stream stream, StreamPosition streamPosition, bool leaveOpen)
+        {
+            if (streamPosition == StreamPosition.Beginning)
+            {
+                stream.Position = 0;
+            }
+
             return InternalDecompress(stream, leaveOpen, BufferSize);
         }
 

@@ -59,6 +59,7 @@ namespace Ogu.Compressions.Tests.Brotli
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            stream.Position = stream.Length;
             var expected = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
 
             // Act
@@ -76,6 +77,7 @@ namespace Ogu.Compressions.Tests.Brotli
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            stream.Position = stream.Length;
             var expected = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
 
             // Act
@@ -127,6 +129,7 @@ namespace Ogu.Compressions.Tests.Brotli
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            stream.Position = stream.Length;
             var expected = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
 
             // Act
@@ -212,6 +215,7 @@ namespace Ogu.Compressions.Tests.Brotli
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
+            rawStream.Position = rawStream.Length;
             var expected = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
 
             // Act
@@ -237,6 +241,7 @@ namespace Ogu.Compressions.Tests.Brotli
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
+            rawStream.Position = rawStream.Length;
             var expected = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
 
             // Act
@@ -310,6 +315,7 @@ namespace Ogu.Compressions.Tests.Brotli
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
+            rawStream.Position = rawStream.Length;
             var expected = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
 
             // Act
@@ -335,6 +341,7 @@ namespace Ogu.Compressions.Tests.Brotli
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
+            rawStream.Position = rawStream.Length;
             var expected = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
             const bool leaveOpen = true;
 
@@ -461,6 +468,7 @@ namespace Ogu.Compressions.Tests.Brotli
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            stream.Position = stream.Length;
             var expected = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
 
             // Act
@@ -478,6 +486,7 @@ namespace Ogu.Compressions.Tests.Brotli
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var stream = new MemoryStream(input);
+            stream.Position = stream.Length;
             var expected = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
             const bool leaveOpen = true;
 
@@ -546,6 +555,7 @@ namespace Ogu.Compressions.Tests.Brotli
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
+            rawStream.Position = rawStream.Length;
             var expected = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
 
             // Act
@@ -571,6 +581,7 @@ namespace Ogu.Compressions.Tests.Brotli
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
+            rawStream.Position = rawStream.Length;
             var expected = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
 
             // Act
@@ -644,6 +655,7 @@ namespace Ogu.Compressions.Tests.Brotli
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
+            rawStream.Position = rawStream.Length;
             var expected = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
 
             // Act
@@ -669,6 +681,7 @@ namespace Ogu.Compressions.Tests.Brotli
             // Arrange
             var input = "Hello, World!"u8.ToArray();
             var rawStream = new MemoryStream(input);
+            rawStream.Position = rawStream.Length;
             var expected = new byte[] { 11, 6, 128, 72, 101, 108, 108, 111, 44, 32, 87, 111, 114, 108, 100, 33, 3 };
             const bool leaveOpen = true;
 
