@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
 		<AssemblyName>Ogu.Compressions.Zstd</AssemblyName>
 		<PackageId>Ogu.Compressions.Zstd</PackageId>
 		<Product>Ogu.Compressions.Zstd</Product>
@@ -23,7 +23,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Options" Version="2.1.0" />
-		<PackageReference Include="ZstdSharp.Port" Version="0.8.5" />
+		<PackageReference Include="ZstdSharp.Port" Version="0.8.8" />
 	</ItemGroup>
 
 	<ItemGroup>
