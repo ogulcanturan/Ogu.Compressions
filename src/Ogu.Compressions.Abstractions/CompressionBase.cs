@@ -400,12 +400,19 @@ namespace Ogu.Compressions.Abstractions
 
         public Task<Stream> DecompressToStreamAsync(HttpContent httpContent, CancellationToken cancellationToken = default)
         {
-            return InternalDecompressToStreamAsync(httpContent, leaveOpen: false, BufferSize, cancellationToken);
+            return DecompressToStreamAsync(httpContent, leaveOpen: false, cancellationToken);
         }
 
-        public Task<Stream> DecompressToStreamAsync(HttpContent httpContent, bool leaveOpen, CancellationToken cancellationToken = default)
+        public async Task<Stream> DecompressToStreamAsync(HttpContent httpContent, bool leaveOpen, CancellationToken cancellationToken = default)
         {
-            return InternalDecompressToStreamAsync(httpContent, leaveOpen, BufferSize, cancellationToken);
+            var streamContent =
+#if NETSTANDARD2_0 || NETSTANDARD2_1 || NETCOREAPP3_1
+                await httpContent.ReadAsStreamAsync().ConfigureAwait(false);
+#else
+                await httpContent.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+#endif
+
+            return await DecompressToStreamAsync(streamContent, leaveOpen, cancellationToken);
         }
 
         public byte[] Decompress(byte[] bytes)
@@ -444,7 +451,6 @@ namespace Ogu.Compressions.Abstractions
         protected abstract Task<byte[]> InternalDecompressAsync(Stream stream, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default);
         protected abstract Task<Stream> InternalDecompressToStreamAsync(byte[] bytes, int bufferSize, CancellationToken cancellationToken = default);
         protected abstract Task<Stream> InternalDecompressToStreamAsync(Stream stream, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default);
-        protected abstract Task<Stream> InternalDecompressToStreamAsync(HttpContent httpContent, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default);
         protected abstract byte[] InternalDecompress(byte[] bytes, int bufferSize);
         protected abstract byte[] InternalDecompress(Stream stream, bool leaveOpen, int bufferSize);
     }

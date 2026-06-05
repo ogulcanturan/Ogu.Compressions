@@ -2,7 +2,6 @@
 using Ogu.Compressions.Abstractions;
 using System.IO;
 using System.IO.Compression;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -77,16 +76,6 @@ namespace Ogu.Compressions
         protected override Task<Stream> InternalDecompressToStreamAsync(Stream stream, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default)
         {
             return Task.FromResult(stream);
-        }
-
-        protected override Task<Stream> InternalDecompressToStreamAsync(HttpContent httpContent, bool leaveOpen, int bufferSize, CancellationToken cancellationToken = default)
-        {
-            return
-#if NETSTANDARD2_0 || NETSTANDARD2_1 || NETCOREAPP3_1
-                httpContent.ReadAsStreamAsync();
-#else
-                httpContent.ReadAsStreamAsync(cancellationToken);
-#endif
         }
 
         protected override byte[] InternalDecompress(byte[] bytes, int bufferSize)

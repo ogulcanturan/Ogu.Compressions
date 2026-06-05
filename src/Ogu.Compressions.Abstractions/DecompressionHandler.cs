@@ -69,11 +69,7 @@ namespace Ogu.Compressions.Abstractions
                         continue;
                     }
 
-                    stream = await compression.DecompressToStreamAsync(await response.Content.ReadAsStreamAsync(
-#if NET5_0_OR_GREATER
-                    cancellationToken
-#endif
-                    ), cancellationToken);
+                    stream = await compression.DecompressToStreamAsync(response.Content, cancellationToken);
                 }
             }
             catch
